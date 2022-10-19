@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Lab1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet' />
+    <link rel="stylesheet" href="~/Lab1.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+
+    <header>
+
+        <nav>
+            <h1><a asp-area="" asp-page="/Index">Madison Connect Hub</a></h1>
+
+            <div class="menu">
+                <a asp-area="" asp-page="/UsersPages/AllProfiles">All Users</a>
+                <a asp-area="" asp-page="/ProjectsPages/Index">Projects</a>
+                <a asp-area="" asp-page="/TeamsPages/MyTeams">My Teams</a>
+                <a asp-area="" asp-page="/TeamsMeetingsPages/Index">My Meetings</a>
+                
+                <div class="v1"></div>
+            
+                @*<div class="rightNav">*@
+                @{
+                    if (Context.Session.GetString("username") != null)
+                    {
+                        <p>
+                            Hello: @Context.Session.GetString("username")
+                        </p>
+                    }
+                }
+                    @{
+                        if(Context.Session.GetString("username") == null){
+                            <p></p>
+                        }
+                    }
+
+                    <a class="buttonLink notification" asp-area="" asp-page="/ProjectsPages/RequestNotifications">
+                        <span>Notifications</span>
+                        <span class="badge">@Context.Session.GetInt32("badgeNum")</span>
+                    </a>
+                    @{
+                        if (Context.Session.GetString("username") == null)
+                        {
+                            <a class="buttonLink" asp-area="" asp-page="/BasicLogin">Log in</a>
+                            
+                        }
+                        else{
+
+                            <a class="buttonLink" asp-area="" asp-page="/UsersPages/Index">My Profile</a>
+                            <a class="buttonLink" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Logout</a>
+                        }
+                    }
+                </div>
+            @*</div>*@
+
+            <button class="hamburger">
+                <span class="material-icons">menu</span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu">
+            <a asp-area="" asp-page="/Index">Home</a>
+            <a asp-area="" asp-page="/UsersPages/Index">Users</a>
+            <a asp-area="" asp-page="/ProjectsPages/Index">Projects</a>
+            <a asp-area="" asp-page="/TeamsPages/MyTeams">My Teams</a>
+            <a asp-area="" asp-page="/TeamsMeetingsPages/Index">My Meetings</a>
+            <a asp-area="" asp-page="/BasicLogin">Log in</a>
+            <a asp-area="" asp-page="/ProjectsPages/RequestNotifications">Notifications</a>
+            <a asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Logout</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" id="footerCSS">
+        <div class="container">
+            &copy; 2022 - Lab1 - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/layout.js" asp-append-version="true"></script> 
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

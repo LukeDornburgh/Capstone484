@@ -1,0 +1,24 @@
+﻿@page
+@model Lab1.Pages.TeamMeetingsPages.EditTeamMeetingModel
+@{
+    ViewData["Title"] = "Edit Team Meetings";
+}
+
+<form asp-page="EditTeamMeeting">
+    <input type="hidden" asp-for="@Model.TeamMeetingToUpdate.TeamMeetingID" />
+    <label asp-for="@Model.TeamMeetingToUpdate.Date"></label>
+    <input type="date" asp-for="@Model.TeamMeetingToUpdate.Date" />
+    <br />
+    <label asp-for="@Model.TeamMeetingToUpdate.Time"></label>
+    <input type="time" asp-for="@Model.TeamMeetingToUpdate.Time" />
+    <br />
+    <label asp-for="@Model.TeamMeetingToUpdate.Notes"></label>
+    <input type="text" asp-for="@Model.TeamMeetingToUpdate.Notes" />
+    <br />
+    <label asp-for="@Model.TeamMeetingToUpdate.Location"></label>
+    <input type="text" asp-for="@Model.TeamMeetingToUpdate.Location" />
+    <br /><br />
+    <input type="submit" class="btn btn-success" asp-page="EditTeamMeeting" />
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+

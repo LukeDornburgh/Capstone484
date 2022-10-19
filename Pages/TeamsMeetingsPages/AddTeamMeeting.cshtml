@@ -1,0 +1,26 @@
+﻿@page
+@model Lab1.Pages.TeamsMeetingsPages.AddTeamMeetingModel
+@{
+}
+
+<form asp-page="AddTeamMeeting">
+    <input type="date" asp-for="NewTeamMeeting.Date" placeholder="Example: 2020-09-12" />
+    <input type="time" asp-for="NewTeamMeeting.Time" placeholder="Time" />
+     <input type="text" asp-for="NewTeamMeeting.Notes" placeholder="Notes" />
+    <input type="text" asp-for="NewTeamMeeting.Location" placeholder="Location" />
+    <select name="NewTeamMeeting.TeamID">
+        <option value="">Select Affiliated Team</option>
+        @{
+            foreach (var team in Model.TeamSelector)
+            {
+                <option value=@team.TeamID>@team.TeamName</option>
+            }
+        }
+    </select>
+    <br />
+    <button type="submit">Add New TeamMeeting -> </button>
+    <button class="btn-outline-secondary" asp-page="AddTeamMeeting" asp-page-handler="PopulateHandler" formnovalidate>Populate</button>
+    <a asp-page="Index">Cancel</a>
+
+</form>
+

@@ -1,0 +1,102 @@
+﻿@page
+@using System.Data.SqlClient
+@using Lab1.Pages.DB_Class;
+@model Lab1.Pages.UsersPages.EditUserModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+<form asp-page="EditUser">
+    <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
+    <label asp-for="@Model.UserToUpdate.FirstName"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.LastName"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.LastName" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.Email"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.Email" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.ProfessionalEmail"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.ProfessionalEmail" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.Position"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.Position" />
+    <br /><br />
+    <table class="table table-bordered table-hover table-responsive" style="float: right;">
+        <thead>
+            <tr>
+                <th>My Skills</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
+
+                SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
+
+                while (QueryResults.Read())
+                {
+                            <tr>
+                                <td>@QueryResults["SkillName"]</td>
+                            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    <h5>Add skill to this user</h5>
+    <select name="SkillIDSelected" class="form-select">
+        <option value="">Select a skill</option>
+        @{
+            foreach (var skill in Model.SkillsDisplay)
+            {
+                            <option value=@skill.SkillID>@skill.SkillName</option>
+            }
+
+
+        }
+    </select>
+
+    <!----------------------------------------------------------------------------------->
+    <div class="skillSelectContainer">
+        <div class="select-btn">
+            <span class="btn-text">Add a Skill</span>
+            <span class="arrow-dwn">
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+           <!-- <form asp-page="EditUser" > -->
+                <input type="button" onclick="addAllSkills()" placeholder="Add" />
+            <!-- </form> -->
+        </div>
+        <ul class="list-items">
+            @{
+                foreach (var skill in Model.SkillsDisplay)
+                {
+                        <li class="item">
+                            <span class="checkbox">
+                                <i class="fa-solid fa-check check-icon"></i>
+                            </span>
+                        <span class="item-text">@skill.SkillName</span>
+                        </li>
+                }
+            }
+        </ul>
+    </div>
+
+
+
+    <!------------------------------------------------------------------------------------>
+    <h5>Join a Team</h5>
+    <select name="TeamIDSelected" class="form-select">
+        <option value="">Select a Team</option>
+        @{
+            foreach (var team in Model.TeamsToDisplay)
+            {
+                            <option value=@team.TeamID>@team.TeamName</option>
+            }
+        }
+    </select>
+    <br /><br />
+    <input type="submit" class="btn btn-success" asp-page="EditUser" />
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,13 @@
+﻿@page
+@model Lab1.Pages.SkillsPages.AddSkillModel
+@{
+}
+
+<form asp-page="AddSkill">
+    <input type="text" asp-for="NewSkill.SkillName" placeholder="Skill Name" />
+    <br />
+    <button type="submit">Add New Skill -> </button>
+    <button class="btn-outline-secondary" asp-page="AddSkill" asp-page-handler="PopulateHandler" formnovalidate>Populate</button>
+    <a asp-page="Index">Cancel</a>
+
+</form>

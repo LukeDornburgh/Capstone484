@@ -1,0 +1,43 @@
+﻿@page
+@using System.IO
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @{
+        if (HttpContext.Session.GetString("username") != null)
+        {
+            <p class="centered">User @HttpContext.Session.GetString("username") is logged in!</p>
+        }
+        if (HttpContext.Session.GetString("username") == null){
+            <button class="simpleButton">
+                <a class="simpleButton" asp-page ="UsersPages/CreateHashedLogin">Make an Account</a>
+            </button >
+            <br />
+        }
+    }
+    <br />
+    <!-- <img src="/images/JMUAir.jpg" class="centered" width="800" height="450" /> -->
+
+    @{
+        //this method returns a string of the current abosolute path of the current working directory
+        //and does not end in a backslash
+        string imagesDir = Directory.GetCurrentDirectory();
+        imagesDir += @"\wwwroot\images\";
+            <p>@imagesDir</p>
+
+        DirectoryInfo imagesFolder = new DirectoryInfo(imagesDir);
+
+        var fileListing = imagesFolder.GetFiles();
+
+        foreach (var file in fileListing){
+                <p>@file.Name</p>
+                <img src="~/images/@file.Name" width="150" height="100">
+        }
+    }
+</div>
+
+

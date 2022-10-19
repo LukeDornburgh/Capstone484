@@ -1,0 +1,24 @@
+﻿@page
+@model Lab1.Pages.TeamsPages.AddTeamModel
+@{
+}
+
+<form asp-page="AddTeam">
+    <input type="text" asp-for="NewTeam.TeamName" placeholder="Team Name" />
+    <input type="text" asp-for="NewTeam.TeamEmailAddress" placeholder="Team Email Address" />
+    <input type="text" asp-for="NewTeam.TeamDescription" placeholder="Team Description" width="100" />
+    <select name="NewTeam.ProjectID">
+        <option value="">Select Associated Project</option>
+        @{
+            foreach (var proj in Model.ProjectSelector)
+            {
+                <option value=@proj.ProjectID>@proj.ProjectName</option>
+            }
+        }
+    </select>
+    <br />
+    <button type="submit">Add New Team -> </button>
+    <button class="btn-outline-secondary" asp-page="AddTeam" asp-page-handler="PopulateHandler" formnovalidate>Populate</button>
+    <a asp-page="Index">Cancel</a>
+
+</form>

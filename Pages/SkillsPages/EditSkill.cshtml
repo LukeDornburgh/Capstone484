@@ -1,0 +1,14 @@
+﻿@page "{SkillID}"
+@model Lab1.Pages.SkillsPages.EditSkillModel
+@{
+    ViewData["Title"] = "Edit Skills";
+}
+
+<form asp-page="EditSkill">
+    <input type="hidden" asp-for="@Model.SkillToUpdate.SkillID" />
+    <label asp-for="@Model.SkillToUpdate.SkillName"></label>
+    <input type="text" asp-for="@Model.SkillToUpdate.SkillName" />
+    <br /><br />
+    <input type="submit" class="btn btn-success" asp-page="EditSkill" />
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

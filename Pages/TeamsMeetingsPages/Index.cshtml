@@ -1,0 +1,39 @@
+﻿@page
+@model Lab1.Pages.TeamMeetingsPages.IndexModel
+@{
+    ViewData["Title"] = "View Team Meetings";
+}
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<h2 class="h2">My Meetings</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Notes</th>
+            <th>Location</th>
+            <th style="width: 50%;">Adjust Meeting Information</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var teamMeetings in Model.TeamMeetingsList)
+            {
+                        <tr>
+                            <td>@String.Format("{0:M/d/yyyy}", teamMeetings.Date)</td>
+                            <td>@teamMeetings.Time</td>
+                            <td>@teamMeetings.Notes</td>
+                            <td>@teamMeetings.Location</td>
+                            <td>
+                                <a asp-page="EditTeamMeeting" class="btn btn-primary" asp-route-TeamMeetingID="@teamMeetings.TeamMeetingID">Edit</a>
+                            </td>
+                        </tr>
+            }
+        }
+    </tbody>
+</table>
+<a asp-page="AddTeamMeeting" class="btn btn-primary">Add a New Team Meeting</a>
+<br />
+
+
+

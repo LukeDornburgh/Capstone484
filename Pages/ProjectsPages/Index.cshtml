@@ -1,0 +1,88 @@
+﻿@page
+@using Lab1.Pages.DB_Class;
+@using System.Data.SqlClient;
+@model Lab1.Pages.ProjectsPages.IndexModel
+@{
+
+    ViewData["Title"] = "View Projects";
+
+}
+
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<h2 class="h2">Projects Table</h2>
+<form asp-page="Index" asp-page-handler="Search">
+    <input asp-for="searchText" type="text" placeholder="Search for a project"/>
+    <button type="submit" class="simpleButton">Search</button>
+</form>
+
+<a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
+
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>Project Description</th>
+            <th>Project Begin Date</th>
+            <th>Project Mission</th>
+            <th>Project Type</th>
+            
+            @{
+                if(Model.searchText != null){
+                    <th>Project Owner</th>
+                }
+            }
+            <th>Request to Join</th>
+        </tr>
+    </thead>
+    <tbody>
+@{
+    if(Model.searchText != null){
+        SqlDataReader QueryResults = DBClass.ProjectSearch(Model.searchText);
+
+        while(QueryResults.Read()){
+                <tr>
+                    <td>@QueryResults["ProjectName"]</td>
+                    <td>@QueryResults["ProjectDescription"]</td>
+                    <td>@QueryResults["ProjectBeginDate"]</td>
+                    <td>@QueryResults["ProjectMission"]</td>
+                    <td>@QueryResults["ProjectType"]</td>
+                    <td>@QueryResults["ProjectOwner"]</td>
+                    <td>
+                        <form asp-page="Index">
+                                <button onclick="checkMarkOff()" type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                        </form>
+                            <span id="checkMark">&#9989;</span>
+                    </td>
+
+                    
+               </tr>
+        }
+    }
+    else{
+
+        foreach (var project in Model.ProjectList)
+            {
+                    <tr>
+                        <td>@project.ProjectName</td>
+                        <td>@project.ProjectDescription</td>
+                        <td>@String.Format("{0:M/d/yyyy}", project.ProjectBeginDate)</td>
+                        <td>@project.ProjectMission</td>
+                        <td>@project.ProjectType</td>
+                        <td>
+                        <form asp-page="Index">
+                                <button onclick="checkMarkOff()" type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@project.ProjectID" asp-route-ProjectOwnerID="@project.UserID">Request to Join</button>
+                        </form>
+                            <span id="checkMark">&#9989;</span>
+                        </td>
+                    </tr>
+                }
+
+        }
+    }
+    </tbody>
+    </table>
+
+
+<a asp-page="AddProject" class="simpleButton">Create a New Project</a>
+<a asp-page="MyProjects" class="simpleButton">View My Projects</a>
+    <br />

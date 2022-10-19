@@ -1,0 +1,35 @@
+﻿@page
+@model Lab1.Pages.TeamsPages.MyTeamsModel
+@{
+    ViewData["Title"] = "My Teams";
+}
+
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
+<h2 class="h2">My Teams</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>TeamName</th>
+            <th>TeamEmailAddress</th>
+            <th>TeamDescription</th>
+            <th>Edit Team Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var team in Model.TeamList)
+            {
+                <tr>
+                    <td>@team.TeamName</td>
+                    <td>@team.TeamEmailAddress</td>
+                    <td>@team.TeamDescription</td>
+                    <td>
+                        <a asp-page="EditTeam" class="btn btn-primary" asp-route-TeamID="@team.TeamID">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />

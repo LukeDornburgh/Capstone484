@@ -1,0 +1,34 @@
+﻿@page
+@model Lab1.Pages.ProjectsPages.MyProjectsModel
+@{
+}
+
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
+<h2 class="h2">My Projects</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>ProjectName</th>
+            <th>ProjectDescription</th>
+            <th>ProjectType</th>
+            <th>Edit This Project</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var project in Model.ProjectList)
+            {
+                <tr>
+                    <td>@project.ProjectName</td>
+                    <td>@project.ProjectDescription</td>
+                    <td>@project.ProjectType</td>
+                    <td>
+                        <a asp-page="EditProject" class="btn btn-primary" asp-route-ProjectID="@project.ProjectID">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />

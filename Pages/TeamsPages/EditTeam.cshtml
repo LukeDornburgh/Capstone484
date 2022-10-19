@@ -1,0 +1,21 @@
+﻿@page "{TeamID}"
+@model Lab1.Pages.TeamsPages.EditTeamModel
+@{
+    ViewData["Title"] = "Edit Teams";
+}
+
+<form asp-page="EditTeam">
+    <input type="hidden" asp-for="@Model.TeamToUpdate.TeamID" />
+    <label asp-for="@Model.TeamToUpdate.TeamName"></label>
+    <input type="text" asp-for="@Model.TeamToUpdate.TeamName" />
+    <br />
+    <label asp-for="@Model.TeamToUpdate.TeamEmailAddress"></label>
+    <input type="text" asp-for="@Model.TeamToUpdate.TeamEmailAddress" />
+    <br />
+    <label asp-for="@Model.TeamToUpdate.TeamDescription"></label>
+    <input type="text" asp-for="@Model.TeamToUpdate.TeamDescription" />
+    <br /><br />
+    <input type="submit" class="btn btn-success" asp-page="EditTeam" />
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+

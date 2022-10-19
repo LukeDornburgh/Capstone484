@@ -1,0 +1,54 @@
+﻿@page
+@using Lab1.Pages.DB_Class;
+@using System.Data.SqlClient;
+@model Lab1.Pages.ProjectsPages.RequestNotificationsModel
+@{
+
+    ViewData["Title"] = "View Requests";
+}
+
+<h2>Requests To Join My Projects</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Requestor Name</th>
+            <th>Requestor Email</th>
+            <th>Project Name</th>
+            <th>Approve</th>
+
+        </tr>
+    </thead>
+<tbody>
+
+    @{
+
+            SqlDataReader QueryResults = DBClass.RequestTableReader(HttpContext.Session.GetString("username"));
+
+            while (QueryResults.Read())
+            {
+                <tr>
+                    <td>@QueryResults["FullName"]</td>
+                    <td>@QueryResults["Email"]</td>
+                    <td>@QueryResults["ProjectName"]</td>
+                    <td>
+                    <form asp-page="RequestNotifications">
+                        <button type="submit" class="btn btn-primary" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                    </form>
+                    </td>
+                </tr>
+            }
+        }
+
+    <!--
+        1. Need to query the database when the OnGet method is called(so when the page loads) and populate the 
+            table with results based on a query
+        2. we must have a query that fires off when approve or deny is clicked which will either insert the
+            requestor into the project team members table or if denied, it will remove there request from the DB
+
+
+    -->
+
+
+</tbody>
+</table>
+

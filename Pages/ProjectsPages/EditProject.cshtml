@@ -1,0 +1,27 @@
+﻿@page "{ProjectID}"
+@model Lab1.Pages.ProjectsPages.EditProjectModel
+@{
+    ViewData["Title"] = "Edit Projects";
+}
+
+<form asp-page="EditProject">
+    <input type="hidden" asp-for="@Model.ProjectToUpdate.ProjectID" />
+    <label asp-for="@Model.ProjectToUpdate.ProjectName"></label>
+    <input type="text" asp-for="@Model.ProjectToUpdate.ProjectName" />
+    <br />
+    <label asp-for="@Model.ProjectToUpdate.ProjectDescription"></label>
+    <input type="text" asp-for="@Model.ProjectToUpdate.ProjectDescription" />
+    <br />
+    <label asp-for="@Model.ProjectToUpdate.ProjectBeginDate"></label>
+    <input type="date" asp-for="@Model.ProjectToUpdate.ProjectBeginDate" />
+    <br />
+    <label asp-for="@Model.ProjectToUpdate.ProjectMission"></label>
+    <input type="text" asp-for="@Model.ProjectToUpdate.ProjectMission" />
+    <br />
+    <label asp-for="@Model.ProjectToUpdate.ProjectType"></label>
+    <input type="text" asp-for="@Model.ProjectToUpdate.ProjectType" />
+    <br /><br />
+    <input type="submit" class="btn btn-success" asp-page="EditProject" />
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+

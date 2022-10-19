@@ -1,0 +1,26 @@
+﻿@page
+@model Lab1.Pages.ProjectsPages.AddProjectModel
+@{
+}
+
+<form asp-page="AddProject">
+    <input type="text" asp-for="NewProject.ProjectName" placeholder="Project Name" />
+    <input type="text" asp-for="NewProject.ProjectDescription" placeholder="Description" />
+    <input type="date" asp-for="NewProject.ProjectBeginDate"/>
+    <input type="text" asp-for="NewProject.ProjectMission" placeholder="Enter your mission statement" />
+    <input type="text" asp-for="NewProject.ProjectType" placeholder="Project Type" width="100" />
+    <select name="NewProject.UserID">
+        <option value="">Select Project Owner</option>
+        @{
+            foreach (var owner in Model.ProjectOwners)
+            {
+                <option value=@owner.UserID>@owner.FirstName @owner.LastName</option>
+            }
+        }
+    </select>
+    <br />
+    <button type="submit">Add New Project -> </button>
+    <button class="btn-outline-secondary" asp-page="AddProject" asp-page-handler="PopulateHandler" formnovalidate>Populate</button>
+    <a asp-page="Index">Cancel</a>
+
+</form>

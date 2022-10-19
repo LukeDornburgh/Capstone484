@@ -1,0 +1,70 @@
+﻿@page
+@using Lab1.Pages.DB_Class;
+@using System.Data.SqlClient;
+@model Lab1.Pages.UsersPages.AllProfilesModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h2 class="h2">All Users</h2>
+
+<form asp-page="MyProfile" asp-page-handler="Search">
+    <input asp-for="searchText" type="text" placeholder="Search for a project" />
+    <button type="submit" class="simpleButton">Search</button>
+</form>
+
+<a asp-page="MyProfile" class="btn btn-secondary">&larr; Go Back</a>
+
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>ProfessionalEmail</th>
+            <th>Phone</th>
+            <th>Student or Faculty?</th>
+            <th>View Users Profile</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if(Model.searchText != null){
+                SqlDataReader QueryResults = DBClass.UserSearch(Model.searchText);
+
+                while(QueryResults.Read()){
+                    <tr>
+                        <td>@QueryResults["FirstName"]</td>
+                        <td>@QueryResults["LastName"]</td>
+                        <td>@QueryResults["Email"]</td>
+                        <td>@QueryResults["ProfessionalEmail"]</td>
+                        <td>@QueryResults["Phone"]</td>
+                        <td>@QueryResults["Position"]</td>
+                        <td>
+                            <a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">View Profile</a>
+                        </td>
+                        
+                   </tr>
+                }
+            }
+            else {
+                foreach (var user in Model.UserList)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@user.ProfessionalEmail</td>
+                        <td>@user.Phone</td>
+                        <td>@user.Position</td>
+                        <td> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </td>
+                    </tr>
+                }
+            }
+
+        }
+    </tbody>
+</table>
+<br />
+

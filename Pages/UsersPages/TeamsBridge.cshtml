@@ -1,0 +1,36 @@
+﻿@page
+@using System.Data.SqlClient;
+@using Lab1.Pages.DB_Class;
+@model Lab1.Pages.UsersPages.TeamsBridgeModel
+@{
+}
+
+<h2 class="h2">Users and Their Skills</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Team Name</th>
+            <th>Team Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            string sqlQuery = "SELECT Users.FirstName, Users.LastName, Teams.TeamName, teams.Teamdescription FROM Teams JOIN TeamMembers ON Teams.TeamID = TeamMembers.TeamID JOIN Users ON Users.UserID = TeamMembers.UserID;"; 
+            SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
+
+            while (QueryResults.Read())
+            {
+                <tr>
+                    <td>@QueryResults["FirstName"]</td>
+                    <td>@QueryResults["LastName"]</td>
+                    <td>@QueryResults["TeamName"]</td>
+                    <td>@QueryResults["TeamDescription"]</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+<a asp-page="Index" class="btn btn-primary">Back to Users Home Page</a>

@@ -1,0 +1,18 @@
+﻿@page
+@model Lab1.Pages.UsersPages.AddUserModel
+@{
+}
+
+<form asp-page="AddUser">
+    <input type="text" asp-for="NewUser.FirstName" placeholder="First Name" />
+    <input type="text" asp-for="NewUser.LastName" placeholder="Last Name" />
+    <input type="text" asp-for="NewUser.Email" placeholder="Email" width="100" />
+    <input type="text" asp-for="NewUser.ProfessionalEmail" placeholder="Professional Email" />
+    <input type="text" asp-for="NewUser.Phone" placeholder="Phone #" />
+    <input type="text" asp-for="NewUser.Position" placeholder="Position" />
+    <br />
+    <button type="submit">Add New User -> </button>
+    <button class="btn-outline-secondary" asp-page="AddUser" asp-page-handler="PopulateHandler" formnovalidate>Populate</button>
+    <a asp-page="Index">Cancel</a>
+
+</form>

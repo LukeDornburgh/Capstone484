@@ -1,0 +1,30 @@
+﻿@page
+@model Lab1.Pages.SkillsPages.IndexModel
+@{
+    ViewData["Title"] = "View Skills";
+}
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<h2 class="h2">Skills Table</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Skill Name</th>
+            <th>Edit Skill Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var skill in Model.SkillList)
+            {
+                <tr>
+                    <td>@skill.SkillName</td>
+                    <td>
+                    <a asp-page="EditSkill" class="btn btn-primary" asp-route-SkillID="@skill.SkillID">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<a asp-page="AddSkill" class="btn btn-primary">Add a New Skill</a>
+<br />

@@ -1,0 +1,34 @@
+﻿@page
+@using System.Data.SqlClient;
+@using Lab1.Pages.DB_Class;
+@model Lab1.Pages.SkillsBridge.IndexModel
+@{
+}
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<h2 class="h2">Users and Their Skills</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Skill Name</th>
+        </tr>
+    </thead>
+<tbody>
+    @{
+            string sqlQuery = "SELECT Users.FirstName, Users.LastName, Skills.SkillName FROM Skills JOIN SkillsAssociation ON Skills.SkillID = SkillsAssociation.SkillID JOIN Users ON Users.UserID = SkillsAssociation.UserID;";
+
+            SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
+
+            while (QueryResults.Read()) 
+            {
+                    <tr>
+                        <td>@QueryResults["FirstName"]</td>
+                        <td>@QueryResults["LastName"]</td>
+                        <td>@QueryResults["SkillName"]</td>
+                    </tr>
+            }
+    }
+
+</tbody>
+</table>

@@ -1,0 +1,66 @@
+﻿@page
+@model Lab1.Pages.UsersPages.CreateHashedLoginModel
+@{
+}
+
+
+
+<div class="centerCreate">
+    <h1>Create Account</h1>
+    <form asp-action="CreateHashedLogin">
+        <div class="column1">
+        <div class="txt-field">
+            <input asp-for="NewUser.FirstName" type="text" required />
+            <span></span>
+            <label>First Name</label>
+        </div>
+        <div class="txt-field">
+            <input asp-for="NewUser.LastName" type="text" required />
+            <span></span>
+            <label>Last Name</label>
+        </div>
+        <div class="txt-field">
+            <input asp-for="Username" type="text" required />
+            <span></span>
+            <label>Email</label>
+        </div>
+        <div class="txt-field">
+            <input asp-for="Password" type="password" required />
+            <span></span>
+            <label>Password</label>
+        </div>
+        </div>
+        <div class="column1">
+        <div class="radioSelect">
+            <div class="txt-field">
+            <input onclick="yesnoCheck();" asp-for="NewUser.Position" type="radio" value="Student" required/>
+            <label>Student</label>
+            </div>
+            <div class="txt-field">
+            <input onclick="yesnoCheck();" id="secondRadio" asp-for="NewUser.Position" type="radio" value="Faculty" />
+            <label>Faculty</label>
+            </div>
+        </div>
+        <div class="txt-field">
+            <input asp-for="NewUser.Phone" type="text" required />
+            <span></span>
+            <label>Phone #</label>
+        </div>
+        <div class="txt-field" id="profEmail">
+            <input asp-for="NewUser.ProfessionalEmail" type="text" />
+            <span></span>
+            <label>Professional Email</label>
+        </div>
+        <input class="submitButton" type="submit" value="Create Account" />
+        </div>
+    </form>
+
+    @{
+        if (ViewData["UserCreate"] != null)
+        {
+                    <p class="text-success">@ViewData["UserCreate"]</p>
+        }
+
+    }
+
+</div>

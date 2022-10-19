@@ -1,0 +1,32 @@
+﻿@page
+@model Lab1.Pages.TeamsPages.IndexModel
+@{
+    ViewData["Title"] = "View Teams";
+}
+<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
+<h2 class="h2">Teams Table</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>TeamName</th>
+            <th>TeamEmailAddress</th>
+            <th>TeamDescription</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var team in Model.TeamList)
+            {
+                <tr>
+                    <td>@team.TeamName</td>
+                    <td>@team.TeamEmailAddress</td>
+                    <td>@team.TeamDescription</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<a asp-page="AddTeam" class="btn btn-primary">Add a New Team</a>
+<a asp-page="MyTeams" class="btn btn-primary">View the teams you are on</a>
+<br />
+

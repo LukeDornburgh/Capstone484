@@ -20,6 +20,14 @@ namespace Lab1.Pages
 
         public void OnGet()
         {
+            if (HttpContext.Session.GetString("username") != null)
+            {
+                //if they user is already logged in, everytime they return to the home page this will fire off and 
+                //update the notifications badge
+                int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+                int badgeNum = DBClass.NotificationNumber(temp);
+                HttpContext.Session.SetInt32("badgeNum", badgeNum);
+            }
 
         }
     }

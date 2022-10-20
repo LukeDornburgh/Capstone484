@@ -257,10 +257,6 @@ nav {
         color: white;
     }
 
-.pageBody {
- 
-}
-
 .center{
     margin: 0;
     padding: 2rem;
@@ -462,6 +458,11 @@ form .txt-field{
     margin: 0;
     margin-top: 15px;
 }
+
+    .skillSelectContainer .list-items{
+        height: 300px;
+        overflow: scroll;
+    }
 
 .select-btn {
     display: flex;

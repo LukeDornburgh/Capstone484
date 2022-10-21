@@ -14,6 +14,7 @@
             <th>Requestor Name</th>
             <th>Requestor Email</th>
             <th>Project Name</th>
+            <th>Status</th>
             <th>Approve</th>
 
         </tr>
@@ -26,16 +27,22 @@
 
             while (QueryResults.Read())
             {
-                <tr>
-                    <td>@QueryResults["FullName"]</td>
-                    <td>@QueryResults["Email"]</td>
-                    <td>@QueryResults["ProjectName"]</td>
-                    <td>
-                    <form asp-page="RequestNotifications">
-                        <button type="submit" class="btn btn-primary" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
-                    </form>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>@QueryResults["FullName"]</td>
+                            <td>@QueryResults["Email"]</td>
+                            <td>@QueryResults["ProjectName"]</td>
+                            <td>@QueryResults["Status"]</td>
+                            @{
+                        if (QueryResults["Status"].Equals("Pending"))
+                        {
+                                    <td>
+                                    <form asp-page="RequestNotifications">
+                                        <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                                    </form>
+                                    </td>
+                                }
+                            }
+                        </tr>
             }
         }
 

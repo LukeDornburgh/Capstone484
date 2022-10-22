@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Lab1.Pages.UsersPages
 {
@@ -98,7 +99,7 @@ namespace Lab1.Pages.UsersPages
             {
                 DBClass.PopulateTeamMembersBridge(UserToUpdate, TeamIDSelected);
             }
-            return RedirectToPage("EditUser");
+            return RedirectToPage(new { UserID = UserToUpdate.UserID });
         }
 
 

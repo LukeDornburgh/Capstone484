@@ -25,6 +25,7 @@
             <th>Phone</th>
             <th>Student or Faculty?</th>
             <th>View Users Profile</th>
+            <th>Invite to a project</th>
         </tr>
     </thead>
     <tbody>
@@ -43,6 +44,9 @@
                         <td>@QueryResults["Position"]</td>
                         <td>
                             <a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">View Profile</a>
+                        </td>
+                        <td>
+                            <a asp-page="ProjectInvite" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">Invite to my projects</a>
                         </td>
                         
                    </tr>

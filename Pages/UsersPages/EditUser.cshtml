@@ -1,11 +1,11 @@
-﻿@page
+﻿@page "{UserID}"
 @using System.Data.SqlClient
 @using Lab1.Pages.DB_Class;
 @model Lab1.Pages.UsersPages.EditUserModel
 @{
     ViewData["Title"] = "Edit User";
 }
-<form asp-page="EditUser">
+<form asp-page="EditUser" asp-route-UserID="@Model.UserToUpdate.UserID">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
     <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
@@ -36,25 +36,43 @@
 
                 while (QueryResults.Read())
                 {
-                            <tr>
-                                <td>@QueryResults["SkillName"]</td>
-                            </tr>
+                                    <tr>
+                                        <td>@QueryResults["SkillName"]</td>
+                                    </tr>
                 }
             }
 
         </tbody>
     </table>
     <h5>Add skill to this user</h5>
-    <select asp-for="SelectedSkills" class="form-select" multiple>
-        <option value="">Select a skill</option>
+    <select asp-for="SelectedSkills" multiple="multiple" id="myMulti">
         @{
             foreach (var skill in Model.SkillsDisplay)
             {
-                <option value=@skill.SkillID>@skill.SkillName</option>
+                    <option value=@skill.SkillID>@skill.SkillName</option>
             }
 
         }
     </select>
+
+@*    <select asp-for="SelectedSkills" multiple="multiple">
+        @{
+            foreach (var skill in Model.SkillsDisplay)
+            {
+                    <option value=@skill.SkillID>@skill.SkillName</option>
+            }
+
+        }
+    </select>*@
+
+    <script src="js/index.js"></script>
+    <script>
+
+        var myDrop = new drop({
+            selector: '#myMulti',
+        });
+        myDrop.toggle();
+    </script>
 
     <!----------------------------------------------------------------------------------->
     @*@*<div class="skillSelectContainer">
@@ -90,7 +108,7 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                <option value=@team.TeamID>@team.TeamName</option>
+                        <option value=@team.TeamID>@team.TeamName</option>
             }
         }
     

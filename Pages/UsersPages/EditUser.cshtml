@@ -45,28 +45,24 @@
         </tbody>
     </table>
     <h5>Add skill to this user</h5>
-    <select name="SkillIDSelected" class="form-select">
+    <select asp-for="SelectedSkills" class="form-select" multiple>
         <option value="">Select a skill</option>
         @{
             foreach (var skill in Model.SkillsDisplay)
             {
-                            <option value=@skill.SkillID>@skill.SkillName</option>
+                <option value=@skill.SkillID>@skill.SkillName</option>
             }
-
 
         }
     </select>
 
     <!----------------------------------------------------------------------------------->
-    <div class="skillSelectContainer">
+    @*@*<div class="skillSelectContainer">
         <div class="select-btn">
             <span class="btn-text">Add a Skill</span>
             <span class="arrow-dwn">
                 <i class="fa-solid fa-chevron-down"></i>
             </span>
-           <!-- <form asp-page="EditUser" > -->
-           <!--     <input type="button" onclick="addAllSkills()" placeholder="Add" /> -->
-            <!-- </form> -->
         </div>
         <ul class="list-items">
             @{
@@ -76,12 +72,14 @@
                             <span class="checkbox">
                                 <i class="fa-solid fa-check check-icon"></i>
                             </span>
-                        <span class="item-text">@skill.SkillName</span>
+                            <span class="item-text">
+                                @skill.SkillName
+                            </span>
                         </li>
                 }
             }
         </ul>
-    </div>
+    </div>*@
 
 
 
@@ -98,6 +96,6 @@
     
     </select>
     <br /><br />
-    <input type="submit" class="btn btn-success" asp-page="EditUser" />
+    <input type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser" />
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>

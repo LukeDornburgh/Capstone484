@@ -20,9 +20,8 @@ namespace Lab1.Pages.UsersPages
         public int TeamIDSelected { get; set; }
 
         [BindProperty]
-        public List<string> SelectedSkills { get; set; }
-
-        public List <Skills> SkillsDisplay { get; set; }
+        public List<int> SelectedSkills { get; set; }
+        public List<Skills> SkillsDisplay { get; set; }
         public List <Teams> TeamsToDisplay { get; set; }
         public EditUserModel()
         {
@@ -84,10 +83,15 @@ namespace Lab1.Pages.UsersPages
 
         public IActionResult OnPost()
         {
+
+
             DBClass.UpdateUser(UserToUpdate);
-            if (SkillIDSelected != 0)
+            if (SelectedSkills != null)
             {
-                DBClass.PopulateSkillBridge(UserToUpdate, SkillIDSelected);
+                foreach (var skillID in SelectedSkills)
+                {
+                    DBClass.PopulateSkillBridge(UserToUpdate, skillID);
+                }
             }
 
             if (TeamIDSelected != 0)

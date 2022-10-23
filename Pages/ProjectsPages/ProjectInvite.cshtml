@@ -1,4 +1,16 @@
 ﻿@page
 @model Lab1.Pages.ProjectsPages.ProjectInviteModel
 @{
+    ViewData["Title"] = "Project Invite";
 }
+
+<form asp-page="ProjectInvite">
+<select asp-for="selectedProject" class="form-control">
+    @{
+        foreach(var proj in @Model.projectDropDown){
+            <option value=@proj.ProjectID>@proj.ProjectName</option>
+        }
+    }
+</select>
+<button type="submit">Invite</button>
+</form>

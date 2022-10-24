@@ -1,11 +1,11 @@
-﻿@page
+﻿@page "{UserID}"
 @using System.Data.SqlClient
 @using Lab1.Pages.DB_Class;
 @model Lab1.Pages.UsersPages.EditUserModel
 @{
     ViewData["Title"] = "Edit User";
 }
-<form asp-page="EditUser">
+<form asp-page="EditUser" asp-route-UserID="@Model.UserToUpdate.UserID">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
     <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
@@ -36,37 +36,51 @@
 
                 while (QueryResults.Read())
                 {
-                            <tr>
-                                <td>@QueryResults["SkillName"]</td>
-                            </tr>
+                                    <tr>
+                                        <td>@QueryResults["SkillName"]</td>
+                                    </tr>
                 }
             }
 
         </tbody>
     </table>
     <h5>Add skill to this user</h5>
-    <select name="SkillIDSelected" class="form-select">
-        <option value="">Select a skill</option>
+    <select asp-for="SelectedSkills" multiple="multiple" id="myMulti">
         @{
             foreach (var skill in Model.SkillsDisplay)
             {
-                            <option value=@skill.SkillID>@skill.SkillName</option>
-            }
-
-
+                    <option value=@skill.SkillID>@skill.SkillName</option>
+            }    
         }
+
     </select>
 
+@*    <select asp-for="SelectedSkills" multiple="multiple">
+        @{
+            foreach (var skill in Model.SkillsDisplay)
+            {
+                    <option value=@skill.SkillID>@skill.SkillName</option>
+            }
+
+        }
+    </select>*@
+
+    <script src="js/index.js"></script>
+    <script>
+
+        var myDrop = new drop({
+            selector: '#myMulti',
+        });
+        myDrop.toggle();
+    </script>
+
     <!----------------------------------------------------------------------------------->
-    <div class="skillSelectContainer">
+    @*@*<div class="skillSelectContainer">
         <div class="select-btn">
             <span class="btn-text">Add a Skill</span>
             <span class="arrow-dwn">
                 <i class="fa-solid fa-chevron-down"></i>
             </span>
-           <!-- <form asp-page="EditUser" > -->
-                <input type="button" onclick="addAllSkills()" placeholder="Add" />
-            <!-- </form> -->
         </div>
         <ul class="list-items">
             @{
@@ -76,12 +90,14 @@
                             <span class="checkbox">
                                 <i class="fa-solid fa-check check-icon"></i>
                             </span>
-                        <span class="item-text">@skill.SkillName</span>
+                            <span class="item-text">
+                                @skill.SkillName
+                            </span>
                         </li>
                 }
             }
         </ul>
-    </div>
+    </div>*@
 
 
 
@@ -92,11 +108,12 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                            <option value=@team.TeamID>@team.TeamName</option>
+                        <option value=@team.TeamID>@team.TeamName</option>
             }
         }
+    
     </select>
     <br /><br />
-    <input type="submit" class="btn btn-success" asp-page="EditUser" />
+    <input type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser" />
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>

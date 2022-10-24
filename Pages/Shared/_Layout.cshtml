@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/Lab1.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="~/css/style.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -26,8 +27,9 @@
                 <a asp-area="" asp-page="/TeamsMeetingsPages/Index">My Meetings</a>
                 
                 <div class="v1"></div>
+            </div>
             
-                @*<div class="rightNav">*@
+                <div class="rightNav">
                 @{
                     if (Context.Session.GetString("username") != null)
                     {
@@ -41,11 +43,6 @@
                             <p></p>
                         }
                     }
-
-                    <a class="buttonLink notification" asp-area="" asp-page="/ProjectsPages/RequestNotifications">
-                        <span>Notifications</span>
-                        <span class="badge">@Context.Session.GetInt32("badgeNum")</span>
-                    </a>
                     @{
                         if (Context.Session.GetString("username") == null)
                         {
@@ -53,13 +50,15 @@
                             
                         }
                         else{
-
+                            <a class="buttonLink notification" asp-area="" asp-page="/ProjectsPages/RequestNotifications">
+                                <span>Notifications</span>
+                                <span class="badge">@Context.Session.GetInt32("badgeNum")</span>
+                            </a>
                             <a class="buttonLink" asp-area="" asp-page="/UsersPages/Index">My Profile</a>
                             <a class="buttonLink" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Logout</a>
                         }
                     }
                 </div>
-            @*</div>*@
 
             <button class="hamburger">
                 <span class="material-icons">menu</span>
@@ -93,8 +92,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/layout.js" asp-append-version="true"></script> 
-
+    <script src="~/js/layout.js" asp-append-version="true"></script>
+    <script src="~/js/index.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

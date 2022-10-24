@@ -8,12 +8,12 @@
 
 <h2 class="h2">All Users</h2>
 
-<form asp-page="MyProfile" asp-page-handler="Search">
+<form asp-page="AllProfiles" asp-page-handler="Search">
     <input asp-for="searchText" type="text" placeholder="Search for a project" />
     <button type="submit" class="simpleButton">Search</button>
 </form>
 
-<a asp-page="MyProfile" class="btn btn-secondary">&larr; Go Back</a>
+<a asp-page="AllProfiles" class="btn btn-secondary">&larr; Go Back</a>
 
 <table class="table table-bordered table-striped table-hover table-responsive">
     <thead>
@@ -46,7 +46,7 @@
                             <a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">View Profile</a>
                         </td>
                         <td>
-                            <a asp-page="ProjectInvite" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">Invite to my projects</a>
+                            <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">Invite to my projects</a>
                         </td>
                         
                    </tr>
@@ -64,7 +64,7 @@
                         <td>@user.Position</td>
                         <td> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </td>
                         <td>
-                            <a asp-page="ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a>
+                            <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a>
                         </td>
                     </tr>
                 }

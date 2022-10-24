@@ -16,6 +16,8 @@ namespace Lab1.Pages.UsersPages
 
         [BindProperty]
         public int SkillIDSelected { get; set; }
+        [BindProperty]
+        public string searchText { get; set; }
 
         [BindProperty]
         public int TeamIDSelected { get; set; }
@@ -100,6 +102,11 @@ namespace Lab1.Pages.UsersPages
                 DBClass.PopulateTeamMembersBridge(UserToUpdate, TeamIDSelected);
             }
             return RedirectToPage(new { UserID = UserToUpdate.UserID });
+        }
+
+        public IActionResult OnPostSearch()
+        {
+            return Page();
         }
 
 

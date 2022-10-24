@@ -574,6 +574,15 @@ form .txt-field{
     width: 20px;
 }
 
+.skillCheck {
+    overflow: scroll;
+    height: 300px;
+    border: solid 2px var(--primary);
+    width: 50%;
+}
+
+
+
 
 
 

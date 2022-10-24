@@ -33,29 +33,29 @@
                 @{
                     if (Context.Session.GetString("username") != null)
                     {
-                        <p>
-                            Hello: @Context.Session.GetString("username")
-                        </p>
+                            <p>
+                                Hello: @Context.Session.GetString("username")
+                            </p>
                     }
                 }
                     @{
                         if(Context.Session.GetString("username") == null){
-                            <p></p>
+                                <p></p>
                         }
                     }
                     @{
                         if (Context.Session.GetString("username") == null)
                         {
-                            <a class="buttonLink" asp-area="" asp-page="/BasicLogin">Log in</a>
+                                <a class="buttonLink" asp-area="" asp-page="/BasicLogin">Log in</a>
                             
                         }
                         else{
-                            <a class="buttonLink notification" asp-area="" asp-page="/ProjectsPages/RequestNotifications">
-                                <span>Notifications</span>
-                                <span class="badge">@Context.Session.GetInt32("badgeNum")</span>
-                            </a>
-                            <a class="buttonLink" asp-area="" asp-page="/UsersPages/Index">My Profile</a>
-                            <a class="buttonLink" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Logout</a>
+                                <a class="buttonLink notification" asp-area="" asp-page="/ProjectsPages/RequestNotifications">
+                                    <span>Notifications</span>
+                                    <span class="badge">@Context.Session.GetInt32("badgeNum")</span>
+                                </a>
+                                <a class="buttonLink" asp-area="" asp-page="/UsersPages/Index">My Profile</a>
+                                <a class="buttonLink" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Logout</a>
                         }
                     }
                 </div>
@@ -83,7 +83,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted" id="footerCSS">
+    <footer class="border-top footer text-muted" style="margin-top: 10px;">
         <div class="container">
             &copy; 2022 - Lab1 - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>

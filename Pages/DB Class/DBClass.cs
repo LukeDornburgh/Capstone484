@@ -629,6 +629,18 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
+        public static SqlDataReader SkillSearch(string searchText)
+        {
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "Select Skills.SkillID, Skills.SkillName from Skills" +
+                " where Skills.SkillName Like '%' + '" + searchText + "' + '%';";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            return tempReader;
+        }
+
         public static void InsertRequest(int ProjectID, int ProjectOwnerID, string email)
         {
             int userIDTemp = GetUserIDSession(email);

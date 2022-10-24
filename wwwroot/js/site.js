@@ -20,11 +20,6 @@ function yesnoCheck() {
     }
 }
 
-function checkMarkOff() {
-	document.getElementById("checkMark").style.display = "block";
-	document.getElementById("projReqButton").style.display = "none";
-	//this doesnt worrkkkkkkk
-}
 
 //---------------------------------------------------------------------------
 const selectBtn = document.querySelector(".select-btn"),

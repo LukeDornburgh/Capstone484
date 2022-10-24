@@ -125,10 +125,53 @@ nav {
         margin-left:;
     }
 
+
+.rightNav {
+    display: none;
+    margin-right: 2rem;
+    margin-left: auto;
+}
+
+    .rightNav a {
+        margin: 0 .5rem;
+        white-space: nowrap;
+        color: white;
+        text-decoration: none;
+        transition: 0.3s;
+        padding: 8px 6px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+        .rightNav a:hover {
+            background-color: var(--JMUGOLD);
+        }
+
+        .rightNav a.buttonLink {
+            background-color: var(--JMUGOLD);
+            font-weight: bold;
+            color: var(--primary);
+            border-radius: 5px;
+        }
+
+    .rightNav p {
+        margin: 0 1rem;
+        white-space: nowrap;
+        color: white;
+        text-decoration: none;
+        transition: 0.3s;
+        padding: 8px 6px;
+        font-weight: 600;
+        font-size: 16px;
+        margin-left:;
+    }
+
 .v1 {
     border-left: 3px solid var(--JMUGOLD);
     height: 70px;
     margin-left: 2rem;
+    margin-right: 1rem;
 }
 
 .hamburger {
@@ -191,7 +234,7 @@ nav {
         display: none;
     }
 
-    .menu, menu1 {
+    .menu, .rightNav {
         display: flex;
     }
 }
@@ -213,10 +256,6 @@ nav {
     .CreateAccount:hover{
         color: white;
     }
-
-.pageBody {
- 
-}
 
 .center{
     margin: 0;
@@ -334,10 +373,6 @@ form .txt-field{
 
 
 
-#footerCSS{
-    margin-top: 1rem;
-}
-
 .centerCreate {
     margin: 0;
     padding: 2rem;
@@ -419,6 +454,11 @@ form .txt-field{
     margin: 0;
     margin-top: 15px;
 }
+
+    .skillSelectContainer .list-items{
+        height: 300px;
+        overflow: scroll;
+    }
 
 .select-btn {
     display: flex;
@@ -550,6 +590,12 @@ form .txt-field{
 /* Add some padding inside the card container */
 .container {
     padding: 2px 16px;
+}
+.skillCheck {
+    overflow: scroll;
+    height: 300px;
+    border: solid 2px var(--primary);
+    width: 50%;
 }
 
 

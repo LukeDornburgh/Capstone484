@@ -629,14 +629,27 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
+        public static SqlDataReader SkillSearch(string searchText)
+        {
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "Select Skills.SkillID, Skills.SkillName from Skills" +
+                " where Skills.SkillName Like '%' + '" + searchText + "' + '%';";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            return tempReader;
+        }
+
         public static void InsertRequest(int ProjectID, int ProjectOwnerID, string email)
         {
             int userIDTemp = GetUserIDSession(email);
 
-            string sqlQuery = "INSERT INTO Requests (UserID, ProjectID, ProjectOwnerID) VALUES (";
+            string sqlQuery = "INSERT INTO Requests (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
             sqlQuery += userIDTemp + ",";
             sqlQuery += ProjectID + ",";
-            sqlQuery += ProjectOwnerID + ");";
+            sqlQuery += ProjectOwnerID + ",";
+            sqlQuery += " 'Pending');";
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
@@ -672,7 +685,7 @@ namespace Lab1.Pages.DB_Class
 
 
             string sqlQuery = "SELECT concat(Users.FirstName, ' ',  Users.LastName) as 'FullName'," +
-                " Users.Email, Requests.ProjectID, Requests.UserID, Projects.ProjectName" +
+                " Users.Email, Requests.Status, Requests.ProjectID, Requests.UserID, Projects.ProjectName" +
                 " FROM Users JOIN Requests ON Requests.UserID = Users.UserID" +
                 " JOIN Projects ON Projects.ProjectID = Requests.ProjectID" +
                 " where Requests.ProjectOwnerID = " + OwnerID + ";";
@@ -722,6 +735,20 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead1.CommandText = sqlQuery1;
             cmdProductRead1.Connection.Open();
             cmdProductRead1.ExecuteNonQuery();
+
+            //now to chnage the status of the request from pending to approved
+
+            string sqlQuery2 = "Update Requests SET Status = 'Approved' where Requests.ProjectID = " + projectID + " AND Requests.UserID = " + userID + ";";
+
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery2;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
+
+
+
 
 
         }

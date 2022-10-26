@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Edit User";
 }
-<form asp-page="EditUser" asp-route-UserID="@Model.UserToUpdate.UserID">
+<form asp-page="EditUser" method="post">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
     <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
@@ -64,10 +64,7 @@
 
         }
     </select>*@
-    <form asp-page="EditUser" asp-page-handler="Search">
-        <input asp-for="searchText" type="text" placeholder="Search for a skill" />
-        <button asp-page-handler="Search" type="submit" class="simpleButton">Search</button>
-    </form>
+
 
     <button></button>
     <div class="skillCheck">
@@ -150,8 +147,13 @@
         }
     
     </select>
-    <input type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser" />
+    <button type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<form asp-page="EditUser" asp-page-handler="Search">
+    <input asp-for="searchText" type="text" placeholder="Search for a skill" />
+    <button asp-page-handler="Search" type="submit" class="simpleButton">Search</button>
 </form>
 <br />
 <br />

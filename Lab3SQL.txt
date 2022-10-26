@@ -79,6 +79,20 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 );
 
+CREATE TABLE Invites (
+UserID int,
+ProjectID int,
+ProjectOwnerID int,
+Status nvarchar(50),
+Constraint PK_Invites PRIMARY KEY CLUSTERED (UserID, ProjectID),
+Constraint FK_InviteUID FOREIGN KEY (UserID) REFERENCES Users(UserID)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+Constraint FK_InvitePID FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+);
+
 
 CREATE TABLE INTERESTS(
 InterestID int Identity(1,1) PRIMARY KEY,

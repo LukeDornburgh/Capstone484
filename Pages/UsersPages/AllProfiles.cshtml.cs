@@ -30,7 +30,7 @@ namespace Lab1.Pages.UsersPages
             }
 
 
-            SqlDataReader userReader = DBClass.UserReader();
+            SqlDataReader userReader = DBClass.UserReader(HttpContext.Session.GetString("username"));
             //Loop through the rows of the product reader
             //for each record in product reader
             //create a new instance object of Product and fill its properties with the columns from that DB row.

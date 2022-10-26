@@ -38,7 +38,7 @@ namespace Lab1.Pages.ProjectsPages
             //call a db class method to insert an invite into the invite bridge table
             DBClass.InsertInvite((int)HttpContext.Session.GetInt32("userToBeInvited"), selectedProject, HttpContext.Session.GetString("username"));
 
-            return RedirectToPage();
+            return RedirectToPage("/UsersPages/AllProfiles");
         }
     }
 }

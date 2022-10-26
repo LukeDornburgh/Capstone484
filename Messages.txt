@@ -1,0 +1,14 @@
+CREATE TABLE MESSAGES (
+MessagesID int Identity(1,1) PRIMARY KEY,
+MessageBody NVARCHAR(max),
+SenderID int,
+ReceiverID int,
+
+Constraint FK_MessagesSender FOREIGN KEY (SenderID) REFERENCES Users(UserID)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+Constraint FK_MessagesReceiver FOREIGN KEY (ReceiverID) REFERENCES Users(UserID)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+
+);

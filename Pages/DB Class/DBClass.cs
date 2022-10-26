@@ -659,6 +659,24 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.ExecuteNonQuery();
         }
 
+        public static void InsertInvite(int UserID, int ProjectID, string email)
+        {
+            int OwnerIDTemp = GetUserIDSession(email);
+
+            string sqlQuery = "INSERT INTO Invites (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
+            sqlQuery += UserID + ",";
+            sqlQuery += ProjectID + ",";
+            sqlQuery += OwnerIDTemp + ",";
+            sqlQuery += " 'Pending');";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            cmdProductRead.ExecuteNonQuery();
+        }
+
         public static int GetUserIDSession(string email)
         {
             int result = 0;

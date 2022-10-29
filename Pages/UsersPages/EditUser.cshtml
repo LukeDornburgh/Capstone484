@@ -5,6 +5,7 @@
 @{
     ViewData["Title"] = "Edit User";
 }
+<i class="fa-solid fa-x"></i>
 <form asp-page="EditUser" method="post">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
@@ -36,16 +37,16 @@
 
                 while (QueryResults.Read())
                 {
-                                                                                                                                                        <tr>
-                                                                                                                                                          <td>@QueryResults["SkillName"]</td>
-                                                                                                                                                        </tr>
+                                <tr>
+                                    <td>@QueryResults["SkillName"]</td>
+                                </tr>
                 }
 
-                                                                                                                                                        <div id="tagListParent">
-                                                                                                                                                            while {
-                                                                                                                                                            <div custom data here>childDiv</div>
-                                                                                                                                                            }
-                                                                                                                                                        </div>
+                            <div id="tagListParent">
+                                while {
+                            <div custom data here>childDiv</div>
+                                                     }
+                            </div>
             }
 
         </tbody>
@@ -109,14 +110,12 @@
                 document.getElementById("tagArea").appendChild(tag);
 
                 //input button within the new span
-                let btn = document.createElement("input");
+                let btn = document.createElement("i");
 
                 btn.skillIdValue = skillId;
-                btn.type = "button";
-                btn.value = "X";
                 btn.setAttribute("onclick", `onTagRemove(${skillId})`);
 
-                document.getElementById(`${skillId}`).appendChild(btn);
+                document.getElementById(`${skillId}`).innerHTML = (skillName + `<i onclick="onTagRemove(${skillId})" class="fa fa-times-circle"> </i>`);
 
                 console.log(newlyClickedValues);
             }
@@ -165,23 +164,23 @@
                         SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
                         while (QueryResults1.Read())
                         {
-                                                                                                                                        <tr>
-                                                                                                                                            <td>
-                                                                                                                                                <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
-                                                                                                                                                <label>@QueryResults1["SkillName"]</label>
-                                                                                                                                            </td> 
-                                                                                                                                        </tr>
+                                     <tr>
+                                       <td>
+                                        <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
+                                        <label>@QueryResults1["SkillName"]</label>
+                                       </td> 
+                                     </tr>
                         }
                     }
                     else{                
                         foreach (var skill in Model.SkillsDisplay)
                         {
-                                                                                                                                        <tr>
-                                                                                                                                            <td>
-                                                                                                                                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                                                                                                                                <label>@skill.SkillName</label>
-                                                                                                                                            </td> 
-                                                                                                                                        </tr>
+                                     <tr>
+                                       <td>
+                                        <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                        <label>@skill.SkillName</label>
+                                       </td> 
+                                     </tr>
                         }       
                     }
                  }
@@ -222,13 +221,13 @@
 
 
     <!------------------------------------------------------------------------------------>
-    <h5>Join a Team</h5>
+    <h5 style="clear:both">Join a Team</h5>
     <select name="TeamIDSelected" class="form-select">
         <option value="">Select a Team</option>
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                                                                                                                                                                                                                                                      <option value=@team.TeamID>@team.TeamName</option>
+                                                                                                                                                                                                                                                                  <option value=@team.TeamID>@team.TeamName</option>
             }
         }
     

@@ -579,6 +579,7 @@ form .txt-field{
     height: 300px;
     border: solid 2px var(--primary);
     width: 50%;
+    float: left;
 }
 
 .card {
@@ -600,25 +601,43 @@ form .txt-field{
     padding: 2px 16px;
 }
 
-
-#tagArea span {
-    background-color: #ddd;
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 16px;
+#tagArea{
+    display: flex;
+    justify-content: flex-start;
+    overflow-wrap: anywhere;
+    height: 300px;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }
 
-#tagArea input {
-    all: unset;
-    padding: 3px;
-    color: white;
-}
+
+    #tagArea span {
+        background-color: #ddd;
+        height: fit-content;
+        width: fit-content;
+        border: none;
+        color: black;
+        padding: 5px 10px;
+        position: relative;
+        text-align: start;
+        text-decoration: none;
+        display: inline-flex;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 16px;
+        box-sizing: border-box;
+    }
+
+
+
+
+    #tagArea span i {
+        font-size: 20px;
+        color: #adadad;
+        top: 80%;
+        margin-left: 3px;
+
+    }
 
 
 

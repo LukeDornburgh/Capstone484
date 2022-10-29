@@ -23,7 +23,7 @@
     <label asp-for="@Model.UserToUpdate.Position"></label>
     <input type="text" asp-for="@Model.UserToUpdate.Position" />
     <br /><br />
-    <table class="table table-bordered table-hover table-responsive" style="float: right;">
+    @*<table class="table table-bordered table-hover table-responsive" style="float: right;">
         <thead>
             <tr>
                 <th>My Skills</th>
@@ -37,40 +37,21 @@
 
                 while (QueryResults.Read())
                 {
-                                <tr>
-                                    <td>@QueryResults["SkillName"]</td>
-                                </tr>
+                                    <tr>
+                                        <td>@QueryResults["SkillName"]</td>
+                                    </tr>
                 }
 
-                            <div id="tagListParent">
-                                while {
-                            <div custom data here>childDiv</div>
-                                                     }
-                            </div>
+                                <div id="tagListParent">
+                                    while {
+                                <div custom data here>childDiv</div>
+                                                         }
+                                </div>
             }
 
         </tbody>
-    </table>
+    </table>*@
     <h5>Add skill to this user</h5>
-    @*<select asp-for="SelectedSkills" multiple="multiple" id="myMulti">
-        @{
-            foreach (var skill in Model.SkillsDisplay)
-            {
-                    <option value=@skill.SkillID>@skill.SkillName</option>
-            }    
-        }
-
-    </select>*@
-
-   @* <select asp-for="SelectedSkills" multiple="multiple">
-        @{
-            foreach (var skill in Model.SkillsDisplay)
-            {
-                    <option value=@skill.SkillID>@skill.SkillName</option>
-            }
-
-        }
-    </select>*@
 
 
     <script>
@@ -152,11 +133,39 @@
         //    el.click(); // click an element
         //    el.setAttribute("checked", false); // set the checkbox to be unchecked
         //};
+
+        const myFunction = () => {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            console.log(input + filter + table);
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName('label')[0];
+                console.log(td);
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        };
+        
+
     </script>
 
     <div class="skillCheck">
-    <table>
-        <tbody>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
+    <table id="myTable">
+        
                 @{
 
                     if (Model.searchText != null)
@@ -164,59 +173,34 @@
                         SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
                         while (QueryResults1.Read())
                         {
-                                     <tr>
-                                       <td>
-                                        <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
-                                        <label>@QueryResults1["SkillName"]</label>
-                                       </td> 
-                                     </tr>
+                                                             <tr>
+                                                               <td>
+                                                                <input onclick="onCheckboxClick(@QueryResults1["SkillID"])" id="input-@QueryResults1["SkillID"]" class="form-check-input" skillName="@QueryResults1["SkillName"]" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
+                                                                <label>@QueryResults1["SkillName"]</label>
+                                                               </td> 
+                                                             </tr>
                         }
                     }
                     else{                
                         foreach (var skill in Model.SkillsDisplay)
                         {
-                                     <tr>
-                                       <td>
-                                        <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                        <label>@skill.SkillName</label>
-                                       </td> 
-                                     </tr>
+                                                             <tr>
+                                                               <td>
+                                                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                                                <label>@skill.SkillName</label>
+                                                               </td> 
+                                                             </tr>
                         }       
                     }
                  }
-        </tbody>
+
     </table>
     </div>
+    <h5>My Skills</h5>
     <div id="tagArea">
         
+        
     </div>
-
-
-
-    <!----------------------------------------------------------------------------------->
-    @*@*<div class="skillSelectContainer">
-        <div class="select-btn">
-            <span class="btn-text">Add a Skill</span>
-            <span class="arrow-dwn">
-                <i class="fa-solid fa-chevron-down"></i>
-            </span>
-        </div>
-        <ul class="list-items">
-            @{
-                foreach (var skill in Model.SkillsDisplay)
-                {
-                        <li class="item">
-                            <span class="checkbox">
-                                <i class="fa-solid fa-check check-icon"></i>
-                            </span>
-                            <span class="item-text">
-                                @skill.SkillName
-                            </span>
-                        </li>
-                }
-            }
-        </ul>
-    </div>*@
 
 
 
@@ -227,7 +211,7 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                                                                                                                                                                                                                                                                  <option value=@team.TeamID>@team.TeamName</option>
+                                                                                                                                                                                                                                                                                          <option value=@team.TeamID>@team.TeamName</option>
             }
         }
     
@@ -237,10 +221,6 @@
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
-<form asp-page="EditUser" asp-page-handler="Search">
-    <input asp-for="searchText" type="text" placeholder="Search for a skill" />
-    <button asp-page-handler="Search" type="submit" class="simpleButton">Search</button>
-</form>
 <br />
 <br />
 <br />

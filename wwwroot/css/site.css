@@ -580,6 +580,7 @@ form .txt-field{
     border: solid 2px var(--primary);
     width: 50%;
     float: left;
+    overflow-x: hidden;
 }
 
 .card {
@@ -636,8 +637,25 @@ form .txt-field{
         color: #adadad;
         top: 80%;
         margin-left: 3px;
-
+        transition: .05s;
     }
+
+        #tagArea span i:hover{
+            font-size: 22px;
+        }
+
+#myInput {
+    background-position: 10px 12px; /* Position the search icon */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    width: 100%; /* Full-width */
+    font-size: 16px; /* Increase font-size */
+    padding: 5px 20px 5px 5px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 12px; /* Add some space below the input */
+}
+
+
+
 
 
 

@@ -809,10 +809,18 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead2.Connection.Open();
             cmdProductRead2.ExecuteNonQuery();
 
+        }
 
+        public static void DenyRequest(int ProjectID, int UserID)
+        {
+            string sqlQuery = "Update Requests SET Status = 'Denied' where Requests.ProjectID = " + ProjectID + " AND Requests.UserID = " + UserID + ";";
 
-
-
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
         }
 
 

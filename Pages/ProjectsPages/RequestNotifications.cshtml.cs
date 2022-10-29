@@ -13,12 +13,21 @@ namespace Lab1.Pages.ProjectsPages
 
         }
 
-        public IActionResult OnPost(int projectID, int UserID)
+
+        public IActionResult OnPostApprove(int projectID, int UserID)
         {
 
             DBClass.ApproveRequest(projectID, UserID);
 
-            return RedirectToPage("RequestNotifications");
+            return Page();
+        }
+
+        public IActionResult OnPostDeny(int projectID, int UserID)
+        {
+
+            DBClass.DenyRequest(projectID, UserID);
+
+            return Page();
         }
     }
 }

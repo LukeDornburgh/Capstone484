@@ -87,14 +87,30 @@ namespace Lab1.Pages.UsersPages
         public IActionResult OnPost()
         {
 
+            // TODO: get what the user already has
+            // [2] // listToRemove
+            // [1, 3, 5] // selectedSkills
+
+
 
             DBClass.UpdateUser(UserToUpdate);
             if (SelectedSkills != null)
             {
                 foreach (var skillID in SelectedSkills)
                 {
+                    // TODO: is it a new skill they don't have? add
                     DBClass.PopulateSkillBridge(UserToUpdate, skillID);
+
+                    // TODO: do they have it already? ignore
+                    // remove from copy
+
                 }
+
+                // TODO: remove the ones that aren't in SelectedSkills
+                // foreach (var skillId in listToRemove)
+                // {
+                    // TODO: remove from database
+                // }
             }
 
             if (TeamIDSelected != 0)

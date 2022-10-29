@@ -36,10 +36,16 @@
 
                 while (QueryResults.Read())
                 {
-                    <tr>
-                       <td>@QueryResults["SkillName"]</td>
-                    </tr>
+                                                                                                                                                        <tr>
+                                                                                                                                                          <td>@QueryResults["SkillName"]</td>
+                                                                                                                                                        </tr>
                 }
+
+                                                                                                                                                        <div id="tagListParent">
+                                                                                                                                                            while {
+                                                                                                                                                            <div custom data here>childDiv</div>
+                                                                                                                                                            }
+                                                                                                                                                        </div>
             }
 
         </tbody>
@@ -66,7 +72,89 @@
     </select>*@
 
 
-    <button></button>
+    <script>
+        
+        // list of values the user has clicked
+        const newlyClickedValues = new Map();
+
+        // TODO: Get the existing tags list
+        //document.getElementById().chil
+
+        // TODO: Update checkboxes of already existing tags
+
+
+        // Function: when a user has clicked a value, add them to the list
+        const onCheckboxClick = (skillId) => {
+            
+            var ele = document.getElementById(`input-${skillId}`);
+
+            const skillName = document.getElementById(`input-${skillId}`).getAttribute("skillName");
+
+            //the container where the buttons will go
+            const tagDiv = document.getElementById("tagArea");
+
+            if (ele.checked){
+                console.log(`Skill ${skillId} was clicked.`);
+
+                newlyClickedValues.set(skillId, skillName);
+
+                let tag = document.createElement("span");
+
+                tag.innerHTML = skillName;
+
+                tag.skillIdValue = skillId;
+
+                tag.setAttribute('id', skillId);
+
+                document.getElementById("tagArea").appendChild(tag);
+
+                //input button within the new span
+                let btn = document.createElement("input");
+
+                btn.skillIdValue = skillId;
+                btn.type = "button";
+                btn.value = "X";
+                btn.setAttribute("onclick", `onTagRemove(${skillId})`);
+
+                document.getElementById(`${skillId}`).appendChild(btn);
+
+                console.log(newlyClickedValues);
+            }
+            else{
+                document.getElementById(`${skillId}`).remove();
+                newlyClickedValues.delete(skillId);
+                console.log(newlyClickedValues);
+
+            }
+        };
+
+        // Functions: When a tag's X is removed, update the state
+        const onTagRemove = (skillId) => {
+            // TODO: remove skill from clicked values map so the tag disappears
+
+            //set the checkbox to unchecked
+            const rem = document.getElementById(`input-${skillId}`);
+            rem.checked = false;
+
+            //remove the span and its child button
+            document.getElementById(`${skillId}`).remove();
+
+            //update the map
+            newlyClickedValues.delete(skillId);
+
+            console.log(newlyClickedValues);
+            // TODO: set the checkbox to be un-checked so the form is updated as well
+        };
+
+        //const specialButtonClick = () => {
+        //
+        //    const el = document.getElementById("input-1087"); // get an element by its unique id
+        //    console.log(el.value, el.getAttribute("myCustomValue")); // get a custom attribute on an element
+        //    el.click(); // click an element
+        //    el.setAttribute("checked", false); // set the checkbox to be unchecked
+        //};
+    </script>
+
     <div class="skillCheck">
     <table>
         <tbody>
@@ -77,36 +165,34 @@
                         SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
                         while (QueryResults1.Read())
                         {
-                            <tr>
-                            <td>
-                                <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" /> @QueryResults1["SkillName"]
-                            </td> 
-                            </tr>
+                                                                                                                                        <tr>
+                                                                                                                                            <td>
+                                                                                                                                                <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
+                                                                                                                                                <label>@QueryResults1["SkillName"]</label>
+                                                                                                                                            </td> 
+                                                                                                                                        </tr>
                         }
                     }
                     else{                
                         foreach (var skill in Model.SkillsDisplay)
                         {
-                            <tr>
-                            <td>
-                                <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@skill.SkillID" /> @skill.SkillName
-                            </td> 
-                            </tr>
+                                                                                                                                        <tr>
+                                                                                                                                            <td>
+                                                                                                                                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                                                                                                                                <label>@skill.SkillName</label>
+                                                                                                                                            </td> 
+                                                                                                                                        </tr>
                         }       
                     }
                  }
         </tbody>
     </table>
     </div>
+    <div id="tagArea">
+        
+    </div>
 
-    <script src="js/index.js"></script>
-    <script>
 
-        var myDrop = new drop({
-            selector: '#myMulti',
-        });
-        myDrop.toggle();
-    </script>
 
     <!----------------------------------------------------------------------------------->
     @*@*<div class="skillSelectContainer">
@@ -142,12 +228,13 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-              <option value=@team.TeamID>@team.TeamName</option>
+                                                                                                                                                                                                                                                      <option value=@team.TeamID>@team.TeamName</option>
             }
         }
     
     </select>
-    <button type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
+    <button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
+    <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
 

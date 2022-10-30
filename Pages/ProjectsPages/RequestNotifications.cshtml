@@ -40,7 +40,7 @@
                                     <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
                                 </form>
                                 @*Change this to be a form that chnages it to deny*@
-                                <form asp-page="RequestNotifications" asp-page-handler="deny">
+                                <form asp-page="RequestNotifications">
                                     <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
                                 </form>
                             </td>
@@ -50,6 +50,12 @@
                             <td>
                                 <i class="fa-solid fa-circle-check"></i>
                             </td>
+                        }
+                        else{
+                            <td>
+                                <i class="fa-solid fa-ban"></i>
+                            </td>
+
                         }
                     }
                 </tr>

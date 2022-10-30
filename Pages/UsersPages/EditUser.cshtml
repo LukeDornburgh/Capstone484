@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Edit User";
 }
-<i class="fa-solid fa-x"></i>
+
 <form asp-page="EditUser" method="post">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
@@ -24,38 +24,38 @@
     <input type="text" asp-for="@Model.UserToUpdate.Position" />
     <br /><br />
     @*<table class="table table-bordered table-hover table-responsive" style="float: right;">
-        <thead>
-            <tr>
-                <th>My Skills</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
+    <thead>
+    <tr>
+    <th>My Skills</th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+    string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
 
-                SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
+    SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 
-                while (QueryResults.Read())
-                {
-                                    <tr>
-                                        <td>@QueryResults["SkillName"]</td>
-                                    </tr>
-                }
+    while (QueryResults.Read())
+    {
+    <tr>
+    <td>@QueryResults["SkillName"]</td>
+    </tr>
+    }
 
-                                <div id="tagListParent">
-                                    while {
-                                <div custom data here>childDiv</div>
-                                                         }
-                                </div>
-            }
+    <div id="tagListParent">
+    while {
+    <div custom data here>childDiv</div>
+    }
+    </div>
+    }
 
-        </tbody>
+    </tbody>
     </table>*@
     <h5>Add skill to this user</h5>
 
 
     <script>
-        
+
         // list of values the user has clicked
         const newlyClickedValues = new Map();
 
@@ -67,7 +67,7 @@
 
         // Function: when a user has clicked a value, add them to the list
         const onCheckboxClick = (skillId) => {
-            
+
             var ele = document.getElementById(`input-${skillId}`);
 
             const skillName = document.getElementById(`input-${skillId}`).getAttribute("skillName");
@@ -75,7 +75,7 @@
             //the container where the buttons will go
             const tagDiv = document.getElementById("tagArea");
 
-            if (ele.checked){
+            if (ele.checked) {
                 console.log(`Skill ${skillId} was clicked.`);
 
                 newlyClickedValues.set(skillId, skillName);
@@ -100,7 +100,7 @@
 
                 console.log(newlyClickedValues);
             }
-            else{
+            else {
                 document.getElementById(`${skillId}`).remove();
                 newlyClickedValues.delete(skillId);
                 console.log(newlyClickedValues);
@@ -158,48 +158,47 @@
                 }
             }
         };
-        
+
 
     </script>
 
     <div class="skillCheck">
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
-    <table id="myTable">
-        
-                @{
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
+        <table id="myTable">
 
-                    if (Model.searchText != null)
+            @{
+
+                if (Model.searchText != null)
+                {
+                    SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
+                    while (QueryResults1.Read())
                     {
-                        SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
-                        while (QueryResults1.Read())
-                        {
-                                                             <tr>
-                                                               <td>
-                                                                <input onclick="onCheckboxClick(@QueryResults1["SkillID"])" id="input-@QueryResults1["SkillID"]" class="form-check-input" skillName="@QueryResults1["SkillName"]" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
-                                                                <label>@QueryResults1["SkillName"]</label>
-                                                               </td> 
-                                                             </tr>
-                        }
+                        <tr>
+                            <td>
+                                <input onclick="onCheckboxClick(@QueryResults1["SkillID"])" id="input-@QueryResults1["SkillID"]" class="form-check-input" skillName="@QueryResults1["SkillName"]" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
+                                <label>@QueryResults1["SkillName"]</label>
+                            </td>
+                        </tr>
                     }
-                    else{                
-                        foreach (var skill in Model.SkillsDisplay)
-                        {
-                                                             <tr>
-                                                               <td>
-                                                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                                                <label>@skill.SkillName</label>
-                                                               </td> 
-                                                             </tr>
-                        }       
+                }
+                else
+                {
+                    foreach (var skill in Model.SkillsDisplay)
+                    {
+                        <tr>
+                            <td>
+                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                <label>@skill.SkillName</label>
+                            </td>
+                        </tr>
                     }
-                 }
+                }
+            }
 
-    </table>
+        </table>
     </div>
     <h5>My Skills</h5>
     <div id="tagArea">
-        
-        
     </div>
 
 
@@ -211,10 +210,10 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                                                                                                                                                                                                                                                                                          <option value=@team.TeamID>@team.TeamName</option>
+                <option value=@team.TeamID>@team.TeamName</option>
             }
         }
-    
+
     </select>
     <button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
     <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
@@ -225,4 +224,4 @@
 <br />
 <br />
 <br />
-<br/>
+<br />

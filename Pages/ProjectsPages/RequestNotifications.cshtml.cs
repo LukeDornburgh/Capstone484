@@ -22,7 +22,7 @@ namespace Lab1.Pages.ProjectsPages
             return Page();
         }
 
-        public IActionResult OnPostDeny(int projectID, int UserID)
+        public IActionResult OnPost(int projectID, int UserID)
         {
 
             DBClass.DenyRequest(projectID, UserID);

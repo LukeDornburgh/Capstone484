@@ -113,6 +113,13 @@ nav {
             border-radius: 5px;
         }
 
+.baseButton {
+    background-color: var(--JMUGOLD);
+    font-weight: bold;
+    color: var(--primary);
+    border-radius: 5px;
+}
+
     .menu p {
         margin: 0 1rem;
         white-space: nowrap;

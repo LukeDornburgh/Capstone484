@@ -245,7 +245,29 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.ExecuteNonQuery();
         }
 
-        public static void InsertTeam(Teams t)
+        public static int GetTeamID(string teamName)
+        {
+            string sqlQuery = "Select Teams.TeamID from Team where Teams.TeamName = '" + teamName + "';";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            int result = 0;
+
+            while (tempReader.Read())
+            {
+                result += (int)tempReader["TeamID"];
+            }
+
+            return result;
+
+        }
+
+        public static void InsertTeam(Teams t, string email)
         {
             string sqlQuery = "INSERT INTO Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID ) VALUES (";
             sqlQuery += "'" + t.TeamName + "',";
@@ -258,6 +280,21 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
+
+            int user = GetUserIDSession(email);
+            int teamID = GetTeamID(t.TeamName);
+
+
+            string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID, Role) VALUES (";
+            sqlQuery1 += user;
+            sqlQuery1 += ", " + teamID + ", ";
+            sqlQuery1 += "'Project Leader');";
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = sqlQuery1;
+            cmdProductRead1.Connection.Open();
+            cmdProductRead1.ExecuteNonQuery();
         }
 
         public static void InsertTeamMeeting(TeamMeetings t)

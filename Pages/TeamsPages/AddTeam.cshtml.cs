@@ -18,6 +18,7 @@ namespace Lab1.Pages.TeamsPages
         {
             ProjectSelector = new List<Projects>();
         }
+        //add rpute so the project is autoselected
         public void OnGet()
         {
             SqlDataReader varProjectReader = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
@@ -37,7 +38,7 @@ namespace Lab1.Pages.TeamsPages
         }
         public IActionResult OnPost()
         {
-            DBClass.InsertTeam(NewTeam);
+            DBClass.InsertTeam(NewTeam, HttpContext.Session.GetString("username"));
 
             return RedirectToPage("Index");
         }

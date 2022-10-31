@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Edit User";
 }
-<form asp-page="EditUser" asp-route-UserID="@Model.UserToUpdate.UserID">
+<form asp-page="EditUser" enctype="multipart/form-data" asp-route-UserID="@Model.UserToUpdate.UserID">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
     <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
@@ -21,7 +21,11 @@
     <br />
     <label asp-for="@Model.UserToUpdate.Position"></label>
     <input type="text" asp-for="@Model.UserToUpdate.Position" />
+    <br />
+    <label asp-for="@Model.upload">Profile Picture</label>
+    <input type="file" asp-for="upload" />
     <br /><br />
+
     <table class="table table-bordered table-hover table-responsive" style="float: right;">
         <thead>
             <tr>
@@ -36,34 +40,34 @@
 
                 while (QueryResults.Read())
                 {
-                    <tr>
-                       <td>@QueryResults["SkillName"]</td>
-                    </tr>
-                }
+                <tr>
+                    <td>@QueryResults["SkillName"]</td>
+                </tr>
+            }
             }
 
         </tbody>
     </table>
     <h5>Add skill to this user</h5>
     @*<select asp-for="SelectedSkills" multiple="multiple" id="myMulti">
-        @{
-            foreach (var skill in Model.SkillsDisplay)
-            {
-                    <option value=@skill.SkillID>@skill.SkillName</option>
-            }    
-        }
-
-    </select>*@
-
-   @* <select asp-for="SelectedSkills" multiple="multiple">
-        @{
-            foreach (var skill in Model.SkillsDisplay)
-            {
-                    <option value=@skill.SkillID>@skill.SkillName</option>
+            @{
+                foreach (var skill in Model.SkillsDisplay)
+                {
+                        <option value=@skill.SkillID>@skill.SkillName</option>
+                }
             }
 
-        }
-    </select>*@
+        </select>*@
+
+    @* <select asp-for="SelectedSkills" multiple="multiple">
+            @{
+                foreach (var skill in Model.SkillsDisplay)
+                {
+                        <option value=@skill.SkillID>@skill.SkillName</option>
+                }
+
+            }
+        </select>*@
     <form asp-page="EditUser" asp-page-handler="Search">
         <input asp-for="searchText" type="text" placeholder="Search for a skill" />
         <button asp-page-handler="Search" type="submit" class="simpleButton">Search</button>
@@ -71,8 +75,8 @@
 
     <button></button>
     <div class="skillCheck">
-    <table>
-        <tbody>
+        <table>
+            <tbody>
                 @{
 
                     if (Model.searchText != null)
@@ -80,26 +84,26 @@
                         SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
                         while (QueryResults1.Read())
                         {
-                            <tr>
-                            <td>
-                                <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" /> @QueryResults1["SkillName"]
-                            </td> 
-                            </tr>
+                    <tr>
+                        <td>
+                            <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" /> @QueryResults1["SkillName"]
+                        </td>
+                    </tr>
                         }
                     }
-                    else{                
+                    else{
                         foreach (var skill in Model.SkillsDisplay)
                         {
-                            <tr>
-                            <td>
-                                <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@skill.SkillID" /> @skill.SkillName
-                            </td> 
-                            </tr>
-                        }       
+                    <tr>
+                        <td>
+                            <input class="form-check-input" name="SelectedSkills" type="checkbox" value="@skill.SkillID" /> @skill.SkillName
+                        </td>
+                    </tr>
+                        }
                     }
-                 }
-        </tbody>
-    </table>
+                }
+            </tbody>
+        </table>
     </div>
 
     <script src="js/index.js"></script>
@@ -113,28 +117,28 @@
 
     <!----------------------------------------------------------------------------------->
     @*@*<div class="skillSelectContainer">
-        <div class="select-btn">
-            <span class="btn-text">Add a Skill</span>
-            <span class="arrow-dwn">
-                <i class="fa-solid fa-chevron-down"></i>
-            </span>
-        </div>
-        <ul class="list-items">
-            @{
-                foreach (var skill in Model.SkillsDisplay)
-                {
-                        <li class="item">
-                            <span class="checkbox">
-                                <i class="fa-solid fa-check check-icon"></i>
-                            </span>
-                            <span class="item-text">
-                                @skill.SkillName
-                            </span>
-                        </li>
+            <div class="select-btn">
+                <span class="btn-text">Add a Skill</span>
+                <span class="arrow-dwn">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+            </div>
+            <ul class="list-items">
+                @{
+                    foreach (var skill in Model.SkillsDisplay)
+                    {
+                            <li class="item">
+                                <span class="checkbox">
+                                    <i class="fa-solid fa-check check-icon"></i>
+                                </span>
+                                <span class="item-text">
+                                    @skill.SkillName
+                                </span>
+                            </li>
+                    }
                 }
-            }
-        </ul>
-    </div>*@
+            </ul>
+        </div>*@
 
 
 
@@ -145,10 +149,10 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                                        <option value=@team.TeamID>@team.TeamName</option>
+            <option value=@team.TeamID>@team.TeamName</option>
             }
         }
-    
+
     </select>
     <input type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser" />
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>

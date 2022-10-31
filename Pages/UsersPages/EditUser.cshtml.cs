@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Security.Cryptography;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Lab1.Pages.UsersPages
 {
@@ -26,8 +27,12 @@ namespace Lab1.Pages.UsersPages
         public List<int> SelectedSkills { get; set; }
         public List<Skills> SkillsDisplay { get; set; }
         public List <Teams> TeamsToDisplay { get; set; }
-        public EditUserModel()
+        [BindProperty]
+        public IFormFile upload { get; set; }
+        private IHostingEnvironment _environment;
+        public EditUserModel(IHostingEnvironment environment)
         {
+            _environment = environment;
             UserToUpdate = new Users();
             SkillsDisplay = new List <Skills>();
             TeamsToDisplay = new List <Teams>();
@@ -86,7 +91,18 @@ namespace Lab1.Pages.UsersPages
 
         public IActionResult OnPost()
         {
+            // to do: add an if to handle if profile picture isn't populated
+            // to do: handle if the profile picture was previously uploaded so don't overwrite it 
+            // to do: put a breakpoint on the next line to determine where on the server the uploads folder needs to be created (set permissions if necessary)
+            string profilePictureFilePath = Path.Combine(_environment.ContentRootPath, "uploads", upload.FileName);
+            using (FileStream fileStream = new FileStream(profilePictureFilePath, FileMode.Create))
 
+            {
+                upload.CopyTo(fileStream);
+
+            }
+
+            // to do: store the profile picture in user to update class and database 
 
             DBClass.UpdateUser(UserToUpdate);
             if (SelectedSkills != null)

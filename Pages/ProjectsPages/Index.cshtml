@@ -49,9 +49,8 @@
                     <td>@QueryResults["ProjectOwner"]</td>
                     <td>
                         <form asp-page="Index">
-                                <button onclick="checkMarkOff()" type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                                <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
                         </form>
-                            <span id="checkMark">&#9989;</span>
                     </td>
 
                     

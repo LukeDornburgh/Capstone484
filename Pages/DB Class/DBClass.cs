@@ -34,8 +34,29 @@ namespace Lab1.Pages.DB_Class
 
         }
 
+        public static SqlDataReader UserReader(string email)
+        {
+
+            int temp = GetUserIDSession(email);
+            //Sql command
+            //set it properites
+            //open a connection
+            //issue the query
+            //capture those results and return them
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "SELECT * FROM Users WHERE NOT Users.UserID = " + temp + ";";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+
+        }
+
         public static SqlDataReader UserReader()
         {
+
             //Sql command
             //set it properites
             //open a connection
@@ -224,7 +245,29 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.ExecuteNonQuery();
         }
 
-        public static void InsertTeam(Teams t)
+        public static int GetTeamID(string teamName)
+        {
+            string sqlQuery = "Select Teams.TeamID from Team where Teams.TeamName = '" + teamName + "';";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            int result = 0;
+
+            while (tempReader.Read())
+            {
+                result += (int)tempReader["TeamID"];
+            }
+
+            return result;
+
+        }
+
+        public static void InsertTeam(Teams t, string email)
         {
             string sqlQuery = "INSERT INTO Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID ) VALUES (";
             sqlQuery += "'" + t.TeamName + "',";
@@ -237,6 +280,21 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
+
+            int user = GetUserIDSession(email);
+            int teamID = GetTeamID(t.TeamName);
+
+
+            string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID, Role) VALUES (";
+            sqlQuery1 += user;
+            sqlQuery1 += ", " + teamID + ", ";
+            sqlQuery1 += "'Project Leader');";
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = sqlQuery1;
+            cmdProductRead1.Connection.Open();
+            cmdProductRead1.ExecuteNonQuery();
         }
 
         public static void InsertTeamMeeting(TeamMeetings t)
@@ -582,7 +640,7 @@ namespace Lab1.Pages.DB_Class
             string sqlQuery = "SELECT Count(Users.FirstName) as number FROM Users JOIN Requests ON Requests.UserID = Users.UserID JOIN Projects " +
             "ON Projects.ProjectID = Requests.ProjectID" +
             " where Requests.ProjectOwnerID = ";
-            sqlQuery += userID + ";";
+            sqlQuery += userID + "AND Requests.Status = 'Pending';";
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
@@ -706,7 +764,30 @@ namespace Lab1.Pages.DB_Class
                 " Users.Email, Requests.Status, Requests.ProjectID, Requests.UserID, Projects.ProjectName" +
                 " FROM Users JOIN Requests ON Requests.UserID = Users.UserID" +
                 " JOIN Projects ON Projects.ProjectID = Requests.ProjectID" +
-                " where Requests.ProjectOwnerID = " + OwnerID + ";";
+                " where Requests.ProjectOwnerID = " + OwnerID + "ORDER BY Requests.Status;";
+
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+
+        }
+
+        public static SqlDataReader InviteTableReader(string email)
+        {
+            int OwnerID = GetUserIDSession(email);
+
+
+            string sqlQuery = "SELECT concat(Users.FirstName, ' ', Users.LastName) as 'ProjectOwner', Projects.ProjectName, Projects.ProjectType, Invites.Status, " +
+                " Invites.ProjectID, Invites.UserID as 'UserIDBeingInvited' FROM Users" +
+                " JOIN Projects on Projects.UserID = Users.UserID" +
+                " JOIN Invites on Invites.ProjectID = Projects.ProjectID" +
+                " WHERE Invites.UserID = 5;";
 
 
             SqlCommand cmdProductRead = new SqlCommand();
@@ -765,10 +846,18 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead2.Connection.Open();
             cmdProductRead2.ExecuteNonQuery();
 
+        }
 
+        public static void DenyRequest(int ProjectID, int UserID)
+        {
+            string sqlQuery = "Update Requests SET Status = 'Denied' where Requests.ProjectID = " + ProjectID + " AND Requests.UserID = " + UserID + ";";
 
-
-
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
         }
 
 

@@ -45,6 +45,11 @@ namespace Lab1.Pages.UsersPages
                 UserToUpdate.Email = singleUser["Email"].ToString();
                 UserToUpdate.ProfessionalEmail = singleUser["ProfessionalEmail"].ToString();
                 UserToUpdate.Position = singleUser["Position"].ToString();
+                UserToUpdate.Phone = singleUser["Phone"].ToString();
+                UserToUpdate.PersonalInterests = singleUser["PersonalInterests"].ToString();
+                UserToUpdate.ProfessionalInterests = singleUser["ProfessionalInterests"].ToString();
+                UserToUpdate.Bio = singleUser["Bio"].ToString();
+                UserToUpdate.College = singleUser["College"].ToString();
             }
 
             SqlDataReader varSkillReader = DBClass.SkillsTableReader();

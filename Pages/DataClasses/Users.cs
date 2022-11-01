@@ -15,7 +15,15 @@
 
         public string Position { get; set; }
 
-        public string Passwd { get; set; }
+        public string PersonalInterests { get; set; }
+
+        public string ProfessionalInterests { get; set; }
+
+        public string Bio { get; set; }
+
+        public string College { get; set; }
+
+
     }
 
 

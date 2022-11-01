@@ -5,6 +5,103 @@
 @{
     ViewData["Title"] = "My Profile";
 }
+<style>
+
+
+    .btn-primary {
+        background-color: #31184C;
+        border: #31184C;
+    }
+
+        .btn-primary:hover {
+            background-color: #9582AA;
+        }
+
+    .btn-secondary {
+        background-color: #9582AA
+    }
+
+    .people {
+        display: grid;
+        margin: 0 auto;
+        max-width: 1500px;
+        grid-template-columns: repeat(12, 1fr);
+        padding: 20px;
+        padding-inline-start: 2%;
+    }
+
+    aside {
+        grid-column: 1/5;
+        background-color: white;
+        padding: 20px;
+        border-style: solid;
+        border-width: .5px;
+        border-color: lightslategray;
+    }
+
+    .cards {
+        grid-column: 5/13;
+        background-color: #F4F4F4;
+        padding: 20px;
+    }
+
+    h6 {
+        background-color: #9582AA;
+        font-size: x-small;
+        font-family: Helvetica, Sans-Serif;
+        font-weight: bold;
+        color: white;
+        border-radius: 20%;
+        padding: 5px;
+    }
+
+    .d-flex {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .card {
+        border: none;
+        gap: 10px;
+    }
+
+    h5 {
+        font-family: Helvetica, Sans-Serif;
+        font-weight: bold;
+        color: #31184C;
+    }
+
+    p {
+        font-family: Helvetica, Sans-Serif;
+        color: grey;
+    }
+
+    @@media only screen and (min-width: 620px) {
+
+
+        aside {
+            grid-column: 1/4;
+        }
+
+        .cards {
+            grid-column: 4/13;
+        }
+    }
+
+    @@media only screen and (min-width: 900px) {
+
+
+        aside {
+            grid-column: 1/4;
+        }
+
+        .cards {
+            grid-column: 4/13;
+        }
+    }
+
+</style>
 
 <h2 class="h2">All Users</h2>
 
@@ -15,92 +112,118 @@
 
 <a asp-page="AllProfiles" class="btn btn-secondary">&larr; Go Back</a>
 
-<table class="table table-bordered table-striped table-hover table-responsive">
-    @*<thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>ProfessionalEmail</th>
-            <th>Phone</th>
-            <th>Student or Faculty?</th>
-            <th>View Users Profile</th>
-            <th>Invite to a project</th>
-        </tr>
-    </thead>*@
-    <tbody>
+<div class="people">
+    <div class="cards">
+        <div class="card-deck">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @{
+                    if (Model.searchText != null)
+                    {
+                        SqlDataReader QueryResults = DBClass.UserSearch(Model.searchText);
 
-        @{
-            if(Model.searchText != null){
-                SqlDataReader QueryResults = DBClass.UserSearch(Model.searchText);
+                        while (QueryResults.Read())
+                        {
 
-                while(QueryResults.Read()){
-                    
-                    <div class="card">
-                       <img src="~/images/User.png" style="width:35%" height="100">
-                       <div class="container">
-                           <h4><b>@QueryResults["FirstName"] @QueryResults["LastName"]</b></h4>
-                           <p>@QueryResults["Email"]</p>
-                           <p>@QueryResults["ProfessionalEmail"]</p>
-                           <p>@QueryResults["Phone"]</p>
-                           <p>@QueryResults["Position"]</p>
-                           <p><a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">View Profile</a></p>
-                           <p><a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">Invite to my projects</a></p>
-                       </div>
-                    </div>
-                  
-                    <!--<tr>
-                        <td>@QueryResults["FirstName"]</td>
-                        <td>@QueryResults["LastName"]</td>
-                        <td>@QueryResults["Email"]</td>
-                        <td>@QueryResults["ProfessionalEmail"]</td>
-                        <td>@QueryResults["Phone"]</td>
-                        <td>@QueryResults["Position"]</td>
-                        <td>
-                            <a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">View Profile</a>
-                        </td>
-                        <td>
-                            <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">Invite to my projects</a>
-                        </td>
-                        
-                   </tr>-->
-                }
-            }
-            else {
-                foreach (var user in Model.UserList)
-                {
+                                <div class="card" style="border-radius: 15px;">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex text-black">
+                                            <div class="flex-shrink-0">
+                                                <img src="~/images/User.png"
+                                     alt="Generic placeholder image" class="img-fluid"
+                                     style="width: 100px; border-radius: 10px;">
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h5 class="mb-1">@QueryResults["FirstName"] @QueryResults["LastName"]</h5>
+                                                <p class="mb-2 pb-1" style="color: #2b2a2a;">@QueryResults["Position"]</p>
+                                                <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2"
+                                             style="background-color: #efefef;">
+                                                    <h6>JAVA</h6> <h6>HTML</h6> <h6>C#</h6> <h6>CSS</h6>
+                                                </div>
+                                                <div class="view profile">
+                                                    <p> <a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]class="simpleButton">View Profile</a> </p>
+                                                    <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@QueryResults["UserID"]class="simpleButton">Invite to my projects</a> </p>
+                                                </div>
+                                                <div class="d-flex pt-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
+                                                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                                                        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                    <div class="card">
-                        <img src="~/images/User.png" style="width:35%" height="100">
-                        <div class="container">
-                            <h4><b>@user.FirstName @user.LastName</b></h4>
-                            <p>@user.Email</p>
-                            <p>@user.ProfessionalEmail</p>
-                            <p>@user.Phone</p>
-                            <p>@user.Position</p>
-                            <p> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </p>
-                            <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a> </p>
-                        </div>
-                    </div>
-                    
-                    //<tr>
-                    //    <td>@user.FirstName</td>
-                    //    <td>@user.LastName</td>
-                    //    <td>@user.Email</td>
-                    //    <td>@user.ProfessionalEmail</td>
-                    //    <td>@user.Phone</td>
-                    //    <td>@user.Position</td>
-                    //    <td> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </td>
-                    //    <td>
-                    //        <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a>
-                    //    </td>
-                    //</tr>
-                }
-            }
-
-        }
-    </tbody>
-</table>
-<br />
-<br />
+                            //<div class="card">
+                            //    <img src="~/images/User.png" style="width:35%" height="100">
+                            //    <div class="container">
+                            //        <h4><b>@QueryResults["FirstName"] @QueryResults["LastName"]</b></h4>
+                            //        <p>@QueryResults["Email"]</p>
+                            //        <p>@QueryResults["ProfessionalEmail"]</p>
+                            //        <p>@QueryResults["Phone"]</p>
+                            //        <p>@QueryResults["Position"]</p>
+                            //        <p><a asp-page="ViewOtherUser" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">View Profile</a></p>
+                            //        <p><a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@QueryResults["UserID"]" class="simpleButton">Invite to my projects</a></p>
+                            //    </div>
+                            // </div>
+                        }
+                    }
+                    else
+                    {
+                        foreach (var user in Model.UserList)
+                        {
+                                <div class="card" style="border-radius: 15px;">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex text-black">
+                                            <div class="flex-shrink-0">
+                                                <img src="~/images/User.png"
+                                     alt="Generic placeholder image" class="img-fluid"
+                                     style="width: 100px; border-radius: 10px;">
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h5 class="mb-1">@user.FirstName @user.LastName</h5>
+                                                <p class="mb-2 pb-1" style="color: #2b2a2a;">@user.Position</p>
+                                                <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2"
+                                             style="background-color: #efefef;">
+                                                    <h6>JAVA</h6> <h6>HTML</h6> <h6>C#</h6> <h6>CSS</h6>
+                                                </div>
+                                                <div class="view profile">
+                                                    <p> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </p>
+                                                    <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a> </p>
+                                                </div>
+                                                <div class="d-flex pt-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
+                                                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                                                        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            //<div class="card">
+                            //    <img src="~/images/User.png" style="width:35%" height="100">
+                            //    <div class="container">
+                            //        <h4><b>@user.FirstName @user.LastName</b></h4>
+                            //        <p>@user.Email</p>
+                            //        <p>@user.ProfessionalEmail</p>
+                            //        <p>@user.Phone</p>
+                            //        <p>@user.Position</p>
+                            //        <p> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </p>
+                            //        <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a> </p>
+                            //    </div>
+                            //</div>
+                        }
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
 

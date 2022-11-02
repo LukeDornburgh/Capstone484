@@ -198,23 +198,7 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
-        public static void InsertUser(Users u)
-        {
-            string sqlQuery = "INSERT INTO Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position, Passwd) VALUES (";
-            sqlQuery += "'" + u.FirstName + "',";
-            sqlQuery += "'" + u.LastName + "',";
-            sqlQuery += "'" + u.Email + "',";
-            sqlQuery += "'" + u.ProfessionalEmail + "',";
-            sqlQuery += "'" + u.Phone + "',";
-            sqlQuery += "'" + u.Position + "',";
-            sqlQuery += "'" + u.Passwd + "');";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
-        }
+
 
         public static void InsertSkill(Skills s)
         {
@@ -332,6 +316,10 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "LastName='" + p.LastName + "',";
             sqlQuery += "Email='" + p.Email + "',";
             sqlQuery += "ProfessionalEmail='" + p.ProfessionalEmail + "',";
+            sqlQuery += "PersonalInterests='" + p.PersonalInterests + "',";
+            sqlQuery += "ProfessionalInterests='" + p.ProfessionalInterests + "',";
+            sqlQuery += "Bio='" + p.Bio + "',";
+            sqlQuery += "College='" + p.College + "',";
             sqlQuery += "Position='" + p.Position + "'" + "WHERE UserID=" + p.UserID;
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();

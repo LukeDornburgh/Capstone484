@@ -6,6 +6,232 @@
     ViewData["Title"] = "Edit User";
 }
 
+
+<style>
+
+    nav {
+        grid-column: 1/13;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #31184C;
+        border: none;
+    }
+
+    .profile {
+        display: grid;
+        margin: 0 auto;
+        max-width: 1500px;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        gap: 20px 20px;
+        background-color: #eae6ee;
+        padding: 30px;
+        padding-inline-start: 2%;
+    }
+
+    .container-fluid {
+        background-color: #31184C;
+        padding: 10px;
+        grid-column: 1/13;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #31184C;
+    }
+
+    section {
+        grid-column: 1/13;
+        grid-row: 1/9;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .section-one {
+        grid-column: 1/4;
+        grid-row: 1/3;
+        background-color: aqua;
+    }
+
+    .section-two {
+        grid-row: 3/4;
+        background-color: blue;
+    }
+
+    .section.three {
+        grid-row: 4/5;
+        background-color: aliceblue;
+    }
+
+    aside {
+        grid-column: 1/13;
+        grid-row: 1/2;
+        display: flex;
+        justify-content: space-around;
+        background-color: white;
+        border-radius: 20px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .mens {
+        grid-column: 1/13;
+        grid-row: 2/5;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .banner {
+        grid-column: 1/13;
+        grid-row: 5/7;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .banner2 {
+        grid-column: 1/13;
+        grid-row: 7/9s;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .featured1 {
+        grid-column: 1/13;
+    }
+
+    .featured2 {
+        grid-column: 1/13;
+    }
+
+    .featured3 {
+        grid-column: 1/13;
+    }
+
+    .featured4 {
+        grid-column: 1/13;
+    }
+
+    .shop1 {
+        grid-column: 1/13;
+    }
+
+    .shop2 {
+        grid-column: 1/13;
+    }
+
+    .shop3 {
+        grid-column: 1/13;
+    }
+
+    .material-symbols-rounded {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 40, 'color' #31184C,
+    }
+
+    h5 {
+        font-family: Helvetica, Sans-Serif;
+        font-weight: bold;
+        color: #31184C;
+    }
+
+
+    .btn-primary {
+        background-color: #31184C;
+        border: #31184C;
+    }
+
+        .btn-primary:hover {
+            background-color: #9582AA;
+        }
+
+    @@media only screen and (min-width: 620px) {
+
+
+        section {
+            grid-column: 1/13;
+        }
+
+        aside {
+            grid-column: 1/7;
+        }
+
+        .mens {
+            grid-column: 7/13;
+        }
+
+        .banner {
+            grid-column: 1/13;
+        }
+
+        .banner2 {
+            grid-column: 1/13;
+        }
+
+        .featured1 {
+            grid-column: 1/7;
+        }
+
+        .featured2 {
+            grid-column: 7/13;
+        }
+
+        .featured3 {
+            grid-column: 1/7;
+        }
+
+        .featured4 {
+            grid-column: 7/13;
+        }
+
+        .shop1 {
+            grid-column: 1/5;
+        }
+
+        .shop2 {
+            grid-column: 5/9;
+        }
+
+        .shop3 {
+            grid-column: 9/13;
+        }
+    }
+
+    @@media only screen and (min-width: 900px) {
+
+
+        section {
+            grid-column: 3/6;
+            grid-row: 1/9;
+        }
+
+        aside {
+            grid-column: 6/11;
+            grid-row: 1/2;
+        }
+
+        .mens {
+            grid-column: 6/11;
+            grid-row: 2/5;
+        }
+
+        .banner {
+            grid-column: 6/11;
+            grid-row: 5/7;
+        }
+
+        .banner2 {
+            grid-column: 6/11;
+            grid-row: 7/9;
+        }
+    }
+</style>
+
+
 <form asp-page="EditUser" method="post">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
@@ -22,6 +248,21 @@
     <br />
     <label asp-for="@Model.UserToUpdate.Position"></label>
     <input type="text" asp-for="@Model.UserToUpdate.Position" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.Phone"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.Phone" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.PersonalInterests"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.PersonalInterests" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.ProfessionalInterests"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.ProfessionalInterests" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.Bio"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.Bio" />
+    <br />
+    <label asp-for="@Model.UserToUpdate.College"></label>
+    <input type="text" asp-for="@Model.UserToUpdate.College" />
     <br /><br />
     @*<table class="table table-bordered table-hover table-responsive" style="float: right;">
     <thead>
@@ -167,31 +408,14 @@
         <table id="myTable">
 
             @{
-
-                if (Model.searchText != null)
+                foreach (var skill in Model.SkillsDisplay)
                 {
-                    SqlDataReader QueryResults1 = DBClass.SkillSearch(Model.searchText);
-                    while (QueryResults1.Read())
-                    {
-                        <tr>
-                            <td>
-                                <input onclick="onCheckboxClick(@QueryResults1["SkillID"])" id="input-@QueryResults1["SkillID"]" class="form-check-input" skillName="@QueryResults1["SkillName"]" name="SelectedSkills" type="checkbox" value="@QueryResults1["SkillID"]" />
-                                <label>@QueryResults1["SkillName"]</label>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    foreach (var skill in Model.SkillsDisplay)
-                    {
-                        <tr>
-                            <td>
-                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                <label>@skill.SkillName</label>
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>
+                            <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                            <label>@skill.SkillName</label>
+                        </td>
+                    </tr>
                 }
             }
 
@@ -219,6 +443,64 @@
     <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
+
+
+
+
+
+<div class="profile">
+
+    <section>
+        <h1>@Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName</h1>
+        <p><b>Phone:</b> @Model.UserToUpdate.Phone</p>
+        <p><b>Email:</b> @Model.UserToUpdate.Email</p>
+
+    </section>
+
+    <aside>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-clock" viewBox="0 0 16 16">
+            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-paperclip" viewBox="0 0 16 16">
+            <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+        </svg>
+
+    </aside>
+
+    <div class="mens">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"><h5>Biography</h4></label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="8">@Model.UserToUpdate.Bio</textarea>
+        </div>
+    </div>
+
+    <div class="banner">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"><h5>Personal Interests</h4></label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">@Model.UserToUpdate.PersonalInterests</textarea>
+        </div>
+
+    </div>
+
+    <div class="banner2">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"><h5>Professional Interests</h4></label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">@Model.UserToUpdate.ProfessionalInterests</textarea>
+        </div>
+    </div>
+
+
+
+</div>
+
 
 <br />
 <br />

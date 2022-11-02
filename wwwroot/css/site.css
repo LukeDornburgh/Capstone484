@@ -14,6 +14,9 @@ html {
     html {
         font-size: 14px;
     }
+    .skillCheck{
+        width: 30%;
+    }
 }
 
 html {
@@ -585,11 +588,10 @@ form .txt-field{
     overflow: scroll;
     height: 300px;
     border: solid 2px var(--primary);
-    width: 50%;
+    width: 25%;
     float: left;
     overflow-x: hidden;
 }
-
 
 
 #tagArea{
@@ -634,7 +636,7 @@ form .txt-field{
             font-size: 22px;
         }
 
-#myInput {
+#myInput, #myInput2 {
     background-position: 10px 12px; /* Position the search icon */
     background-repeat: no-repeat; /* Do not repeat the icon image */
     width: 100%; /* Full-width */

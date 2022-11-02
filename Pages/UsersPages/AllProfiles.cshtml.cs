@@ -12,9 +12,12 @@ namespace Lab1.Pages.UsersPages
 
         [BindProperty]
         public string searchText { get; set; }
+
+        public List<Skills> SkillsDisplay { get; set; }
         public AllProfilesModel()
         {
             UserList = new List<Users>();
+            SkillsDisplay = new List<Skills>();
         }
         public IActionResult OnGet()
         {
@@ -48,6 +51,20 @@ namespace Lab1.Pages.UsersPages
                 });
             }
 
+            SqlDataReader varSkillReader = DBClass.SkillsTableReader();
+            //Loop through the rows of the product reader
+            //for each record in product reader
+            //create a new instance object of Product and fill its properties with the columns from that DB row.
+            while (varSkillReader.Read())
+            {
+                SkillsDisplay.Add(new Skills
+                {
+                    SkillID = Int32.Parse(varSkillReader["SkillID"].ToString()),
+                    SkillName = varSkillReader["SkillName"].ToString(),
+                });
+            }
+
+            varSkillReader.Close();
             userReader.Close();
             return Page();
         }

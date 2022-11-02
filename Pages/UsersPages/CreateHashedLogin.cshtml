@@ -8,7 +8,6 @@
 <div class="centerCreate">
     <h1>Create Account</h1>
     <form asp-action="CreateHashedLogin">
-        <div class="column1">
         <div class="txt-field">
             <input asp-for="NewUser.FirstName" type="text" required />
             <span></span>
@@ -29,8 +28,6 @@
             <span></span>
             <label>Password</label>
         </div>
-        </div>
-        <div class="column1">
         <div class="radioSelect">
             <div class="txt-field">
             <input onclick="yesnoCheck();" asp-for="NewUser.Position" type="radio" value="Student" required/>
@@ -52,7 +49,6 @@
             <label>Professional Email</label>
         </div>
         <input class="submitButton" type="submit" value="Create Account" />
-        </div>
     </form>
 
     @{

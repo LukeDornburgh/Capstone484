@@ -43,15 +43,10 @@ BEGIN
 SET NOCOUNT ON;
 
 --this can be used to get not only user names and email but also their interests and skills
-Select UNIQUE * FROM Users WHERE Users.UserID 
-in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID
-in (Select Skills.SkillID from Skills where Skills.SkillName = @CheckedSkill));
-
 Select DISTINCT * FROM Users WHERE Users.UserID 
 in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID
 in (Select Skills.SkillID from Skills where Skills.SkillName = @CheckedSkill));
 
---if this does not work, comment/remove lines 50-52
 END;
 
 

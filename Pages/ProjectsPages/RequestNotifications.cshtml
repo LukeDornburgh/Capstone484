@@ -15,47 +15,64 @@
             <th>Requestor Email</th>
             <th>Project Name</th>
             <th>Status</th>
-            <th>Approve</th>
+            <th>Approve or Deny</th>
 
         </tr>
     </thead>
-<tbody>
+    <tbody>
 
-    @{
 
+        @{
             SqlDataReader QueryResults = DBClass.RequestTableReader(HttpContext.Session.GetString("username"));
 
             while (QueryResults.Read())
             {
-                        <tr>
-                            <td>@QueryResults["FullName"]</td>
-                            <td>@QueryResults["Email"]</td>
-                            <td>@QueryResults["ProjectName"]</td>
-                            <td>@QueryResults["Status"]</td>
-                            @{
+                <tr>
+                    <td>@QueryResults["FullName"]</td>
+                    <td>@QueryResults["Email"]</td>
+                    <td>@QueryResults["ProjectName"]</td>
+                    <td>@QueryResults["Status"]</td>
+                    @{
                         if (QueryResults["Status"].Equals("Pending"))
                         {
-                                    <td>
-                                    <form asp-page="RequestNotifications">
-                                        <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
-                                    </form>
-                                    </td>
-                                }
-                            }
-                        </tr>
+                            <td>
+                                <form asp-page="RequestNotifications" asp-page-handler="approve">
+                                    <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                                </form>
+                                @*Change this to be a form that chnages it to deny*@
+                                <form asp-page="RequestNotifications">
+                                    <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                                </form>
+                            </td>
+                        }
+                        else if (QueryResults["Status"].Equals("Approved"))
+                        {
+                            <td>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </td>
+                        }
+                        else{
+                            <td>
+                                <i class="fa-solid fa-ban"></i>
+                            </td>
+
+                        }
+                    }
+                </tr>
             }
         }
 
-    <!--
-        1. Need to query the database when the OnGet method is called(so when the page loads) and populate the 
-            table with results based on a query
-        2. we must have a query that fires off when approve or deny is clicked which will either insert the
-            requestor into the project team members table or if denied, it will remove there request from the DB
+
+        <!--
+            1. Need to query the database when the OnGet method is called(so when the page loads) and populate the
+                table with results based on a query
+            2. we must have a query that fires off when approve or deny is clicked which will either insert the
+                requestor into the project team members table or if denied, it will remove there request from the DB
 
 
-    -->
+        -->
 
 
-</tbody>
+    </tbody>
 </table>
 

@@ -15,6 +15,8 @@ namespace Lab1.Pages.ProjectsPages
         public List<Projects> projectDropDown = new List<Projects>();
         public void OnGet(int UserID)
         {
+            HttpContext.Session.SetInt32("userToBeInvited", UserID);
+
             SqlDataReader myProjects = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
 
             while (myProjects.Read())
@@ -34,9 +36,9 @@ namespace Lab1.Pages.ProjectsPages
         public IActionResult OnPost()
         {
             //call a db class method to insert an invite into the invite bridge table
+            DBClass.InsertInvite((int)HttpContext.Session.GetInt32("userToBeInvited"), selectedProject, HttpContext.Session.GetString("username"));
 
-
-            return RedirectToPage();
+            return RedirectToPage("/UsersPages/AllProfiles");
         }
     }
 }

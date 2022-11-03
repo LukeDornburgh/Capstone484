@@ -124,10 +124,6 @@ insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Positio
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Ryan', 'Done', 'ryand@jmu.edu', 'ryand@gmail.com', '444-555-6666', 'Professional');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('admin', 'admin', 'admin', null, '111-222-3333', 'Faculty');
 
-insert into Skills (SkillName) VALUES ('Java');
-insert into Skills (SkillName) VALUES ('C#');
-insert into Skills (SkillName) VALUES ('HTML');
-insert into Skills (SkillName) VALUES ('Javascript');
 
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Web application', 'create web application for jmu', '2022-10-10', 'This is our mission statement', 'Coding', 1);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('UI implementation', 'create wireframe for jmu sports page', '2021-10-11', 'This is our second mission statement', 'UI design', 2);

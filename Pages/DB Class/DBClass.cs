@@ -469,6 +469,17 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.ExecuteNonQuery();
         }
 
+        public static void RemoveSkillFromUser(Users u, int s)
+        {
+            string sqlQuery = "DELETE from SkillsAssociation WHERE SkillsAssociation.SkillID = " + s + " AND SkillsAssociation.UserID = " + u.UserID + ";";
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            cmdProductRead.ExecuteNonQuery();
+        }
+
         //General reader query for bypassing the model page and calling a query from the view page via razor code
 
         public static SqlDataReader GeneralReaderQuery(string sqlQuery)
@@ -670,6 +681,22 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandType = System.Data.CommandType.StoredProcedure;
             cmdProductRead.Parameters.AddWithValue("@SearchText", searchText);
             cmdProductRead.CommandText = "sp_usersearch"; 
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            return tempReader;
+        }
+
+        public static SqlDataReader FilterUsersBySkill(string filterList)
+        {
+
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "Select DISTINCT * FROM Users WHERE Users.UserID" +
+                " in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID" +
+                " in (Select Skills.SkillID from Skills WHERE Skills.SkillID in" +
+                " (select value from string_split('" + filterList + "', ' '))));";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;

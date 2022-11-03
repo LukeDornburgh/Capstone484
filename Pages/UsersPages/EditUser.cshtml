@@ -264,46 +264,88 @@
     <label asp-for="@Model.UserToUpdate.College"></label>
     <input type="text" asp-for="@Model.UserToUpdate.College" />
     <br /><br />
-    @*<table class="table table-bordered table-hover table-responsive" style="float: right;">
-    <thead>
-    <tr>
-    <th>My Skills</th>
-    </tr>
-    </thead>
-    <tbody>
-    @{
-    string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
+    <table class="table table-bordered table-hover table-responsive" style="display: none">
+        <thead>
+            <tr>
+                <th>My Skills</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string sqlQuery = "SELECT Skills.SkillName, Skills.SkillID from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
 
-    SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
+                SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 
-    while (QueryResults.Read())
-    {
-    <tr>
-    <td>@QueryResults["SkillName"]</td>
-    </tr>
-    }
+                while (QueryResults.Read())
+                {
+                                <tr>
+                                    <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
+                                </tr>
+                }
 
-    <div id="tagListParent">
-    while {
-    <div custom data here>childDiv</div>
-    }
-    </div>
-    }
+            }
 
-    </tbody>
-    </table>*@
+        </tbody>
+    </table>
     <h5>Add skill to this user</h5>
 
 
     <script>
 
+
         // list of values the user has clicked
         const newlyClickedValues = new Map();
+
 
         // TODO: Get the existing tags list
         //document.getElementById().chil
 
         // TODO: Update checkboxes of already existing tags
+
+        function existingSkills() {
+            console.log("running on load");
+
+
+            //I need to loop through each row in the table and get the Skill ID and the Skill name to add to the map
+            //check those boxes, and ensure the pills display
+
+            var existingList = document.getElementsByTagName('td');
+
+            for (i = 0; i < existingList.length; i++) {
+                const skillNameExisting = existingList[i].getAttribute("existingSkillName");
+                const skillIDExisting = existingList[i].getAttribute("existingID");
+
+                console.log(skillNameExisting + " " + skillIDExisting);
+
+                const tagDiv = document.getElementById("tagArea");
+
+                //target the checkbox in the checkbox area with the matching ID and check it
+                const checkAdd = document.getElementById(`input-${skillIDExisting}`);
+                console.log(checkAdd);
+                checkAdd.checked = true;
+
+                //add the values to the map
+                newlyClickedValues.set(parseInt(skillIDExisting, 10), skillNameExisting);
+
+
+                //
+                let tag = document.createElement("span");
+
+                tag.innerHTML = skillNameExisting;
+
+                tag.skillIdValue = skillIDExisting;
+
+                tag.setAttribute('id', skillIDExisting);
+
+                document.getElementById("tagArea").appendChild(tag);
+
+
+                document.getElementById(`${skillIDExisting}`).innerHTML = (skillNameExisting + `<i onclick="onTagRemove(${skillIDExisting})" class="fa fa-times-circle"> </i>`);
+
+                console.log(newlyClickedValues);
+            }
+
+        };
 
 
         // Function: when a user has clicked a value, add them to the list
@@ -400,6 +442,7 @@
             }
         };
 
+        document.addEventListener("DOMContentLoaded", existingSkills);
 
     </script>
 
@@ -410,12 +453,12 @@
             @{
                 foreach (var skill in Model.SkillsDisplay)
                 {
-                    <tr>
-                        <td>
-                            <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                            <label>@skill.SkillName</label>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td>
+                                        <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                        <label>@skill.SkillName</label>
+                                    </td>
+                                </tr>
                 }
             }
 
@@ -434,7 +477,7 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                <option value=@team.TeamID>@team.TeamName</option>
+                            <option value=@team.TeamID>@team.TeamName</option>
             }
         }
 

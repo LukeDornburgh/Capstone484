@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography;
 
 namespace Lab1.Pages.UsersPages
@@ -25,12 +26,12 @@ namespace Lab1.Pages.UsersPages
         [BindProperty]
         public List<int> SelectedSkills { get; set; }
         public List<Skills> SkillsDisplay { get; set; }
-        public List <Teams> TeamsToDisplay { get; set; }
+        public List<Teams> TeamsToDisplay { get; set; }
         public EditUserModel()
         {
             UserToUpdate = new Users();
-            SkillsDisplay = new List <Skills>();
-            TeamsToDisplay = new List <Teams>();
+            SkillsDisplay = new List<Skills>();
+            TeamsToDisplay = new List<Teams>();
         }
 
         public void OnGet(int UserID)
@@ -82,20 +83,51 @@ namespace Lab1.Pages.UsersPages
 
             }
 
-                teamReader.Close();
+            teamReader.Close();
 
-                varSkillReader.Close();
+            varSkillReader.Close();
 
-                singleUser.Close();
-         }
+            singleUser.Close();
+        }
 
         public IActionResult OnPost()
         {
 
-            // TODO: get what the user already has
-            // [2] // listToRemove
-            // [1, 3, 5] // selectedSkills
+            //get the ID of the user that is logged in
+            int signedInUserID = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
 
+            // TODO: get what the user already has
+
+            string sqlQuery = "SELECT Skills.SkillName, Skills.SkillID from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + signedInUserID + "));";
+
+            SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
+
+            //create the list to remove
+            List<int> listToRemove = new List<int>();
+            while (QueryResults.Read())
+            {
+                listToRemove.Add((int)QueryResults["SkillID"]);
+            }
+
+            // [8,9,10,11] // listToRemove(pre-existing)
+            // [8,9,10,11,12,13] // selectedSkills
+
+            for (int i = 0; i < listToRemove.Count; i++)
+            {
+                for (int j = 0; j < SelectedSkills.Count; j++)
+                {
+                    //compare this list to remove to each number in selected
+                    if (listToRemove[i] == SelectedSkills[j])
+                    {
+                        listToRemove.RemoveAt(i);
+                        i--;
+                        SelectedSkills.RemoveAt(j);
+                        break;
+                    }
+
+
+                }
+            }
 
 
             DBClass.UpdateUser(UserToUpdate);
@@ -105,18 +137,16 @@ namespace Lab1.Pages.UsersPages
                 {
                     // TODO: is it a new skill they don't have? add
                     DBClass.PopulateSkillBridge(UserToUpdate, skillID);
-
-                    // TODO: do they have it already? ignore
-                    // remove from copy
-
                 }
-
-                // TODO: remove the ones that aren't in SelectedSkills
-                // foreach (var skillId in listToRemove)
-                // {
-                    // TODO: remove from database
-                // }
             }
+            if (listToRemove != null)
+            {
+                foreach (var skillID in listToRemove)
+                {
+                    DBClass.RemoveSkillFromUser(UserToUpdate, skillID);
+                }
+            }
+
 
             if (TeamIDSelected != 0)
             {

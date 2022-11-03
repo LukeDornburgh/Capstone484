@@ -5,7 +5,12 @@ LastName nvarchar(50),
 Email nvarchar(50),
 ProfessionalEmail nvarchar(50),
 Phone nvarchar(50),
-Position nvarchar(50));
+Position nvarchar(50),
+PersonalInterests nvarchar(MAX),
+ProfessionalInterests nvarchar(MAX),
+Bio nvarchar(MAX),
+College nvarchar(100)
+);
 
 CREATE TABLE Skills (
 SkillID int Identity(1,1) PRIMARY KEY,
@@ -15,10 +20,10 @@ CREATE TABLE Projects (
 ProjectID int Identity(1,1) PRIMARY KEY,
 ProjectName nvarchar(50),
 ProjectBeginDate Date,
-ProjectMission nvarchar(100),
-ProjectDescription nvarchar(50),
+ProjectMission nvarchar(MAX),
+ProjectDescription nvarchar(MAX),
 ProjectType nvarchar(50),
-CollegeDepartment nvarchar(70),
+College nvarchar(100),
 UserID int,
 Constraint FK_Projects_User_UserID FOREIGN KEY (UserID) REFERENCES Users(UserID));
 
@@ -119,10 +124,6 @@ insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Positio
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Ryan', 'Done', 'ryand@jmu.edu', 'ryand@gmail.com', '444-555-6666', 'Professional');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('admin', 'admin', 'admin', null, '111-222-3333', 'Faculty');
 
-insert into Skills (SkillName) VALUES ('Java');
-insert into Skills (SkillName) VALUES ('C#');
-insert into Skills (SkillName) VALUES ('HTML');
-insert into Skills (SkillName) VALUES ('Javascript');
 
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Web application', 'create web application for jmu', '2022-10-10', 'This is our mission statement', 'Coding', 1);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('UI implementation', 'create wireframe for jmu sports page', '2021-10-11', 'This is our second mission statement', 'UI design', 2);

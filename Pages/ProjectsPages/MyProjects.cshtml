@@ -13,6 +13,7 @@
             <th>ProjectDescription</th>
             <th>ProjectType</th>
             <th>Edit This Project</th>
+            <th>Create a Project Team</th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,9 @@
                     <td>@project.ProjectType</td>
                     <td>
                         <a asp-page="EditProject" class="btn btn-primary" asp-route-ProjectID="@project.ProjectID">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-page="/TeamsPages/AddTeam" class="btn btn-primary">Create a Team</a>
                     </td>
                 </tr>
             }

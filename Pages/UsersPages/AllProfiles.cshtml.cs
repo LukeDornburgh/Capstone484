@@ -12,9 +12,17 @@ namespace Lab1.Pages.UsersPages
 
         [BindProperty]
         public string searchText { get; set; }
+
+        public SqlDataReader returnReader { get; set; }
+
+        [BindProperty]
+        public List<int> SelectedSkills { get; set; }
+
+        public List<Skills> SkillsDisplay { get; set; }
         public AllProfilesModel()
         {
             UserList = new List<Users>();
+            SkillsDisplay = new List<Skills>();
         }
         public IActionResult OnGet()
         {
@@ -30,7 +38,7 @@ namespace Lab1.Pages.UsersPages
             }
 
 
-            SqlDataReader userReader = DBClass.UserReader();
+            SqlDataReader userReader = DBClass.UserReader(HttpContext.Session.GetString("username"));
             //Loop through the rows of the product reader
             //for each record in product reader
             //create a new instance object of Product and fill its properties with the columns from that DB row.
@@ -48,11 +56,33 @@ namespace Lab1.Pages.UsersPages
                 });
             }
 
+            SqlDataReader varSkillReader = DBClass.SkillsTableReader();
+            //Loop through the rows of the product reader
+            //for each record in product reader
+            //create a new instance object of Product and fill its properties with the columns from that DB row.
+            while (varSkillReader.Read())
+            {
+                SkillsDisplay.Add(new Skills
+                {
+                    SkillID = Int32.Parse(varSkillReader["SkillID"].ToString()),
+                    SkillName = varSkillReader["SkillName"].ToString(),
+                });
+            }
+
+            varSkillReader.Close();
             userReader.Close();
             return Page();
         }
-        public IActionResult OnPostSearch()
+        public IActionResult OnPost()
         {
+            string skillIDList = "";
+
+            foreach (var num in SelectedSkills)
+            {
+                skillIDList += num + " ";
+            }
+            returnReader = DBClass.FilterUsersBySkill(skillIDList, HttpContext.Session.GetString("username"));
+
             return Page();
         }
     }

@@ -686,17 +686,17 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
-        public static SqlDataReader FilterUsersBySkill(string filterList)
+        public static SqlDataReader FilterUsersBySkill(string filterList, string email)
         {
-
+            int temp = GetUserIDSession(email);
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select DISTINCT * FROM Users WHERE Users.UserID" +
-                " in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID" +
-                " in (Select Skills.SkillID from Skills WHERE Skills.SkillID in" +
-                " (select value from string_split('" + filterList + "', ' '))));";
+            cmdProductRead.CommandText = "Select * from (Select DISTINCT * FROM Users WHERE Users.UserID " +
+                "in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID in " +
+                " (Select Skills.SkillID from Skills WHERE Skills.SkillID in (select value from string_split('" + filterList + "', ' '))))) " +
+                " as a WHERE NOT UserID = " + temp + ";";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;

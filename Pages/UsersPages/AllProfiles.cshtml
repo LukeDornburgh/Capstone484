@@ -271,15 +271,6 @@
                     if (@Model.SelectedSkills != null){
 
                         while (Model.returnReader.Read()){
-                            if (Model.returnReader["email"].Equals(HttpContext.Session.GetString("username"))){
-                                if(!Model.returnReader.Read()){
-                                    Model.returnReader.Close();
-                                    break;
-                                }
-                                else{
-                                    Model.returnReader.Read();
-                                }
-                            }
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-4">
                                 <div class="d-flex text-black">

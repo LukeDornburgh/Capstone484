@@ -666,7 +666,7 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = "Select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
             "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
             "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner FROM PROJECTS " +
-            "JOIN USERS ON Users.UserID = projects.ProjectID ;";
+            "JOIN USERS ON Users.UserID = projects.UserID ;";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;

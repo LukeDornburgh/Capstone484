@@ -13,6 +13,11 @@ namespace Lab1.Pages.UsersPages
         [BindProperty]
         public string searchText { get; set; }
 
+        public SqlDataReader returnReader { get; set; }
+
+        [BindProperty]
+        public List<int> SelectedSkills { get; set; }
+
         public List<Skills> SkillsDisplay { get; set; }
         public AllProfilesModel()
         {
@@ -68,8 +73,16 @@ namespace Lab1.Pages.UsersPages
             userReader.Close();
             return Page();
         }
-        public IActionResult OnPostSearch()
+        public IActionResult OnPost()
         {
+            string skillIDList = "";
+
+            foreach (var num in SelectedSkills)
+            {
+                skillIDList += num + " ";
+            }
+            returnReader = DBClass.FilterUsersBySkill(skillIDList);
+
             return Page();
         }
     }

@@ -36,28 +36,50 @@
     </thead>
     <tbody>
 @{
-    if(Model.searchText != null){
+    //if(Model.searchText != null){
         SqlDataReader QueryResults = DBClass.ProjectSearch(Model.searchText);
 
         while(QueryResults.Read()){
-                <tr>
-                    <td>@QueryResults["ProjectName"]</td>
-                    <td>@QueryResults["ProjectDescription"]</td>
-                    <td>@QueryResults["ProjectBeginDate"]</td>
-                    <td>@QueryResults["ProjectMission"]</td>
-                    <td>@QueryResults["ProjectType"]</td>
-                    <td>@QueryResults["ProjectOwner"]</td>
-                    <td>
-                        <form asp-page="Index">
-                                <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
-                        </form>
-                    </td>
+               // <tr>
+               //     <td>@QueryResults["ProjectName"]</td>
+               //     <td>@QueryResults["ProjectDescription"]</td>
+               //     <td>@QueryResults["ProjectBeginDate"]</td>
+               //     <td>@QueryResults["ProjectMission"]</td>
+               //     <td>@QueryResults["ProjectType"]</td>
+               //     <td>@QueryResults["ProjectOwner"]</td>
+               //     <td>
+               //         <form asp-page="Index">
+               //                 <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+               //         </form>
+               //     </td>
 
                     
-               </tr>
+               //</tr>
+
+                <div class="col">
+                    <form asp-page="Index">
+                        <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                    </form>
+                    <div class="card h-100">
+                        <img src="images/purplecover.png" class="card-img-top" alt="...">
+                        <div class="card-img-overlay">
+                            <div class="card-title"><h4>@QueryResults["ProjectName"]</h4></div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@QueryResults["ProjectDescription"]</p>
+                            <h5 class="card-owner">@QueryResults["ProjectOwner"]</h5>
+                            <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@QueryResults["ProjectBeginDate"])</h6>
+                            <button type="button" class="btn btn-primary">primary</button>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary">primary</button>
+                        </div>
+                    </div>
+                </div>
+
         }
     }
-    else{
+    @*else{
 
         foreach (var project in Model.ProjectList)
             {
@@ -77,7 +99,7 @@
                 }
 
         }
-    }
+    }*@
     </tbody>
     </table>
 

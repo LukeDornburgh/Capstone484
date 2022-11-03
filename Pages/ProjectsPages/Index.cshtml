@@ -120,12 +120,9 @@
 </style>
 
 <h2 class="h2">Projects Table</h2>
-<form asp-page="Index" asp-page-handler="Search">
-    <input asp-for="searchText" type="text" placeholder="Search for a project" />
-    <button type="submit" class="simpleButton">Search</button>
-</form>
 
-<a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
+<a class="btn btn-primary" asp-page="AddProject">Create a Project</a>
+<a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
 
 <div class="projects">
     <div class="cards">

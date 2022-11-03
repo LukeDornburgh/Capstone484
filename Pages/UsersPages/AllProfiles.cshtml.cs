@@ -81,7 +81,7 @@ namespace Lab1.Pages.UsersPages
             {
                 skillIDList += num + " ";
             }
-            returnReader = DBClass.FilterUsersBySkill(skillIDList);
+            returnReader = DBClass.FilterUsersBySkill(skillIDList, HttpContext.Session.GetString("username"));
 
             return Page();
         }

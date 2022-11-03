@@ -4,11 +4,17 @@
 }
 
 <form asp-page="AddProject">
-    <input type="text" asp-for="NewProject.ProjectName" placeholder="Project Name" />
-    <input type="text" asp-for="NewProject.ProjectDescription" placeholder="Description" />
-    <input type="date" asp-for="NewProject.ProjectBeginDate"/>
-    <input type="text" asp-for="NewProject.ProjectMission" placeholder="Enter your mission statement" />
-    <input type="text" asp-for="NewProject.ProjectType" placeholder="Project Type" width="100" />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectName" placeholder="Project Name" />
+    <br />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectDescription" placeholder="Description" />
+    <br />
+    <label> Project start date</label>
+    <input class="form-control" type="date" asp-for="NewProject.ProjectBeginDate" />
+    <br />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectMission" placeholder="Enter your mission statement" />
+    <br />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectType" placeholder="Project Type" width="100" />
+    <br/>
     <select name="NewProject.UserID">
         <option value="">Select Project Owner</option>
         @{

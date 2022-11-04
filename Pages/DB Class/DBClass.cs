@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Lab1.Pages.DB_Class
 {
@@ -332,6 +333,18 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead1.CommandText = sqlQuery1;
             cmdProductRead1.Connection.Open();
             cmdProductRead1.ExecuteNonQuery();
+        }
+
+        public static SqlDataReader GetSpecificSkillObject(int num)
+        {
+            string sqlQuery = "Select * from Skills where Skills.SkillID = " + num + ";";
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            return tempReader;
         }
 
         public static void InsertTeamMeeting(TeamMeetings t)

@@ -227,11 +227,42 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
+
+            //get the project ID of the new project
+            int pID = GetProjectID(p.ProjectName);
+
+            //now we need to create a team related to this new project
+            string sqlQuery1 = "INSERT INTO Teams (TeamName, ProjectID ) VALUES (";
+            sqlQuery1 += "'" + p.ProjectName + "',";
+            sqlQuery1 += pID + ")";
+            SqlCommand sqlProductRead2 = new SqlCommand();
+            sqlProductRead2.Connection = new SqlConnection();
+            sqlProductRead2.Connection.ConnectionString = Lab1ConStr;
+            sqlProductRead2.CommandText = sqlQuery1;
+            sqlProductRead2.Connection.Open();
+            sqlProductRead2.ExecuteNonQuery();
+
+            //get the teamID of the new team
+            int temp2 = GetTeamID(p.ProjectName);
+
+            //now insert the project owner as a team member 
+            string sqlQuery2 = "INSERT INTO TeamMembers (UserID, TeamID, Role) VALUES (";
+            sqlQuery2 += p.UserID + ", ";
+            sqlQuery2 += temp2 + ", ";
+            sqlQuery2 += "'Project Owner');";
+            SqlCommand sqlProductRead3 = new SqlCommand();
+            sqlProductRead3.Connection = new SqlConnection();
+            sqlProductRead3.Connection.ConnectionString = Lab1ConStr;
+            sqlProductRead3.CommandText = sqlQuery2;
+            sqlProductRead3.Connection.Open();
+            sqlProductRead3.ExecuteNonQuery();
+
+
         }
 
         public static int GetTeamID(string teamName)
         {
-            string sqlQuery = "Select Teams.TeamID from Team where Teams.TeamName = '" + teamName + "';";
+            string sqlQuery = "Select Teams.TeamID from Teams where Teams.TeamName = '" + teamName + "';";
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
@@ -245,6 +276,28 @@ namespace Lab1.Pages.DB_Class
             while (tempReader.Read())
             {
                 result += (int)tempReader["TeamID"];
+            }
+
+            return result;
+
+        }
+
+        public static int GetProjectID(string projectName)
+        {
+            string sqlQuery = "Select Projects.ProjectID from Projects where Projects.ProjectName = '" + projectName + "';";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            int result = 0;
+
+            while (tempReader.Read())
+            {
+                result += (int)tempReader["ProjectID"];
             }
 
             return result;
@@ -674,7 +727,7 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = "Select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
             "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
             "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner FROM PROJECTS " +
-            "JOIN USERS ON Users.UserID = projects.ProjectID ;";
+            "JOIN USERS ON Users.UserID = projects.UserID ;";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;
@@ -694,17 +747,17 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
-        public static SqlDataReader FilterUsersBySkill(string filterList)
+        public static SqlDataReader FilterUsersBySkill(string filterList, string email)
         {
-
+            int temp = GetUserIDSession(email);
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select DISTINCT * FROM Users WHERE Users.UserID" +
-                " in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID" +
-                " in (Select Skills.SkillID from Skills WHERE Skills.SkillID in" +
-                " (select value from string_split('" + filterList + "', ' '))));";
+            cmdProductRead.CommandText = "Select * from (Select DISTINCT * FROM Users WHERE Users.UserID " +
+                "in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID in " +
+                " (Select Skills.SkillID from Skills WHERE Skills.SkillID in (select value from string_split('" + filterList + "', ' '))))) " +
+                " as a WHERE NOT UserID = " + temp + ";";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;

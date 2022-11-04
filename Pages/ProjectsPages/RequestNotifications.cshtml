@@ -36,12 +36,12 @@
                         if (QueryResults["Status"].Equals("Pending"))
                         {
                             <td>
-                                <form asp-page="RequestNotifications" asp-page-handler="approve">
-                                    <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                                <form asp-page="RequestNotifications">
+                                    <button type="submit" class="submitButton" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
                                 </form>
                                 @*Change this to be a form that chnages it to deny*@
                                 <form asp-page="RequestNotifications">
-                                    <button type="submit" class="submitButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                                    <button type="submit" class="submitButton" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
                                 </form>
                             </td>
                         }
@@ -51,7 +51,8 @@
                                 <i class="fa-solid fa-circle-check"></i>
                             </td>
                         }
-                        else{
+                        else
+                        {
                             <td>
                                 <i class="fa-solid fa-ban"></i>
                             </td>

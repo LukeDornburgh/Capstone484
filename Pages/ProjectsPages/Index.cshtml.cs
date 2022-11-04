@@ -18,6 +18,9 @@ namespace Lab1.Pages.ProjectsPages
         }
         public IActionResult OnGet()
         {
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
 
             if (HttpContext.Session.GetString("username") == null)
             {
@@ -45,11 +48,10 @@ namespace Lab1.Pages.ProjectsPages
             return Page();
         }
 
-        public IActionResult OnPost(int ProjectOwnerID, int ProjectID)
+        public void OnPost(int ProjectOwnerID, int ProjectID)
         {
             DBClass.InsertRequest(ProjectID, ProjectOwnerID, HttpContext.Session.GetString("username"));
 
-            return RedirectToPage("Index");
         }
 
         public IActionResult OnPostSearch()

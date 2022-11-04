@@ -6,6 +6,8 @@ namespace Lab1.Pages.ProjectsPages
 {
     public class RequestNotificationsModel : PageModel
     {
+        [BindProperty]
+        public Boolean Approve { get; set; }
 
         public void OnGet()
         {
@@ -13,20 +15,22 @@ namespace Lab1.Pages.ProjectsPages
 
         }
 
-
-        public IActionResult OnPostApprove(int projectID, int UserID)
-        {
-
-            DBClass.ApproveRequest(projectID, UserID);
-
+        public IActionResult OnPostDeny(int projectID, int UserID) 
+        { 
+            DBClass.DenyRequest(projectID, UserID);
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
             return Page();
         }
 
-        public IActionResult OnPost(int projectID, int UserID)
+
+        public IActionResult OnPostApprove(int projectID, int UserID)
         {
-
-            DBClass.DenyRequest(projectID, UserID);
-
+            DBClass.ApproveRequest(projectID, UserID);
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
             return Page();
         }
     }

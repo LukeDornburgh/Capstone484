@@ -77,6 +77,8 @@
         color: grey;
     }
 
+
+
     @@media only screen and (min-width: 620px) {
 
 
@@ -239,7 +241,7 @@
 <h2 class="h2">All Users</h2>
 <form asp-page="AllProfiles">
 <div class="skillCheck">
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
+    <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
     <table id="myTable">
 
         @{
@@ -259,9 +261,24 @@
 
 <h5>Filter Tags</h5>
 <div id="tagArea">
+    @{
+        if(Model.skillsAlreadySelected != null){
+            foreach(var skill in Model.skillsAlreadySelected){
+                <span id="@skill.SkillID">@skill.SkillName<i onclick="onTagRemove(@skill.SkillID)" class="fa fa-times-circle"></i></span>
+            }
+        }
+    }
 </div>
 <button type="submit">Submit</button>
 </form>
+
+@{
+    if(Model.SelectedSkills != null){
+        <a asp-page="AllProfiles" class="btn btn-primary">Go back</a>
+    }
+}
+
+
 <div class="people">
     <div class="cards" id="cards">
         <input type="text" id="myInput2" onkeyup="searchUsers()" placeholder="Search for Other Members..." />

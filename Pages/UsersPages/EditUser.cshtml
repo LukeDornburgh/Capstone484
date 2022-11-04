@@ -232,7 +232,7 @@
 </style>
 
 
-<form asp-page="EditUser" method="post">
+<form asp-page="EditUser" enctype="multipart/form-data" method="post">
     <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
     <label asp-for="@Model.UserToUpdate.FirstName"></label>
     <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
@@ -263,6 +263,15 @@
     <br />
     <label asp-for="@Model.UserToUpdate.College"></label>
     <input type="text" asp-for="@Model.UserToUpdate.College" />
+    <br /><br />
+    <label asp-for="@Model.upload">Profile Picture</label>
+    @if (Model.ProfilePictureUrl != String.Empty) {
+        <br />
+        <img src="@Model.ProfilePictureUrl"  /> 
+        <br />
+    }  
+    
+    <input type="file" asp-for="upload" />
     <br /><br />
     <table class="table table-bordered table-hover table-responsive" style="display: none">
         <thead>

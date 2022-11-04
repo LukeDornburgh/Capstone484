@@ -13,7 +13,7 @@ namespace Lab1.Pages.DB_Class
 
 
         //connection string
-        private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab1;Trusted_Connection=True";
+        private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab3;Trusted_Connection=True";
         private static readonly string AuthConStr = @"Server=Localhost;Database=AUTH;Trusted_Connection=True";
 
         public static SqlDataReader TableReader(string email)
@@ -320,11 +320,19 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "ProfessionalInterests='" + p.ProfessionalInterests + "',";
             sqlQuery += "Bio='" + p.Bio + "',";
             sqlQuery += "College='" + p.College + "',";
+            if (p.ProfilePicturePath != null)
+            {
+                sqlQuery += "ProfilePicturePath=@ProfilePicturePath,";
+            }
             sqlQuery += "Position='" + p.Position + "'" + "WHERE UserID=" + p.UserID;
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
             cmdProductRead.CommandText = sqlQuery;
+            if(p.ProfilePicturePath != null)
+            {
+                cmdProductRead.Parameters.AddWithValue("@ProfilePicturePath", p.ProfilePicturePath);
+            }
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
         }

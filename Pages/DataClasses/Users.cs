@@ -23,6 +23,8 @@
 
         public string College { get; set; }
 
+        public string ProfilePicturePath { get; set; }
+
 
     }
 

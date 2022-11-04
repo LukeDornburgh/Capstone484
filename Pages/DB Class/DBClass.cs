@@ -373,11 +373,19 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "ProfessionalInterests='" + p.ProfessionalInterests + "',";
             sqlQuery += "Bio='" + p.Bio + "',";
             sqlQuery += "College='" + p.College + "',";
+            if (p.ProfilePicturePath != null)
+            {
+                sqlQuery += "ProfilePicturePath=@ProfilePicturePath,";
+            }
             sqlQuery += "Position='" + p.Position + "'" + "WHERE UserID=" + p.UserID;
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
             cmdProductRead.CommandText = sqlQuery;
+            if(p.ProfilePicturePath != null)
+            {
+                cmdProductRead.Parameters.AddWithValue("@ProfilePicturePath", p.ProfilePicturePath);
+            }
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
         }

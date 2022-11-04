@@ -18,14 +18,19 @@ namespace Lab1.Pages.ProjectsPages
         public IActionResult OnPostDeny(int projectID, int UserID) 
         { 
             DBClass.DenyRequest(projectID, UserID);
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
             return Page();
         }
 
 
         public IActionResult OnPostApprove(int projectID, int UserID)
         {
-            DBClass.ApproveRequest(projectID, UserID);  
-
+            DBClass.ApproveRequest(projectID, UserID);
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
             return Page();
         }
     }

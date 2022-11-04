@@ -27,7 +27,9 @@ namespace Lab1.Pages.UsersPages
         public IActionResult OnGet()
         {
 
-            
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
 
             if (HttpContext.Session.GetString("username") == null)
             {

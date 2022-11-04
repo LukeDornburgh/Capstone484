@@ -6,6 +6,8 @@ namespace Lab1.Pages.ProjectsPages
 {
     public class RequestNotificationsModel : PageModel
     {
+        [BindProperty]
+        public Boolean Approve { get; set; }
 
         public void OnGet()
         {
@@ -13,19 +15,16 @@ namespace Lab1.Pages.ProjectsPages
 
         }
 
-
-        public IActionResult OnPostApprove(int projectID, int UserID)
-        {
-
-            DBClass.ApproveRequest(projectID, UserID);
-
+        public IActionResult OnPostDeny(int projectID, int UserID) 
+        { 
+            DBClass.DenyRequest(projectID, UserID);
             return Page();
         }
 
-        public IActionResult OnPost(int projectID, int UserID)
-        {
 
-            DBClass.DenyRequest(projectID, UserID);
+        public IActionResult OnPostApprove(int projectID, int UserID)
+        {
+            DBClass.ApproveRequest(projectID, UserID);  
 
             return Page();
         }

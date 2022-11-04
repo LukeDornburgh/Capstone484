@@ -13,7 +13,7 @@ namespace Lab1.Pages.DB_Class
 
 
         //connection string
-        private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab3;Trusted_Connection=True";
+        private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab1;Trusted_Connection=True";
         private static readonly string AuthConStr = @"Server=Localhost;Database=AUTH;Trusted_Connection=True";
 
         public static SqlDataReader TableReader(string email)

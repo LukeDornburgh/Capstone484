@@ -45,11 +45,10 @@ namespace Lab1.Pages.ProjectsPages
             return Page();
         }
 
-        public IActionResult OnPost(int ProjectOwnerID, int ProjectID)
+        public void OnPost(int ProjectOwnerID, int ProjectID)
         {
             DBClass.InsertRequest(ProjectID, ProjectOwnerID, HttpContext.Session.GetString("username"));
 
-            return RedirectToPage("Index");
         }
 
         public IActionResult OnPostSearch()

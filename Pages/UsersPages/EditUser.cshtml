@@ -265,12 +265,14 @@
     <input type="text" asp-for="@Model.UserToUpdate.College" />
     <br /><br />
     <label asp-for="@Model.upload">Profile Picture</label>
-    @if (Model.ProfilePictureUrl != String.Empty) {
-        <br />
-        <img src="@Model.ProfilePictureUrl"  /> 
-        <br />
-    }  
-    
+    @{
+        if (Model.ProfilePictureUrl != String.Empty) 
+        {
+            <br />
+            <img src="@Model.ProfilePictureUrl" width="200px" height="200px"  /> 
+            <br />
+        }  
+    }
     <input type="file" asp-for="upload" />
     <br /><br />
     <table class="table table-bordered table-hover table-responsive" style="display: none">
@@ -287,9 +289,9 @@
 
                 while (QueryResults.Read())
                 {
-                                <tr>
-                                    <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
-                                </tr>
+                                    <tr>
+                                        <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
+                                    </tr>
                 }
 
             }
@@ -462,12 +464,12 @@
             @{
                 foreach (var skill in Model.SkillsDisplay)
                 {
-                                <tr>
-                                    <td>
-                                        <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                        <label>@skill.SkillName</label>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                            <label>@skill.SkillName</label>
+                                        </td>
+                                    </tr>
                 }
             }
 
@@ -486,7 +488,7 @@
         @{
             foreach (var team in Model.TeamsToDisplay)
             {
-                            <option value=@team.TeamID>@team.TeamName</option>
+                                <option value=@team.TeamID>@team.TeamName</option>
             }
         }
 

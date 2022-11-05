@@ -867,6 +867,21 @@ namespace Lab1.Pages.DB_Class
 
         }
 
+        public static SqlDataReader RequestButtonStatus(int projectID, string email)
+        {
+            int temp = GetUserIDSession(email);
+
+            string sqlQuery = "Select * from Requests where Requests.ProjectID = " + projectID + " AND Requests.UserID = " + temp + ";";
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+        } 
+
         public static SqlDataReader InviteTableReader(string email)
         {
             int OwnerID = GetUserIDSession(email);

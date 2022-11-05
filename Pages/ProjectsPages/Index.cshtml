@@ -132,24 +132,33 @@
 
                 while (QueryResults.Read())
                 {
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="images/purplecover.png" class="card-img-top" alt="...">
-                            <div class="card-title">
-                                <h4>@QueryResults["ProjectName"]</h4>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">@QueryResults["ProjectDescription"]</p>
-                                <h5 class="card-owner">@QueryResults["ProjectOwner"]</h5>
-                                <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@QueryResults["ProjectBeginDate"])</h6>
-                                <div class="card-footer">
-                                    <form asp-page="Index">
-                                        <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
-                                    </form>
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                <div class="card-title">
+                                    <h4>@QueryResults["ProjectName"]</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">@QueryResults["ProjectDescription"]</p>
+                                    <h5 class="card-owner">@QueryResults["ProjectOwner"]</h5>
+                                    <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@QueryResults["ProjectBeginDate"])</h6>
+                                    <div class="card-footer">
+
+                                    @{
+                                        SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)QueryResults["ProjectID"], HttpContext.Session.GetString("username"));
+                                        if (!QueryResults1.HasRows){
+                                            <form asp-page="Index">
+                                                <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                                            </form>
+                                        }
+                                        else{
+                                            <div>Request Pending...</div>
+                                        }
+                                    }
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 }
             }
 

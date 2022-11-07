@@ -23,6 +23,7 @@ ProjectBeginDate Date,
 ProjectMission nvarchar(MAX),
 ProjectDescription nvarchar(MAX),
 ProjectType nvarchar(50),
+ProjectDuration nvarchar(50)
 College nvarchar(100),
 UserID int,
 Constraint FK_Projects_User_UserID FOREIGN KEY (UserID) REFERENCES Users(UserID));

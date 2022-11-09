@@ -9,7 +9,8 @@ Position nvarchar(50),
 PersonalInterests nvarchar(MAX),
 ProfessionalInterests nvarchar(MAX),
 Bio nvarchar(MAX),
-College nvarchar(100)
+College nvarchar(100),
+ProfilePicturePath nvarchar(300)
 );
 
 CREATE TABLE Skills (

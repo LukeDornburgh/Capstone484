@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Lab1.Pages.DB_Class
 {
@@ -227,11 +228,42 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
+
+            //get the project ID of the new project
+            int pID = GetProjectID(p.ProjectName);
+
+            //now we need to create a team related to this new project
+            string sqlQuery1 = "INSERT INTO Teams (TeamName, ProjectID ) VALUES (";
+            sqlQuery1 += "'" + p.ProjectName + "',";
+            sqlQuery1 += pID + ")";
+            SqlCommand sqlProductRead2 = new SqlCommand();
+            sqlProductRead2.Connection = new SqlConnection();
+            sqlProductRead2.Connection.ConnectionString = Lab1ConStr;
+            sqlProductRead2.CommandText = sqlQuery1;
+            sqlProductRead2.Connection.Open();
+            sqlProductRead2.ExecuteNonQuery();
+
+            //get the teamID of the new team
+            int temp2 = GetTeamID(p.ProjectName);
+
+            //now insert the project owner as a team member 
+            string sqlQuery2 = "INSERT INTO TeamMembers (UserID, TeamID, Role) VALUES (";
+            sqlQuery2 += p.UserID + ", ";
+            sqlQuery2 += temp2 + ", ";
+            sqlQuery2 += "'Project Owner');";
+            SqlCommand sqlProductRead3 = new SqlCommand();
+            sqlProductRead3.Connection = new SqlConnection();
+            sqlProductRead3.Connection.ConnectionString = Lab1ConStr;
+            sqlProductRead3.CommandText = sqlQuery2;
+            sqlProductRead3.Connection.Open();
+            sqlProductRead3.ExecuteNonQuery();
+
+
         }
 
         public static int GetTeamID(string teamName)
         {
-            string sqlQuery = "Select Teams.TeamID from Team where Teams.TeamName = '" + teamName + "';";
+            string sqlQuery = "Select Teams.TeamID from Teams where Teams.TeamName = '" + teamName + "';";
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
@@ -245,6 +277,28 @@ namespace Lab1.Pages.DB_Class
             while (tempReader.Read())
             {
                 result += (int)tempReader["TeamID"];
+            }
+
+            return result;
+
+        }
+
+        public static int GetProjectID(string projectName)
+        {
+            string sqlQuery = "Select Projects.ProjectID from Projects where Projects.ProjectName = '" + projectName + "';";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            int result = 0;
+
+            while (tempReader.Read())
+            {
+                result += (int)tempReader["ProjectID"];
             }
 
             return result;
@@ -279,6 +333,18 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead1.CommandText = sqlQuery1;
             cmdProductRead1.Connection.Open();
             cmdProductRead1.ExecuteNonQuery();
+        }
+
+        public static SqlDataReader GetSpecificSkillObject(int num)
+        {
+            string sqlQuery = "Select * from Skills where Skills.SkillID = " + num + ";";
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            return tempReader;
         }
 
         public static void InsertTeamMeeting(TeamMeetings t)
@@ -320,11 +386,19 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "ProfessionalInterests='" + p.ProfessionalInterests + "',";
             sqlQuery += "Bio='" + p.Bio + "',";
             sqlQuery += "College='" + p.College + "',";
+            if (p.ProfilePicturePath != null)
+            {
+                sqlQuery += "ProfilePicturePath=@ProfilePicturePath,";
+            }
             sqlQuery += "Position='" + p.Position + "'" + "WHERE UserID=" + p.UserID;
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
             cmdProductRead.CommandText = sqlQuery;
+            if(p.ProfilePicturePath != null)
+            {
+                cmdProductRead.Parameters.AddWithValue("@ProfilePicturePath", p.ProfilePicturePath);
+            }
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
         }
@@ -792,6 +866,21 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
 
         }
+
+        public static SqlDataReader RequestButtonStatus(int projectID, string email)
+        {
+            int temp = GetUserIDSession(email);
+
+            string sqlQuery = "Select * from Requests where Requests.ProjectID = " + projectID + " AND Requests.UserID = " + temp + ";";
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+        } 
 
         public static SqlDataReader InviteTableReader(string email)
         {

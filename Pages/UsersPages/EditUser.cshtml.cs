@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Lab1.Pages.UsersPages
 {
@@ -27,13 +28,18 @@ namespace Lab1.Pages.UsersPages
         public List<int> SelectedSkills { get; set; }
         public List<Skills> SkillsDisplay { get; set; }
         public List<Teams> TeamsToDisplay { get; set; }
-        public EditUserModel()
+
+        public IFormFile upload { get; set; }
+        private IHostingEnvironment _environment;
+        public string ProfilePictureUrl { get; set; }
+        public EditUserModel(IHostingEnvironment environment)
         {
+            _environment = environment;
             UserToUpdate = new Users();
             SkillsDisplay = new List<Skills>();
             TeamsToDisplay = new List<Teams>();
+            ProfilePictureUrl = String.Empty;
         }
-
         public void OnGet(int UserID)
         {
             SqlDataReader singleUser = DBClass.SingleUserReader(UserID);
@@ -51,6 +57,10 @@ namespace Lab1.Pages.UsersPages
                 UserToUpdate.ProfessionalInterests = singleUser["ProfessionalInterests"].ToString();
                 UserToUpdate.Bio = singleUser["Bio"].ToString();
                 UserToUpdate.College = singleUser["College"].ToString();
+                if (!singleUser.IsDBNull(singleUser.GetOrdinal("ProfilePicturePath")))
+                {
+                    ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();
+                }
             }
 
             SqlDataReader varSkillReader = DBClass.SkillsTableReader();
@@ -128,7 +138,15 @@ namespace Lab1.Pages.UsersPages
 
                 }
             }
-
+            if (upload != null)
+            {
+                string profilePictureFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads", upload.FileName);
+                using (FileStream fileStream = new FileStream(profilePictureFilePath, FileMode.Create))
+                {
+                    upload.CopyTo(fileStream);
+                }
+                UserToUpdate.ProfilePicturePath = upload.FileName;
+            }
 
             DBClass.UpdateUser(UserToUpdate);
             if (SelectedSkills != null)

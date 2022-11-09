@@ -12,9 +12,27 @@ namespace Lab1.Pages.ProjectsPages
 
         [BindProperty]
         public string searchText { get; set; }
+
+        public SqlDataReader returnReader { get; set; }
+
+        //this will be used to precheck boxes and preload tags
+        public List<string> justSelected { get; set; }
+
+        [BindProperty]
+        public List<string> SelectedCollege { get; set; }
+
+        public List<string> CollegeDepartments { get; set; }
         public IndexModel()
         {
             ProjectList = new List<Projects>();
+            CollegeDepartments = new List<string>();
+            CollegeDepartments.Add("Arts and Letters");
+            CollegeDepartments.Add("Business");
+            CollegeDepartments.Add("Education");
+            CollegeDepartments.Add("Health and Behavioral Studies");
+            CollegeDepartments.Add("Integrated Science and Engineering");
+            CollegeDepartments.Add("Science and Mathematics");
+            CollegeDepartments.Add("Visual and Performing Arts");
         }
         public IActionResult OnGet()
         {
@@ -54,10 +72,28 @@ namespace Lab1.Pages.ProjectsPages
 
         }
 
-        public IActionResult OnPostSearch()
+        public IActionResult OnPostCollege()
         {
+            //create a list to store the names of the boxes that need to start checked when the page reloads, we will pass this into a 
+            //query and then add the results of that query to 
+            justSelected = new List <string>();
+
+            //create a string to store each college name seperated by commas
+            string collegeList = "";
+
+            foreach(var word in SelectedCollege)
+            {
+                collegeList += word + ",";
+                justSelected.Add(word);
+            }
+            //pass the string to filter by
+            returnReader = DBClass.FilterProjectsByCollege(collegeList);
+
             return Page();
+
         }
+
+
 
 
     }

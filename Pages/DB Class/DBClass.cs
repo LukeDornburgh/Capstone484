@@ -98,13 +98,6 @@ namespace Lab1.Pages.DB_Class
 
         public static SqlDataReader MyProjectsTableReader(string email)
         {
-            //Sql command
-            //set it properites
-            //open a connection
-            //issue the query
-            //capture those results and return them
-
-
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
@@ -115,6 +108,34 @@ namespace Lab1.Pages.DB_Class
 
 
 
+            return tempReader;
+        }
+
+        public static SqlDataReader InvitesDropdownReader(string email, int userID)
+        {
+            //this should return all the projects that the current user does not have an invite pending for
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "Select * from projects where Projects.UserID in (select Users.UserID from Users " +
+                "WHERE Users.Email = '" +  email + "') AND Projects.ProjectID " +
+                "NOT in(select Invites.ProjectID from Invites where Invites.UserID = " + userID + ");";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            return tempReader;
+        }
+
+        public static SqlDataReader ExistingInvites(string email, int UserID)
+        {
+            int temp = GetUserIDSession(email);
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "select Projects.ProjectName from projects where projects.projectID " +
+                "in(select Invites.projectID from Invites where Invites.ProjectOwnerID = " + temp + " and  Invites.UserID = "  + UserID + ");";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;
         }
 
@@ -774,6 +795,21 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;
+        }
+
+        public static SqlDataReader FilterProjectsByCollege(string filterList)
+        {
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "Select * from(Select Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
+                "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
+                "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner FROM PROJECTS JOIN USERS ON Users.UserID = projects.UserID " +
+                "where projects.College in(select value from string_split('" + filterList + "', ','))) as a;";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempreader = cmdProductRead.ExecuteReader();
+
+            return tempreader;
         }
 
         public static SqlDataReader SkillSearch(string searchText)

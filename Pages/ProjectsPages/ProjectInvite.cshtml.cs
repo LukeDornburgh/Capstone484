@@ -12,6 +12,8 @@ namespace Lab1.Pages.ProjectsPages
         [BindProperty]
         public int selectedProject { get; set; }
 
+        public string inviteText { get; set; }
+
         public SqlDataReader ExistingInvites { get; set; }
 
         public List<Projects> projectDropDown = new List<Projects>();
@@ -42,9 +44,9 @@ namespace Lab1.Pages.ProjectsPages
         public IActionResult OnPost()
         {
             //call a db class method to insert an invite into the invite bridge table
-            DBClass.InsertInvite((int)HttpContext.Session.GetInt32("userToBeInvited"), selectedProject, HttpContext.Session.GetString("username"));
-
-            return RedirectToPage("/UsersPages/AllProfiles");
+            inviteText = DBClass.InsertInvite((int)HttpContext.Session.GetInt32("userToBeInvited"), selectedProject, HttpContext.Session.GetString("username"));
+            ExistingInvites = DBClass.ExistingInvites(HttpContext.Session.GetString("username"), (int)HttpContext.Session.GetInt32("userToBeInvited"));
+            return Page();
         }
     }
 }

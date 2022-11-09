@@ -4,6 +4,7 @@
     ViewData["Title"] = "Project Invite";
 }
 
+<a asp-page="Index" class="btn btn-primary">Go Back</a>
 <form asp-page="ProjectInvite">
 <select asp-for="selectedProject" class="form-control">
     @{
@@ -15,11 +16,16 @@
 <button type="submit">Invite</button>
 </form>
 <div>
-    You have already invited this user to the following projects
+    You have already invited this user to the following projects: 
     @{
         while(Model.ExistingInvites.Read())
         {
-            @Model.ExistingInvites["ProjectName"]   
+            <p> @Model.ExistingInvites["ProjectName"], </p>  
+        }
+    }
+    @{
+        if(Model.inviteText != null){
+            <p>@Model.inviteText</p>
         }
     }
 </div>

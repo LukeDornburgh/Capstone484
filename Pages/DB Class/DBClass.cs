@@ -753,15 +753,17 @@ namespace Lab1.Pages.DB_Class
             return result;
         }
 
-        public static SqlDataReader ProjectCardDisplay()
+        public static SqlDataReader ProjectCardDisplay(string email)
         {
+            int temp = GetUserIDSession(email);
+
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
             cmdProductRead.CommandText = "Select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
             "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
             "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner FROM PROJECTS " +
-            "JOIN USERS ON Users.UserID = projects.UserID ;";
+            "JOIN USERS ON Users.UserID = projects.UserID WHERE NOT Projects.UserID = " + temp + ";";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
             return tempReader;
@@ -828,6 +830,9 @@ namespace Lab1.Pages.DB_Class
         {
             int userIDTemp = GetUserIDSession(email);
 
+            //need to check to see if the owner has already invited us to this project. If they have, then perform the addition
+
+
             string sqlQuery = "INSERT INTO Requests (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
             sqlQuery += userIDTemp + ",";
             sqlQuery += ProjectID + ",";
@@ -842,9 +847,28 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.ExecuteNonQuery();
         }
 
-        public static void InsertInvite(int UserID, int ProjectID, string email)
+        public static string InsertInvite(int UserID, int ProjectID, string email)
         {
             int OwnerIDTemp = GetUserIDSession(email);
+
+            //need to see if the user that was just invited has already requested to join the project in question, if they have we
+            //need to add them to the teammembers table and delete both the invite and the request and notify the user
+            string sqlQuery1 = "SELECT * from Requests where Requests.UserID = " + UserID + " AND Requests.ProjectID = " + ProjectID + " AND Requests.Status = 'Pending';";
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = sqlQuery1;
+            cmdProductRead1.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead1.ExecuteReader();
+
+            if (tempReader.HasRows)
+            {
+                //if they already have a request to join this project, just approve the request and break out
+
+                ApproveRequest(ProjectID, UserID);
+                return "User has already requested to join this project, therefore we have accepted this request for you. They are now on your team!";
+            }
 
             string sqlQuery = "INSERT INTO Invites (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
             sqlQuery += UserID + ",";
@@ -858,6 +882,9 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
+
+            return "User has been invited!";
+
         }
 
         public static int GetUserIDSession(string email)

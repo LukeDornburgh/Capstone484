@@ -252,12 +252,12 @@
         @{
             foreach (var college in Model.CollegeDepartments)
             {
-                        <tr>
-                            <td>
-                                <input onclick='onCheckboxClick("@college")' type="checkbox" value="@college" class="form-check-input" name="SelectedCollege" id="input-@college" collegeSelect="@college" />
-                                <label>@college</label>
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        <input onclick='onCheckboxClick("@college")' type="checkbox" value="@college" class="form-check-input" name="SelectedCollege" id="input-@college" collegeSelect="@college" />
+                        <label>@college</label>
+                    </td>
+                </tr>
             }
         }
     </table>
@@ -265,7 +265,7 @@
     @{
         if (Model.SelectedCollege != null)
         {
-                <a asp-page="Index" class="btn btn-primary">Clear Filters</a>
+            <a asp-page="Index" class="btn btn-primary">Clear Filters</a>
         }
     }
     <div id="tagArea">
@@ -274,7 +274,7 @@
             {
                 foreach (var college in Model.justSelected)
                 {
-                            <span id="@college">@college<i onclick='onTagRemove("@college")' class="fa fa-times-circle"></i></span>
+                    <span id="@college">@college<i onclick='onTagRemove("@college")' class="fa fa-times-circle"></i></span>
                 }
             }
         }
@@ -294,73 +294,85 @@
                 {
                     while (Model.returnReader.Read())
                     {
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <img src="images/purplecover.png" class="card-img-top" alt="...">
-                                        <div class="card-title">
-                                            <h4>@Model.returnReader["ProjectName"]</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">@Model.returnReader["ProjectDescription"]</p>
-                                            <h5 class="card-owner">@Model.returnReader["ProjectOwner"]</h5>
-                                            <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@Model.returnReader["ProjectBeginDate"])</h6>
-                                            <div class="card-footer">
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                <div class="card-title">
+                                    <h4>@Model.returnReader["ProjectName"]</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">@Model.returnReader["ProjectDescription"]</p>
+                                    <h5 class="card-owner">@Model.returnReader["ProjectOwner"]</h5>
+                                    <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@Model.returnReader["ProjectBeginDate"])</h6>
+                                    <div class="card-footer">
 
-                                                @{
+                                        @{
                                             SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)Model.returnReader["ProjectID"], HttpContext.Session.GetString("username"));
                                             if (!QueryResults1.HasRows)
                                             {
-                                                                <form asp-page="Index">
-                                                                    <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@Model.returnReader["ProjectID"]" asp-route-ProjectOwnerID="@Model.returnReader["UserID"]">Request to Join</button>
-                                                                </form>
+                                                <form asp-page="Index">
+                                                    <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@Model.returnReader["ProjectID"]" asp-route-ProjectOwnerID="@Model.returnReader["UserID"]">Request to Join</button>
+                                                </form>
                                             }
                                             else
                                             {
-                                                                <div>Request Pending...</div>
+                                                <div>Request Pending...</div>
                                             }
-                                                }
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     }
 
                 }
                 else
                 {
-                    SqlDataReader QueryResults = DBClass.ProjectCardDisplay();
+                    SqlDataReader QueryResults = DBClass.ProjectCardDisplay(HttpContext.Session.GetString("username"));
 
                     while (QueryResults.Read())
                     {
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <img src="images/purplecover.png" class="card-img-top" alt="...">
-                                        <div class="card-title">
-                                            <h4>@QueryResults["ProjectName"]</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">@QueryResults["ProjectDescription"]</p>
-                                            <h5 class="card-owner">@QueryResults["ProjectOwner"]</h5>
-                                            <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@QueryResults["ProjectBeginDate"])</h6>
-                                            <div class="card-footer">
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                <div class="card-title">
+                                    <h4>@QueryResults["ProjectName"]</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">@QueryResults["ProjectDescription"]</p>
+                                    <h5 class="card-owner">@QueryResults["ProjectOwner"]</h5>
+                                    <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@QueryResults["ProjectBeginDate"])</h6>
+                                    <div class="card-footer">
 
-                                                @{
+                                        @{
                                             SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)QueryResults["ProjectID"], HttpContext.Session.GetString("username"));
                                             if (!QueryResults1.HasRows)
                                             {
-                                                                <form asp-page="Index">
-                                                                    <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
-                                                                </form>
+                                                <form asp-page="Index">
+                                                    <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                                                </form>
                                             }
                                             else
                                             {
-                                                                <div>Request Pending...</div>
-                                            }
+                                                QueryResults1.Read();
+                                                if (QueryResults1["Status"].Equals("Approved"))
+                                                {
+                                                    <div>You are already a member of this project</div>
                                                 }
-                                            </div>
-                                        </div>
+                                                else if (QueryResults1["Status"].Equals("Denied"))
+                                                {
+                                                    <div>The Project owner has denied your request</div>
+                                                }
+                                                else
+                                                {
+                                                    <div>Request Pending...</div>
+                                                }
+                                            }
+                                        }
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     }
                 }
             }

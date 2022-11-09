@@ -14,3 +14,12 @@
 </select>
 <button type="submit">Invite</button>
 </form>
+<div>
+    You have already invited this user to the following projects
+    @{
+        while(Model.ExistingInvites.Read())
+        {
+            @Model.ExistingInvites["ProjectName"]   
+        }
+    }
+</div>

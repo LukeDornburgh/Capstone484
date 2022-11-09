@@ -12,12 +12,14 @@ namespace Lab1.Pages.ProjectsPages
         [BindProperty]
         public int selectedProject { get; set; }
 
+        public SqlDataReader ExistingInvites { get; set; }
+
         public List<Projects> projectDropDown = new List<Projects>();
         public void OnGet(int UserID)
         {
             HttpContext.Session.SetInt32("userToBeInvited", UserID);
 
-            SqlDataReader myProjects = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
+            SqlDataReader myProjects = DBClass.InvitesDropdownReader(HttpContext.Session.GetString("username"), UserID);
 
             while (myProjects.Read())
             {
@@ -31,7 +33,11 @@ namespace Lab1.Pages.ProjectsPages
                 });
             }
             myProjects.Close();
+
+            ExistingInvites = DBClass.ExistingInvites(HttpContext.Session.GetString("username"), UserID);
+            
         }
+        
 
         public IActionResult OnPost()
         {

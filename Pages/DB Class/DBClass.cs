@@ -407,6 +407,7 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "ProfessionalInterests='" + p.ProfessionalInterests + "',";
             sqlQuery += "Bio='" + p.Bio + "',";
             sqlQuery += "College='" + p.College + "',";
+            sqlQuery += "GeneralAvailability='" + p.GeneralAvailability + "',";
             if (p.ProfilePicturePath != null)
             {
                 sqlQuery += "ProfilePicturePath=@ProfilePicturePath,";

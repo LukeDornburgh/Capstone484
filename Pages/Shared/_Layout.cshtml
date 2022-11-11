@@ -2,6 +2,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <style>
+        nav {
+            background-color: #31184C;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 80px;
+            color: white;
+        }
+
+        img {
+            max-width: 250px;
+            max-height: 100%;
+            padding: 10px;
+        }
+
+        .divider {
+            color: #9582AA;
+        }
+
+        .navbtn {
+            background: #9582AA;
+            border-radius: 8px;
+            border: 5px;
+            padding: 5px;
+            color: white;
+        }
+
+    </style>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Lab1</title>
@@ -16,8 +47,8 @@
 <body>
 
     <header>
-
         <nav>
+
             <h1><a asp-area="" asp-page="/Index">Madison Connect Hub</a></h1>
 
             <div class="menu">
@@ -82,7 +113,7 @@
         </div>
     </header>
 
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

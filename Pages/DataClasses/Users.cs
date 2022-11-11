@@ -25,6 +25,8 @@
 
         public string ProfilePicturePath { get; set; }
 
+        public string GeneralAvailability { get; set; }
+
 
     }
 

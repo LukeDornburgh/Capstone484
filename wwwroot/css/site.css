@@ -457,7 +457,6 @@ form .txt-field{
 
 
 
-
 .skillSelectContainer{
     position: relative;
     max-width: 320px;
@@ -594,7 +593,7 @@ form .txt-field{
 }
 
 
-#tagArea{
+#tagArea, #tagArea2{
     display: flex;
     justify-content: flex-start;
     overflow-wrap: anywhere;
@@ -604,7 +603,7 @@ form .txt-field{
 }
 
 
-    #tagArea span {
+    #tagArea span, #tagArea2 span {
         background-color: #ddd;
         height: fit-content;
         width: fit-content;

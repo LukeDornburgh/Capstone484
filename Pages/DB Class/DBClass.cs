@@ -750,23 +750,56 @@ namespace Lab1.Pages.DB_Class
                 result += (int)tempReader["number"];
             }
 
+            string sqlQuery1 = "SELECT Count(Users.FirstName) as number FROM Users JOIN Invites ON Invites.UserID = Users.UserID " +
+                "JOIN Projects ON Projects.ProjectID = Invites.ProjectID where Invites.UserID = " + userID + " AND Invites.Status = 'Pending';";
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = sqlQuery1;
+            cmdProductRead1.Connection.Open();
+            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+
+            while (tempReader1.Read())
+            {
+                result += (int)tempReader1["number"];
+            }
+
             return result;
         }
 
         public static SqlDataReader ProjectCardDisplay(string email)
         {
             int temp = GetUserIDSession(email);
+            string teamList = "";
 
+            //need to get a string with each team the user who is logged in belongs to and then display all the projects that
+            //arent associated with those teams
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
-            "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
-            "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner FROM PROJECTS " +
-            "JOIN USERS ON Users.UserID = projects.UserID WHERE NOT Projects.UserID = " + temp + ";";
+            cmdProductRead.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+                "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
-            return tempReader;
+
+            while (tempReader.Read())
+            {
+                teamList += tempReader["TeamID"] + ",";
+            }
+
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = "Select DISTINCT Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
+                "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
+                "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner, TeamMembers.UserID from Projects " +
+                "JOIN Users on Users.UserID = Projects.UserID JOIN TeamMembers on TeamMembers.UserID = Users.UserID " +
+                "where TeamMembers.TeamID not in (select value from string_split('" + teamList + "', ',') as a);";
+            cmdProductRead1.Connection.Open();
+            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+            return tempReader1;
         }
 
 
@@ -826,11 +859,26 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
-        public static void InsertRequest(int ProjectID, int ProjectOwnerID, string email)
+        public static string InsertRequest(int ProjectID, int ProjectOwnerID, string email)
         {
             int userIDTemp = GetUserIDSession(email);
 
             //need to check to see if the owner has already invited us to this project. If they have, then perform the addition
+            string sqlQuery1 = "SELECT * from Invites where Invites.UserID = " + userIDTemp + " AND Invites.ProjectID = " + ProjectID + " AND Invites.Status = 'Pending';";
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = sqlQuery1;
+            cmdProductRead1.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead1.ExecuteReader();
+
+            if (tempReader.HasRows)
+            {
+                //if they already have a request to join this project, just approve the request and break out
+                AcceptInvite(ProjectID, userIDTemp);
+                return "The owner of this project has already invited you to it. Welcome to the team!";
+            }
 
 
             string sqlQuery = "INSERT INTO Requests (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
@@ -845,6 +893,8 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             cmdProductRead.ExecuteNonQuery();
+
+            return "The owner has already invited you, Welcome to the team!";
         }
 
         public static string InsertInvite(int UserID, int ProjectID, string email)
@@ -930,6 +980,7 @@ namespace Lab1.Pages.DB_Class
 
         }
 
+
         public static SqlDataReader RequestButtonStatus(int projectID, string email)
         {
             int temp = GetUserIDSession(email);
@@ -947,14 +998,12 @@ namespace Lab1.Pages.DB_Class
 
         public static SqlDataReader InviteTableReader(string email)
         {
-            int OwnerID = GetUserIDSession(email);
+            int UserID = GetUserIDSession(email);
 
 
-            string sqlQuery = "SELECT concat(Users.FirstName, ' ', Users.LastName) as 'ProjectOwner', Projects.ProjectName, Projects.ProjectType, Invites.Status, " +
-                " Invites.ProjectID, Invites.UserID as 'UserIDBeingInvited' FROM Users" +
-                " JOIN Projects on Projects.UserID = Users.UserID" +
-                " JOIN Invites on Invites.ProjectID = Projects.ProjectID" +
-                " WHERE Invites.UserID = 5;";
+            string sqlQuery = "SELECT concat(Users.FirstName, ' ',  Users.LastName) as 'FullName', Users.Email, Invites.Status, " +
+                "Invites.ProjectID, Invites.UserID, Projects.ProjectName FROM Users JOIN Invites ON Invites.ProjectOwnerID = Users.UserID " +
+                "JOIN Projects ON Projects.ProjectID = Invites.ProjectID where Invites.UserID = " + UserID + " ORDER BY Invites.Status;";
 
 
             SqlCommand cmdProductRead = new SqlCommand();
@@ -1015,9 +1064,68 @@ namespace Lab1.Pages.DB_Class
 
         }
 
+        public static void AcceptInvite(int projectID, int userID)
+        {
+
+
+            string sqlQuery = "SELECT Teams.TeamID from Teams" +
+                " JOIN Projects on Projects.ProjectID = Teams.ProjectID" +
+                " JOIN Invites on Invites.ProjectID = Projects.ProjectID" +
+                " WHERE Invites.ProjectID = " + projectID + ";";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            int teamID = 0;
+
+            while (tempReader.Read())
+            {
+                teamID = (int)tempReader["TeamID"];
+            }
+
+            string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID) VALUES (";
+            sqlQuery1 += userID + ", ";
+            sqlQuery1 += teamID + ");";
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = sqlQuery1;
+            cmdProductRead1.Connection.Open();
+            cmdProductRead1.ExecuteNonQuery();
+
+            //now to chnage the status of the request from pending to approved
+
+            string sqlQuery2 = "Update Invites SET Status = 'Approved' where Invites.ProjectID = " + projectID + " AND Invites.UserID = " + userID + ";";
+
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery2;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
+
+        }
+
         public static void DenyRequest(int ProjectID, int UserID)
         {
             string sqlQuery = "Update Requests SET Status = 'Denied' where Requests.ProjectID = " + ProjectID + " AND Requests.UserID = " + UserID + ";";
+
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
+        }
+
+        public static void RejectInvite(int ProjectID, int UserID)
+        {
+            string sqlQuery = "Update Invites SET Status = 'Denied' where Invites.ProjectID = " + ProjectID + " AND Invites.UserID = " + UserID + ";";
 
             SqlCommand cmdProductRead2 = new SqlCommand();
             cmdProductRead2.Connection = new SqlConnection();

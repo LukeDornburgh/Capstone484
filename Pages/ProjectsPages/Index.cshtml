@@ -330,7 +330,7 @@
                 }
                 else
                 {
-                    SqlDataReader QueryResults = DBClass.ProjectCardDisplay();
+                    SqlDataReader QueryResults = DBClass.ProjectCardDisplay(HttpContext.Session.GetString("username"));
 
                     while (QueryResults.Read())
                     {
@@ -356,7 +356,20 @@
                                             }
                                             else
                                             {
-                                                <div>Request Pending...</div>
+
+                                                QueryResults1.Read();
+                                                if (QueryResults1["Status"].Equals("Approved"))
+                                                {
+                                                    <div>You are already a member of this project</div>
+                                                }
+                                                else if (QueryResults1["Status"].Equals("Denied"))
+                                                {
+                                                    <div>The Project owner has denied your request</div>
+                                                }
+                                                else
+                                                {
+                                                    <div>Request Pending...</div>
+                                                }
                                             }
                                         }
                                     </div>

@@ -33,5 +33,23 @@ namespace Lab1.Pages.ProjectsPages
             HttpContext.Session.SetInt32("badgeNum", badgeNum);
             return Page();
         }
+
+        public IActionResult OnPostAccept(int projectID, int UserID)
+        {
+            DBClass.AcceptInvite(projectID, UserID);
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
+            return Page();
+        }
+
+        public IActionResult OnPostReject(int projectID, int UserID)
+        {
+            DBClass.RejectInvite(projectID, UserID);
+            int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+            int badgeNum = DBClass.NotificationNumber(temp);
+            HttpContext.Session.SetInt32("badgeNum", badgeNum);
+            return Page();
+        }
     }
 }

@@ -315,8 +315,70 @@
         }
     }
 </style>
+    <table class="table table-bordered table-hover table-responsive" style="display: none">
+        <thead>
+            <tr>
+                <th>My Skills</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string sqlQuery = "SELECT Skills.SkillName, Skills.SkillID from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
 
+                SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 
+                while (QueryResults.Read())
+                {
+                                    <tr>
+                                        <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
+                                    </tr>
+                }
+
+            }
+
+        </tbody>
+    </table>
+<form asp-page="EditUser" enctype="multipart/form-data" id="fullForm" method="post">
+    <!-- Skills Modal -->
+<div class="modal fade" id="staticBackdrop8" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="staticBackdropLabel">Edit Skills</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+
+        <div class="skillCheck" style="width: 100%; float: left">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
+        <table id="myTable">
+
+            @{
+                foreach (var skill in Model.SkillsDisplay)
+                {
+                        <tr>
+                            <td>
+                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                <label>@skill.SkillName</label>
+                            </td>
+                        </tr>
+                }
+            }
+
+        </table>
+    </div>
+    <h5>My Skills</h5>
+    <div id="tagArea" style="display: inline">
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="profile">
 
     <div class="pix">
@@ -329,7 +391,16 @@
             </a>
         </div>
         <div class="picture">
-            <img src="~/images/User.png" alt="avi" width="259px" height="320px"  srcset=""> 
+
+            @{
+                if (Model.ProfilePictureUrl != String.Empty)
+                {
+                        <img src="@Model.ProfilePictureUrl" width="500" height="250" />    
+                }
+                else{
+                        <p>Upload an Image</p>
+                }
+            } 
             <h2> @Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName</H2>
             <h3> <b>@Model.UserToUpdate.College</b></h3>
             <h3><b> Phone:</b> @Model.UserToUpdate.Phone</h3>
@@ -338,7 +409,21 @@
     </div>
 
     <div class="skills">
-        <h5> Skills</h5>
+<div class="skills">
+<div class="icon">
+  <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop8">
+      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
+          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+      </svg>
+  </a>
+  </div>
+  <h5> Skills</h5>
+  <div class="skillspills"></div>
+    <div id="tagArea2">
+    </div>
+</div>
+
     </div>
 
     <div class="icons">
@@ -362,26 +447,28 @@
           <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
         </svg>
       </a>
+
+          
  </div>
 
     <div class="bio">
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label"><h5>Biography</h5></label>
-            <textarea readonly rows="8" class="form-control" id="biography1" asp-for="@Model.UserToUpdate.Bio"></textarea>
+            <textarea readonly rows="8" class="form-control" id="biography1" >@Model.UserToUpdate.Bio</textarea>
         </div>
     </div>
 
     <div class="avail">
   <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label"><h5>General Availability</h5></label>
-      <textarea readonly rows = "2" class="form-control" id="biography1" asp-for="@Model.UserToUpdate.GeneralAvailability"></textarea>
+      <textarea readonly rows = "2" class="form-control" id="biography1" >@Model.UserToUpdate.GeneralAvailability</textarea>
     </div>
 </div>
 
     <div class="personalinterests">
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label"><h5>Personal Interests</h5></label>
-            <textarea readonly class="form-control" id="personalinterests1" rows="3" asp-for="@Model.UserToUpdate.PersonalInterests"></textarea>
+            <textarea readonly class="form-control" id="personalinterests1" rows="3">@Model.UserToUpdate.PersonalInterests</textarea>
         </div>
 
     </div>
@@ -389,13 +476,14 @@
     <div class="prointerests">
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label"><h5>Professional Interests</h5></label>
-            <textarea readonly class="form-control" id="professionalinterests1" rows="3" asp-for="@Model.UserToUpdate.ProfessionalInterests"></textarea>
+            <textarea readonly class="form-control" id="professionalinterests1" rows="3" >@Model.UserToUpdate.ProfessionalInterests</textarea>
         </div>
     </div>
 
     <!-- Button trigger modal -->
     <!-- Modal -->
-    <form asp-page="EditUser" enctype="multipart/form-data" method="post">
+    <!---->
+
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -404,6 +492,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                         <div class="mb-3">
+                            <label asp-for="@Model.upload">Profile Picture</label>
+                            <input type="file" asp-for="upload" />
+                        </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label"><h3>Edit First Name</h3></label>
                             <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
@@ -427,7 +519,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label"><h3>Edit Phone Number</h3></label>
-                            <input type="number" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.Phone">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.Phone">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label"><h3>Edit College</h3></label>
@@ -435,32 +527,30 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Personal Interests</h3></label>
-                            <textarea class="form-control" id="Editbio1" rows="3" asp-for="@Model.UserToUpdate.PersonalInterests"></textarea>
+                            <textarea type="text" class="form-control" rows="3" asp-for="@Model.UserToUpdate.PersonalInterests"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Professional Interests</h3> </label>
-                            <textarea class="form-control" id="Editbio1" rows="3" asp-for="@Model.UserToUpdate.ProfessionalInterests"></textarea>
+                            <textarea class="form-control"  rows="3" asp-for="@Model.UserToUpdate.ProfessionalInterests"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Bio</h3></label>
-                            <textarea class="form-control" id="Editbio1" rows="3" asp-for="@Model.UserToUpdate.Bio"></textarea>
+                            <textarea class="form-control"  rows="3" asp-for="@Model.UserToUpdate.Bio"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><h3>General Availability</h3></label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="@Model.UserToUpdate.GeneralAvailability"></textarea>
+                            <textarea class="form-control"  rows="3" asp-for="@Model.UserToUpdate.GeneralAvailability"></textarea>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Save Changes</button>
-                        <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
+
                         <a asp-page="Index/EditUser" class="btn btn-secondary">Cancel</a>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
-
     <!-- Feedback Modal -->
     <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -599,45 +689,6 @@
     /* Scroll to top when arrow up clicked END */
 </script>
 
-<form asp-page="EditUser" enctype="multipart/form-data" method="post">
-    <label asp-for="@Model.UserToUpdate.College"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.College" />
-    <br /><br />
-    <label asp-for="@Model.upload">Profile Picture</label>
-    @{
-        if (Model.ProfilePictureUrl != String.Empty)
-        {
-            <br />
-            <img src="@Model.ProfilePictureUrl" width="200px" height="200px" />
-            <br />
-        }
-    }
-    <input type="file" asp-for="upload" />
-    <br /><br />
-    <table class="table table-bordered table-hover table-responsive" style="display: none">
-        <thead>
-            <tr>
-                <th>My Skills</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                string sqlQuery = "SELECT Skills.SkillName, Skills.SkillID from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.UserToUpdate.UserID + "));";
-
-                SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
-
-                while (QueryResults.Read())
-                {
-                    <tr>
-                        <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
-                    </tr>
-                }
-
-            }
-
-        </tbody>
-    </table>
-    <h5>Add skill to this user</h5>
 
 
     <script>
@@ -689,10 +740,24 @@
 
                 document.getElementById("tagArea").appendChild(tag);
 
-
                 document.getElementById(`${skillIDExisting}`).innerHTML = (skillNameExisting + `<i onclick="onTagRemove(${skillIDExisting})" class="fa fa-times-circle"> </i>`);
 
                 console.log(newlyClickedValues);
+
+                /////////////////////////////////////////////
+                let tag2 = document.createElement("span");
+
+                tag2.innerHTML = skillNameExisting;
+
+                tag2.skillIdValue = skillIDExisting;
+
+                tag2.setAttribute('id', `display-${skillIDExisting}`);
+
+                console.log("this is the tag 2 id" + tag2.id);
+                document.getElementById("tagArea2").appendChild(tag2);
+
+
+                document.getElementById(`display-${skillIDExisting}`).innerHTML = skillNameExisting;
             }
 
         };
@@ -759,13 +824,6 @@
             // TODO: set the checkbox to be un-checked so the form is updated as well
         };
 
-        //const specialButtonClick = () => {
-        //
-        //    const el = document.getElementById("input-1087"); // get an element by its unique id
-        //    console.log(el.value, el.getAttribute("myCustomValue")); // get a custom attribute on an element
-        //    el.click(); // click an element
-        //    el.setAttribute("checked", false); // set the checkbox to be unchecked
-        //};
 
         const myFunction = () => {
             // Declare variables
@@ -796,46 +854,7 @@
 
     </script>
 
-    <div class="skillCheck">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
-        <table id="myTable">
-
-            @{
-                foreach (var skill in Model.SkillsDisplay)
-                {
-                    <tr>
-                        <td>
-                            <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                            <label>@skill.SkillName</label>
-                        </td>
-                    </tr>
-                }
-            }
-
-        </table>
-    </div>
-    <h5>My Skills</h5>
-    <div id="tagArea">
-    </div>
-
-
-
-    <!------------------------------------------------------------------------------------>
-    <h5 style="clear:both">Join a Team</h5>
-    <select name="TeamIDSelected" class="form-select">
-        <option value="">Select a Team</option>
-        @{
-            foreach (var team in Model.TeamsToDisplay)
-            {
-                <option value=@team.TeamID>@team.TeamName</option>
-            }
-        }
-
-    </select>
-    @*<button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
-    <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
-    <a asp-page="Index" class="btn btn-secondary">Cancel</a>*@
-</form>
+    </form>
 <br />
 <br />
 <br />

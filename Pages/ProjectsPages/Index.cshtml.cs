@@ -89,7 +89,7 @@ namespace Lab1.Pages.ProjectsPages
                 justSelected.Add(word);
             }
             //pass the string to filter by
-            returnReader = DBClass.FilterProjectsByCollege(collegeList);
+            returnReader = DBClass.FilterProjectsByCollege(collegeList, HttpContext.Session.GetString("username"));
 
             return Page();
 

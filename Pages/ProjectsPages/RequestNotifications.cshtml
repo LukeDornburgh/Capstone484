@@ -39,7 +39,6 @@
                                 <form asp-page="RequestNotifications">
                                     <button type="submit" class="submitButton" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
                                 </form>
-                                @*Change this to be a form that chnages it to deny*@
                                 <form asp-page="RequestNotifications">
                                     <button type="submit" class="submitButton" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
                                 </form>
@@ -57,6 +56,66 @@
                                 <i class="fa-solid fa-ban"></i>
                             </td>
 
+                        }
+                    }
+                </tr>
+            }
+        }
+
+
+
+    </tbody>
+</table>
+
+
+<h2>Invites to Other Projects</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Project Owner</th>
+            <th>Project Name</th>
+            <th>Project Owner Email</th>
+            <th>Status</th>
+            <th>Accept or Reject</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @{
+            SqlDataReader QueryResults1 = DBClass.InviteTableReader(HttpContext.Session.GetString("username"));
+
+            while (QueryResults1.Read())
+            {
+                <tr>
+                    <td>@QueryResults1["FullName"]</td>
+                    <td>@QueryResults1["Email"]</td>
+                    <td>@QueryResults1["ProjectName"]</td>
+                    <td>@QueryResults1["Status"]</td>
+                    @{
+                        if (QueryResults1["Status"].Equals("Pending"))
+                        {
+                            <td>
+                                <form asp-page="RequestNotifications">
+                                    <button type="submit" class="submitButton" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
+                                </form>
+                                <form asp-page="RequestNotifications">
+                                    <button type="submit" class="submitButton" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
+                                </form>
+                            </td>
+                        }
+                        else if (QueryResults1["Status"].Equals("Approved"))
+                        {
+                            <td>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <i class="fa-solid fa-ban"></i>
+                            </td>
                         }
                     }
                 </tr>

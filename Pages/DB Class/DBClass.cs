@@ -980,6 +980,28 @@ namespace Lab1.Pages.DB_Class
 
         }
 
+        public static SqlDataReader SentInvites(string email)
+        {
+            int OwnerID = GetUserIDSession(email);
+
+
+            string sqlQuery = "SELECT concat(Users.FirstName, ' ',  Users.LastName) as 'FullName', Users.Email, Invites.Status, " +
+                "Invites.ProjectID, Invites.UserID, Projects.ProjectName FROM Users JOIN Invites " +
+                "ON Invites.UserID = Users.UserID JOIN Projects ON Projects.ProjectID = Invites.ProjectID " +
+                "where Invites.ProjectOwnerID = " + OwnerID + " ORDER BY Invites.Status;";
+
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+
+        }
+
 
         public static SqlDataReader RequestButtonStatus(int projectID, string email)
         {
@@ -1134,6 +1156,7 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead2.Connection.Open();
             cmdProductRead2.ExecuteNonQuery();
         }
+
 
 
     }

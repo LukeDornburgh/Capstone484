@@ -66,9 +66,11 @@ namespace Lab1.Pages.ProjectsPages
             return Page();
         }
 
-        public void OnPost(int ProjectOwnerID, int ProjectID)
+        public IActionResult OnPost(int ProjectOwnerID, int ProjectID)
         {
             DBClass.InsertRequest(ProjectID, ProjectOwnerID, HttpContext.Session.GetString("username"));
+
+            return RedirectToPage();
 
         }
 
@@ -87,7 +89,7 @@ namespace Lab1.Pages.ProjectsPages
                 justSelected.Add(word);
             }
             //pass the string to filter by
-            returnReader = DBClass.FilterProjectsByCollege(collegeList);
+            returnReader = DBClass.FilterProjectsByCollege(collegeList, HttpContext.Session.GetString("username"));
 
             return Page();
 

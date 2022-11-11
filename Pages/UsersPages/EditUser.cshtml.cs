@@ -57,6 +57,7 @@ namespace Lab1.Pages.UsersPages
                 UserToUpdate.ProfessionalInterests = singleUser["ProfessionalInterests"].ToString();
                 UserToUpdate.Bio = singleUser["Bio"].ToString();
                 UserToUpdate.College = singleUser["College"].ToString();
+                UserToUpdate.GeneralAvailability = singleUser["GeneralAvailability"].ToString();
                 if (!singleUser.IsDBNull(singleUser.GetOrdinal("ProfilePicturePath")))
                 {
                     ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();

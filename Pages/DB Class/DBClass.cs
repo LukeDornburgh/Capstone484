@@ -832,19 +832,40 @@ namespace Lab1.Pages.DB_Class
             return tempReader;
         }
 
-        public static SqlDataReader FilterProjectsByCollege(string filterList)
+        public static SqlDataReader FilterProjectsByCollege(string filterList, string email)
         {
+            int temp = GetUserIDSession(email);
+            string teamList = "";
+
+            //need to get a string with each team the user who is logged in belongs to and then display all the projects that
+            //arent associated with those teams
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from(Select Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
-                "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
-                "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner FROM PROJECTS JOIN USERS ON Users.UserID = projects.UserID " +
-                "where projects.College in(select value from string_split('" + filterList + "', ','))) as a;";
+            cmdProductRead.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+                "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
             cmdProductRead.Connection.Open();
-            SqlDataReader tempreader = cmdProductRead.ExecuteReader();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
 
-            return tempreader;
+            while (tempReader.Read())
+            {
+                teamList += tempReader["TeamID"] + ",";
+            }
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = "Select DISTINCT Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
+                "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
+                "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner, TeamMembers.UserID from Projects JOIN Users on " +
+                "Users.UserID = Projects.UserID JOIN TeamMembers on TeamMembers.UserID = Users.UserID where TeamMembers.TeamID " +
+                "not in (select value from string_split('" + teamList + "', ',') as a) " +
+                "AND projects.College in(select value from string_split('" + filterList + "', ',') " +
+                "as b);";
+            cmdProductRead1.Connection.Open();
+            SqlDataReader tempreader1 = cmdProductRead1.ExecuteReader();
+
+            return tempreader1;
         }
 
         public static SqlDataReader SkillSearch(string searchText)

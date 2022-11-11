@@ -243,10 +243,6 @@ nav {
     .mobile-menu, .hamburger {
         display: none;
     }
-
-    .menu, .rightNav {
-        display: flex;
-    }
 }
 .CreateAccount {
     background-color: var(--primary);

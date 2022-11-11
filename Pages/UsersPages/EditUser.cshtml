@@ -339,6 +339,8 @@
 
     <div class="skills">
         <h5> Skills</h5>
+          <div id="tagArea2">
+          </div>
     </div>
 
     <div class="icons">
@@ -600,8 +602,6 @@
 </script>
 
 <form asp-page="EditUser" enctype="multipart/form-data" method="post">
-    <label asp-for="@Model.UserToUpdate.College"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.College" />
     <br /><br />
     <label asp-for="@Model.upload">Profile Picture</label>
     @{
@@ -693,6 +693,20 @@
                 document.getElementById(`${skillIDExisting}`).innerHTML = (skillNameExisting + `<i onclick="onTagRemove(${skillIDExisting})" class="fa fa-times-circle"> </i>`);
 
                 console.log(newlyClickedValues);
+
+                /////////////////////////////////////////////
+                let tag2 = document.createElement("span");
+
+                tag2.innerHTML = skillNameExisting;
+
+                tag2.skillIdValue = skillIDExisting;
+
+                tag2.setAttribute('id', skillIDExisting);
+
+                document.getElementById("tagArea2").appendChild(tag2);
+
+
+                document.getElementById(`${skillIDExisting}`).innerHTML = skillNameExisting;
             }
 
         };
@@ -818,23 +832,6 @@
     <div id="tagArea">
     </div>
 
-
-
-    <!------------------------------------------------------------------------------------>
-    <h5 style="clear:both">Join a Team</h5>
-    <select name="TeamIDSelected" class="form-select">
-        <option value="">Select a Team</option>
-        @{
-            foreach (var team in Model.TeamsToDisplay)
-            {
-                <option value=@team.TeamID>@team.TeamName</option>
-            }
-        }
-
-    </select>
-    @*<button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
-    <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
-    <a asp-page="Index" class="btn btn-secondary">Cancel</a>*@
 </form>
 <br />
 <br />

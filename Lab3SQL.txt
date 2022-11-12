@@ -121,6 +121,20 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 );
 
+CREATE TABLE Messages(
+	MessageID int Identity(1,1) PRIMARY KEY,
+	MessageBody nvarchar(MAX),
+	SendTime DateTime,
+	SenderID int,
+	ReceiverID int,
+	Constraint fk_messages_sid FOREIGN KEY (SenderID) REFERENCES Users(UserID)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	Constraint fk_messages_rid FOREIGN KEY (ReceiverID) REFERENCES Users(UserID)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
+);
+
 
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Andres', 'Villalon', 'andresv@jmu.edu', null, '111-222-3333', 'Faculty');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Luke', 'Dornburgh', 'luked@jmu.edu', 'luked@gmail.com', '222-333-4444', 'Professional');

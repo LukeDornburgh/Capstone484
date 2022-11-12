@@ -37,7 +37,7 @@ namespace Lab1.Pages.UsersPages
                     ProfessionalEmail = userReader["ProfessionalEmail"].ToString(),
                     Phone = userReader["Phone"].ToString(),
                     Position = userReader["Position"].ToString()
-                }) ;
+                });
             }
 
             userReader.Close();

@@ -40,8 +40,10 @@ namespace Lab1.Pages.UsersPages
             TeamsToDisplay = new List<Teams>();
             ProfilePictureUrl = String.Empty;
         }
-        public void OnGet(int UserID)
+        public void OnGet(string email)
         {
+            int UserID = DBClass.GetUserIDSession(email);
+
             SqlDataReader singleUser = DBClass.SingleUserReader(UserID);
 
             while (singleUser.Read())

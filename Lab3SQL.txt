@@ -10,7 +10,8 @@ PersonalInterests nvarchar(MAX),
 ProfessionalInterests nvarchar(MAX),
 Bio nvarchar(MAX),
 College nvarchar(100),
-ProfilePicturePath nvarchar(300)
+ProfilePicturePath nvarchar(300),
+GeneralAvailability nvarchar(500)
 );
 
 CREATE TABLE Skills (

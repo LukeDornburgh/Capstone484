@@ -1,0 +1,26 @@
+﻿@page
+@using System.Data.SqlClient
+@using Lab1.Pages.DB_Class;
+@model Lab1.Pages.UsersPages.MessageThreadModel
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h2>My messages from @Model.OtherPerson.FirstName @Model.OtherPerson.LastName </h2>
+
+@{
+    int myID = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+
+    foreach(var message in Model.MessagesToDisplay){
+        if(message.ReceiverID == myID){
+            <p>@message.MessageBody</p>
+        }
+        else{
+            <p style="font-weight: 700">@message.MessageBody</p>
+        }
+    }
+}
+
+<!-- This is where the message will be typed and sent -->
+
+<input type="text" asp-for="@Model.MessageToSend" placeholder="Enter Message...." />

@@ -1179,6 +1179,23 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead2.ExecuteNonQuery();
         }
 
+        public static SqlDataReader GetMessages(int UserID, string email)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "SELECT * from messages where (SenderID = 5 and ReceiverID = 7) OR (SenderID = 7 and ReceiverID = 5) " +
+                "ORDER BY SendTime asc;";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            return tempReader;
+        }
+
 
 
     }

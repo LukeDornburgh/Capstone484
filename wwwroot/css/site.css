@@ -50,7 +50,7 @@ body {
     background-color: #fff;
 }
 
-nav {
+/*nav {
     position: relative;
     z-index: 99;
     display: flex;
@@ -78,7 +78,7 @@ nav {
 
         nav h1 a:hover {
             color: var(--JMUGOLD);
-        }
+        }*/
 /*        nav .rightNav{
             display: block;
             float: right;

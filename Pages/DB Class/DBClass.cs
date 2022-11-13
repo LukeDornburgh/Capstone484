@@ -389,7 +389,7 @@ namespace Lab1.Pages.DB_Class
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * from Users WHERE UserID = " + UserID;
+            cmdProductRead.CommandText = "SELECT * from Users WHERE UserID = " + UserID + ";";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
 
@@ -1183,7 +1183,8 @@ namespace Lab1.Pages.DB_Class
         {
             int myID = GetUserIDSession(email);
 
-            string sqlQuery = "SELECT * from messages where (SenderID = 5 and ReceiverID = 7) OR (SenderID = 7 and ReceiverID = 5) " +
+            string sqlQuery = "SELECT * from messages where (SenderID = " + myID + " and ReceiverID = " + UserID + ")" +
+                " OR (SenderID = " + UserID + " and ReceiverID = " + myID + ") " +
                 "ORDER BY SendTime asc;";
 
             SqlCommand cmdProductRead = new SqlCommand();
@@ -1195,6 +1196,58 @@ namespace Lab1.Pages.DB_Class
             
             return tempReader;
         }
+
+        public static void SendMessage(int UserID, string email, string message)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "Insert into Messages (MessageBody, SendTime, SenderID, ReceiverID) " +
+                "VALUES ('" + message + "', '" + DateTime.Now + "'," + myID + "," + UserID + ");";
+
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
+        }
+
+        public static SqlDataReader ShowConversations(string email)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "Select * from users where users.userID in(SELECT DISTINCT Messages.SenderID from Messages " +
+                "WHERE Messages.ReceiverID = " + myID + ");";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+        }
+
+        public static SqlDataReader ConversationData(int UserID, string email)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "SELECT TOP(1) * from messages where (SenderID = " + myID + " and ReceiverID = " + UserID + ")" +
+                " OR (SenderID = " + UserID + " and ReceiverID = " + myID + ") " +
+                "ORDER BY SendTime desc;";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+
+        }
+
 
 
 

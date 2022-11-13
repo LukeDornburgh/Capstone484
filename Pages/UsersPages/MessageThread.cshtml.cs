@@ -13,6 +13,9 @@ namespace Lab1.Pages.UsersPages
     {
         public List<Messages> MessagesToDisplay { get; set; }
 
+        [BindProperty]
+        public int otherID { get; set; }
+
         public Users OtherPerson { get; set; }
 
         [BindProperty]
@@ -75,9 +78,10 @@ namespace Lab1.Pages.UsersPages
 
         public IActionResult OnPost()
         {
-            //we want to 
+            //we want to use the string and create a new message and send it to the UserID
+            DBClass.SendMessage(otherID, HttpContext.Session.GetString("username"), MessageToSend);
 
-            return Page();
-        }
+            return RedirectToPage(new { UserID = otherID });
+        } 
     }
 }

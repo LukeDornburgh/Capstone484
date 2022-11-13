@@ -5,6 +5,182 @@
 @{
 }
 
-<a asp-page="MessageThread" asp-route-UserID="5">
-    link to see my messages with admin
-</a>
+
+<style>
+    .input-group {
+        height: 70px;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    #magnify {
+        float: right;
+        height: 50px;
+        width: auto;
+        margin: 15px 10px 0 0;
+    }
+
+    #initials {
+        max-width: 130px;
+        margin: 10px;
+    }
+
+    .card {
+        margin: 10px 50px 15px 50px;
+        background: #9582AA80;
+        color: #31184C;
+    }
+
+    .card-time {
+        float: right;
+    }
+
+    .card-text {
+        font-weight: 700;
+    }
+
+    .card a {
+        text-decoration: none;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .card h5 {
+        font-size: 20;
+        font-weight: 700;
+    }
+
+    .circle {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        border-radius: 50%;
+        font-size: 28px;
+        color: #fff;
+        text-align: center;
+        background: #31184c;
+        margin-right: 10px;
+        position: absolute;
+        top: 6%;
+        left: 5%;
+    }
+</style>
+
+<script>
+    const myFunction = () => {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "table-row";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+
+
+
+    const tableBlur = () => {
+
+        setTimeout()
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "none";
+        }
+    };
+
+</script>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for users to message..." />
+<table id="myTable" class="table table-bordered table-striped table-hover table-responsive">
+    <tr class="header" style="display: none">
+        <th style="width:60%;">Name</th>
+    </tr>
+    @{
+        foreach (var user in Model.UserList)
+        {
+
+                <tr style="display: none">
+                <td><a style="color: inherit; text-decoration: underline" asp-page="MessageThread" asp-route-UserID="@user.UserID">@user.FirstName @user.LastName</a></td>
+                </tr>
+
+        }
+    }
+</table>
+
+@{
+    SqlDataReader conversationReader = DBClass.ShowConversations(HttpContext.Session.GetString("username"));
+
+    while (conversationReader.Read())
+    {
+        SqlDataReader messageData = DBClass.ConversationData((int)conversationReader["UserID"], HttpContext.Session.GetString("username"));
+
+        while (messageData.Read())
+        {
+    <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-2">
+                            <div class="circle">
+                                @{
+                                string first = conversationReader["FirstName"].ToString();
+                                char fi = first[0];
+
+                                string last = conversationReader["LastName"].ToString();
+                                char li = last[0];
+                                }
+                                @fi@li
+                            </div> <!-- NEED TO CHANGE -->
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-title"><u> @conversationReader["FirstName"] @conversationReader["LastName"] </u></h5>
+                                <p class="card-text">
+                                    @{
+                                    if (messageData["SenderID"].Equals(conversationReader["UserID"]))
+                                    {
+                                                <span>@conversationReader["FirstName"]:</span>
+                                    }
+                                    else
+                                    {
+                                                <span>You:</span>
+                                    }
+
+                                    }
+                                    <b></b>
+                                    @messageData["MessageBody"]
+                                </p>
+                                <p class="card-time">
+                                    @{
+                                    var SendTime = Convert.ToDateTime(messageData["SendTime"]).ToString("h:mm tt");
+                                    Console.WriteLine(SendTime);
+
+                                    }
+                                    @SendTime
+                                </p>
+                                <p class="card-text"><small class="text-muted"><a asp-page="MessageThread" asp-route-UserID="@conversationReader["UserID"]">See More &rarr;</a></small></p>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+
+        }
+    }
+}

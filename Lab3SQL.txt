@@ -132,7 +132,6 @@ insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, Project
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('UI implementation', 'create wireframe for jmu sports page', '2021-10-11', 'This is our second mission statement', 'UI design', 2);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Database Development', 'create database for jmu students', '2022-11-05', 'This is our third mission statement', 'SQL', 3);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('AWS Web Server', 'connect jmu network to aws server', '2022-07-07', 'This is our fourth mission statement', 'Cloud', 4);
-insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Admin Testing', 'admin testing app', '2022-10-10', 'This is our mission statement', 'Admin Coding', 5);
 
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Garrett', 'teamgarrett@gmail.com', 'team of coders', 1);
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Ferris', 'teamferris@gmail.com', 'team of designers', 2);

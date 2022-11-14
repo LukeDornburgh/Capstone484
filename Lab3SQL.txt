@@ -10,7 +10,8 @@ PersonalInterests nvarchar(MAX),
 ProfessionalInterests nvarchar(MAX),
 Bio nvarchar(MAX),
 College nvarchar(100),
-ProfilePicturePath nvarchar(300),
+ProfilePicturePath nvarchar(MAX),
+ResumePath nvarchar(MAX),
 GeneralAvailability nvarchar(500)
 );
 
@@ -28,6 +29,7 @@ ProjectType nvarchar(50),
 ProjectDuration nvarchar(50)
 GeneralTimeAvailability nvarchar (MAX),
 College nvarchar(100),
+DesiredSkills nvarchar(500),
 UserID int,
 Constraint FK_Projects_User_UserID FOREIGN KEY (UserID) REFERENCES Users(UserID));
 
@@ -103,23 +105,6 @@ ON UPDATE CASCADE
 );
 
 
-CREATE TABLE INTERESTS(
-InterestID int Identity(1,1) PRIMARY KEY,
-InterestName NVARCHAR(50),
-InterestCategory NVARCHAR(50)
-);
-
-CREATE TABLE InterestsAssociation (
-InterestID int,
-UserID int,
-Constraint PK_InterestsAssociation PRIMARY KEY CLUSTERED (InterestID, UserID),
-Constraint FK_InterestsAssociation_InterID FOREIGN KEY (InterestID) REFERENCES Interests(InterestID)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
-Constraint FK_InterestsAssociation_UID FOREIGN KEY (UserID) REFERENCES Users(UserID)
-ON DELETE CASCADE
-ON UPDATE CASCADE
-);
 
 CREATE TABLE Messages(
 	MessageID int Identity(1,1) PRIMARY KEY,
@@ -140,7 +125,7 @@ insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Positio
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Luke', 'Dornburgh', 'luked@jmu.edu', 'luked@gmail.com', '222-333-4444', 'Professional');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('John', 'Smith', 'johns@jmu.edu', null, '333-444-5555', 'Faculty');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Ryan', 'Done', 'ryand@jmu.edu', 'ryand@gmail.com', '444-555-6666', 'Professional');
-insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('admin', 'admin', 'admin', null, '111-222-3333', 'Faculty');
+insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('admin', 'admin', 'admin@jmu.edu', null, '111-222-3333', 'Faculty');
 
 
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Web application', 'create web application for jmu', '2022-10-10', 'This is our mission statement', 'Coding', 1);
@@ -160,10 +145,6 @@ insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-10-
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-10-25', '9am est', 'meeting MF', 'Showker', 3);   
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-11-08', '3pm cst', 'meeting W', 'Carrier Libary', 4);
 
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (1, 1, 'Begineer');
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (2, 2, 'Intermediate');     
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (3, 3, 'Intermediate');     
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (4, 4, 'Expert');
 
 insert into TeamMembers (UserID, TeamID, Role) VALUES (1, 1, 'project lead');
 insert into TeamMembers (UserID, TeamID, Role) VALUES (2, 2, 'program manager');

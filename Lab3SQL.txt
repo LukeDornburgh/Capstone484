@@ -26,7 +26,7 @@ ProjectBeginDate Date,
 ProjectMission nvarchar(MAX),
 ProjectDescription nvarchar(MAX),
 ProjectType nvarchar(50),
-ProjectDuration nvarchar(50)
+ProjectDuration nvarchar(50),
 GeneralTimeAvailability nvarchar (MAX),
 College nvarchar(100),
 DesiredSkills nvarchar(500),

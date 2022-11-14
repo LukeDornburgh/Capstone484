@@ -137,7 +137,7 @@ insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUE
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Ferris', 'teamferris@gmail.com', 'team of designers', 2);
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Andres', 'teamandres@gmail.com', 'team of analysts', 3);
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Luke', 'teamluke@gmail.com', 'team of engineers', 4);
-insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Admin', 'teamadmin@gmail.com', 'team of amdins', 5);
+
 
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-09-10', '5pm est', 'meeting MWF', 'Zoom', 1);   
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-10-02', '12pm cst', 'meeting TTH', 'Hartman', 2);   

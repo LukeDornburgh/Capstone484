@@ -31,10 +31,11 @@
         }
 
         img {
-            max-width: 250px;
-            max-height: 100%;
-            padding: 10px;
-            float: left;
+            width: 100%;
+            height: auto;
+            /*padding: 10px;
+            float: left;*/
+
         }
 
         .buttons {
@@ -89,6 +90,27 @@
         .nav3 {
             display: inline-block;
         }
+
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .signup {
+            background: #9582aa;
+        }
+
+            .signup:hover {
+                text-decoration: none;
+                color: inherit;
+            }
+
+        img .logo {
+            max-width: 250px;
+            height: 100%;
+        }
+
 
     </style>
 </head>
@@ -162,6 +184,7 @@
                         <a type="button" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Log Out</a>
                     </div>
 
+
                     <button class="hamburger">
                         <span class="material-icons">menu</span>
                     </button>
@@ -172,15 +195,20 @@
             {
                 <nav>
                     <div class="container-fluid">
-                        <div>
-                            <a asp-area="" asp-page="/Index">
-                            <img src="~/images/MCHwordmark.png">
-                            </a>
-                        </div>
-                        <div class="buttons">
-                            <a type="button" class="signup" asp-area="" asp-page="/BasicLogin">Log in</a>
-                            <a type="button" class="signup btn-info btn-rounded" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
-                        </div>
+
+
+                        <a class="navbar-brand" asp-area="" asp-page="/Index"><img src="~/images/MCHwordmark.png" class="logo"></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                            <div class="buttons4">
+                                <a type="button" class="signup" asp-area="" asp-page="/BasicLogin">Log in</a>
+                                <a type="button" class="signup" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
+                            </div>
+
+                    </div>
                     </div>
                 </nav>
             }

@@ -8,351 +8,363 @@
 
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-<style>
+    <style>
 
-    .projects {
-        display: grid;
-        margin: 0 auto;
-        max-width: 1500px;
-        grid-template-columns: repeat(12, 1fr);
-        padding: 20px;
-        padding-inline-start: 2%;
-    }
-
-    header {
-        grid-column: 1/13;
-    }
-
-    aside {
-        grid-column: 1/5;
-        background-color: white;
-        padding: 20px;
-        border-style: solid;
-        border-width: .5px;
-        border-color: lightslategray;
-    }
-
-    .cards {
-        grid-column: 5/13;
-        background-color: white;
-        padding: 20px;
-    }
-
-    .btn-primary {
-        background-color: #31184C;
-        border: #31184C;
-    }
-
-        .btn-primary:hover {
-            background-color: #9582AA;
+        .projects {
+            display: grid;
+            margin: 0 auto;
+            max-width: 1500px;
+            grid-template-columns: repeat(12, 1fr);
+            padding: 20px;
+            padding-inline-start: 2%;
         }
 
-    .form-control {
-        padding: 10px;
-    }
-
-    p {
-        font-family: Helvetica, Sans-Serif;
-        color: black;
-    }
-
-    h2 {
-        font-family: Helvetica, Sans-Serif;
-        font-weight: bold;
-        color: #31184C;
-        padding-bottom: 20px;
-    }
-
-    h3 {
-        font-family: Helvetica, Sans-Serif;
-        font-weight: bold;
-        color: #31184C;
-        padding: 5px;
-        background-color: #D8EC91;
-    }
-
-    h4 {
-        font-family: Helvetica, Sans-Serif;
-        font-weight: bold;
-        color: black;
-        background-color: #9582AA;
-        padding-top: 100px;
-    }
-
-    h5 {
-        font-family: Helvetica, Sans-Serif;
-        font-weight: bold;
-        color: #31184C;
-    }
-
-    h6 {
-        font-family: Helvetica, Sans-Serif;
-        color: grey;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-    @@media only screen and (min-width: 620px) {
+        header {
+            grid-column: 1/13;
+        }
 
         aside {
-            grid-column: 1/4;
+            grid-column: 1/5;
+            background-color: white;
+            padding: 20px;
+            border-style: solid;
+            border-width: .5px;
+            border-color: lightslategray;
         }
 
         .cards {
-            grid-column: 4/13;
-        }
-    }
-
-    @@media only screen and (min-width: 900px) {
-
-        aside {
-            grid-column: 1/4;
+            grid-column: 5/13;
+            background-color: white;
+            padding: 20px;
         }
 
-        .cards {
-            grid-column: 4/13;
+        .btn-primary {
+            background-color: #31184C;
+            border: #31184C;
+            float: inline-end;
         }
-    }
 
-</style>
+            .btn-primary:hover {
+                background-color: #9582AA;
+            }
 
-<script>
+        p {
+            font-family: Helvetica, Sans-Serif;
+            color: black;
+        }
 
-    const clickedVals = [];
+        h2 {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bold;
+            color: #31184C;
+            display: flex;
+            float: left;
+        }
+
+        h3 {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bold;
+            color: #31184C;
+            padding: 5px;
+            background-color: #D8EC91;
+        }
+
+        h4 {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bold;
+            color: white;
+        }
+
+        h5 {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bold;
+            color: #31184C;
+        }
+
+        h6 {
+            font-family: Helvetica, Sans-Serif;
+            color: grey;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .search {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
 
 
 
-    function existingCollege() {
-        console.log("running on load");
+        @@media only screen and (min-width: 620px) {
 
 
-        //I need to loop through each row in the table and get the Skill ID and the Skill name to add to the map
-        //check those boxes, and ensure the pills display
+            aside {
+                grid-column: 1/4;
+            }
 
-        var existingList = document.getElementById('tagArea').getElementsByTagName('span');
-        console.log(existingList);
+            .cards {
+                grid-column: 4/13;
+            }
+        }
 
-        for (i = 0; i < existingList.length; i++) {
-            const collegeName = existingList[i].innerText;
-            const collegeID = existingList[i].id;
+        @@media only screen and (min-width: 900px) {
 
-            console.log(collegeName);
 
+            aside {
+                grid-column: 1/4;
+            }
+
+            .cards {
+                grid-column: 4/13;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+
+        const clickedVals = [];
+
+
+
+        function existingCollege() {
+            console.log("running on load");
+
+
+            //I need to loop through each row in the table and get the Skill ID and the Skill name to add to the map
+            //check those boxes, and ensure the pills display
+
+            var existingList = document.getElementById('tagArea').getElementsByTagName('span');
+            console.log(existingList);
+
+            for (i = 0; i < existingList.length; i++) {
+                const collegeName = existingList[i].innerText;
+                const collegeID = existingList[i].id;
+
+                console.log(collegeName);
+
+                const tagDiv = document.getElementById("tagArea");
+
+                //target the checkbox in the checkbox area with the matching ID and check it
+                const checkAdd = document.getElementById(`input-${collegeID}`);
+                console.log(checkAdd);
+                checkAdd.checked = true;
+
+                //add the values to the map
+                clickedVals.push(collegeID);
+
+            }
+        };
+
+        //on click we need to grab the ID(passed in as a parameter and the value of that element
+        //then we need to create the tag and add it to the page
+        //we also need to add the value to a string array that we will use on the javascript side to track what is and isnt checked
+        //if the click is an uncheck we must remove from the array and remove the tag from the DOM
+
+        const onCheckboxClick = (college) => {
+            console.log(college);
+            var ele = document.getElementById(`input-${college}`);
+            console.log(ele);
+
+            const CollegeName = document.getElementById(`input-${college}`).getAttribute("collegeSelect");
+
+            //the container where the buttons will go
             const tagDiv = document.getElementById("tagArea");
 
-            //target the checkbox in the checkbox area with the matching ID and check it
-            const checkAdd = document.getElementById(`input-${collegeID}`);
-            console.log(checkAdd);
-            checkAdd.checked = true;
+            if (ele.checked) {
+                console.log(`College: ${college} was clicked.`);
 
-            //add the values to the map
-            clickedVals.push(collegeID);
+                clickedVals.push(college);
 
-        }
-    };
+                let tag = document.createElement("span");
 
-    //on click we need to grab the ID(passed in as a parameter and the value of that element
-    //then we need to create the tag and add it to the page
-    //we also need to add the value to a string array that we will use on the javascript side to track what is and isnt checked
-    //if the click is an uncheck we must remove from the array and remove the tag from the DOM
+                tag.innerHTML = CollegeName;
 
-    const onCheckboxClick = (college) => {
-        console.log(college);
-        var ele = document.getElementById(`input-${college}`);
-        console.log(ele);
+                tag.setAttribute('id', college);
 
-        const CollegeName = document.getElementById(`input-${college}`).getAttribute("collegeSelect");
+                document.getElementById("tagArea").appendChild(tag); ////
 
-        //the container where the buttons will go
-        const tagDiv = document.getElementById("tagArea");
+                document.getElementById(`${college}`).innerHTML = (CollegeName + `<i onclick="onTagRemove(\'${college}\')" class="fa fa-times-circle"> </i>`);
 
-        if (ele.checked) {
-            console.log(`College: ${college} was clicked.`);
+                console.log(clickedVals);
+            }
+            else {
+                document.getElementById(`${college}`).remove();
+                clickedVals.pop(college);
+                console.log(clickedVals);
 
-            clickedVals.push(college);
+            }
+        };
 
-            let tag = document.createElement("span");
+        const onTagRemove = (college) => {
+            // TODO: remove skill from clicked values map so the tag disappears
+            console.log(college)
+            //set the checkbox to unchecked
+            const rem = document.getElementById(`input-${college}`);
+            rem.checked = false;
 
-            tag.innerHTML = CollegeName;
-
-            tag.setAttribute('id', college);
-
-            document.getElementById("tagArea").appendChild(tag);
-
-            document.getElementById(`${college}`).innerHTML = (CollegeName + `<i onclick="onTagRemove(\'${college}\')" class="fa fa-times-circle"> </i>`);
-
-            console.log(clickedVals);
-        }
-        else {
+            //remove the span and its child button
             document.getElementById(`${college}`).remove();
+
+            //update the map
             clickedVals.pop(college);
+
             console.log(clickedVals);
+            // TODO: set the checkbox to be un-checked so the form is updated as well
+        };
 
-        }
-    };
+        const searchUsers = () => {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput2");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("cards");
+            card = table.getElementsByClassName('col');
 
-    const onTagRemove = (college) => {
-        // TODO: remove skill from clicked values map so the tag disappears
-        console.log(college)
-        //set the checkbox to unchecked
-        const rem = document.getElementById(`input-${college}`);
-        rem.checked = false;
+            console.log(input + filter + table);
 
-        //remove the span and its child button
-        document.getElementById(`${college}`).remove();
-
-        //update the map
-        clickedVals.pop(college);
-
-        console.log(clickedVals);
-        // TODO: set the checkbox to be un-checked so the form is updated as well
-    };
-
-    const searchUsers = () => {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput2");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("cards");
-        card = table.getElementsByClassName('col');
-
-        console.log(input + filter + table);
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < card.length; i++) {
-            td = card[i].getElementsByTagName('h4')[0];
-            console.log(td);
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    card[i].style.display = "";
-                } else {
-                    card[i].style.display = "none";
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < card.length; i++) {
+                td = card[i].getElementsByTagName('h5')[0];
+                console.log(td);
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        card[i].style.display = "";
+                    } else {
+                        card[i].style.display = "none";
+                    }
                 }
             }
-        }
-    };
+        };
 
 
-    //on uncheck we must remove the element from the array, remove its tag from the DOM, and uncheck the box
+        //on uncheck we must remove the element from the array, remove its tag from the DOM, and uncheck the box
 
-    document.addEventListener("DOMContentLoaded", existingCollege);
-</script>
-
-
-<a class="btn btn-primary" asp-page="AddProject">Create a Project</a>
-<a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
-
-<!-- Add College Department Filtering here -->
-<form asp-page="Index">
-    <table>
-        @{
-            foreach (var college in Model.CollegeDepartments)
-            {
-                <tr>
-                    <td>
-                        <input onclick='onCheckboxClick("@college")' type="checkbox" value="@college" class="form-check-input" name="SelectedCollege" id="input-@college" collegeSelect="@college" />
-                        <label>@college</label>
-                    </td>
-                </tr>
-            }
-        }
-    </table>
-    <button type="submit" asp-route-handler="College">Apply</button>
-    @{
-        if (Model.SelectedCollege != null)
-        {
-            <a asp-page="Index" class="btn btn-primary">Clear Filters</a>
-        }
-    }
-    <div id="tagArea">
-        @{
-            if (Model.justSelected != null)
-            {
-                foreach (var college in Model.justSelected)
-                {
-                    <span id="@college">@college<i onclick='onTagRemove("@college")' class="fa fa-times-circle"></i></span>
-                }
-            }
-        }
-
-    </div>
-
-</form>
+        document.addEventListener("DOMContentLoaded", existingCollege);
+    </script>
 
 
+    <a class="btn btn-primary" asp-page="AddProject">Create a Project</a>
+    <a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
 
-<div class="projects">
-    <div class="cards" id="cards">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <input type="text" id="myInput2" onkeyup="searchUsers()" placeholder="Search for Projects..." />
-            @{
-                if (Model.SelectedCollege != null)
-                {
-                    while (Model.returnReader.Read())
+    <!-- Add College Department Filtering here -->
+
+    <div class="projects">
+
+        <aside>
+            <h3>Filter by JMU College(s)</h3>
+
+            <form asp-page="Index">
+                <table>
+                    @{
+                        foreach (var college in Model.CollegeDepartments)
+                        {
+                                <tr>
+                                    <td>
+                                        <input onclick='onCheckboxClick("@college")' type="checkbox" value="@college" class="form-check-input" name="SelectedCollege" id="input-@college" collegeSelect="@college" />
+                                        <label>@college</label>
+                                    </td>
+                                </tr>
+                        }
+                    }
+                </table>
+                <button type="submit" asp-route-handler="College">Apply</button>
+                @{
+                    if (Model.SelectedCollege != null)
                     {
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="images/purplecover.png" class="card-img-top" alt="...">
-                                <div class="card-title">
-                                    <h4>@Model.returnReader["ProjectName"]</h4>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">@Model.returnReader["ProjectDescription"]</p>
-                                    <h5 class="card-owner">@Model.returnReader["ProjectOwner"]</h5>
-                                    <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@Model.returnReader["ProjectBeginDate"])</h6>
-                                    <div class="card-footer">
+                            <a asp-page="Index" class="btn btn-primary">Clear Filters</a>
+                    }
+                }
 
-                                        @{
+
+            </form>
+
+        </aside>
+
+        <div class="cards" id="cards">
+            <div class="title">
+                <h2>Browse Projects</h2>
+            </div>
+            <input type="text" id="myInput2" onkeyup="searchUsers()" placeholder="Search for Projects..." />
+            <div id="tagArea" style="height: unset">
+                @{
+                    if (Model.justSelected != null)
+                    {
+                        foreach (var college in Model.justSelected)
+                        {
+                                <span id="@college">@college<i onclick='onTagRemove("@college")' class="fa fa-times-circle"></i></span>
+                        }
+                    }
+                }
+
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @{
+                    if (Model.SelectedCollege != null)
+                    {
+                        while (Model.returnReader.Read())
+                        {
+                                <div class="col">
+                                    <div class="card mb-3">
+                                        <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@Model.returnReader["ProjectName"]</h5>
+                                            <p class="card-text">@Model.returnReader["ProjectDescription"]</p>
+                                            <p class="card-owner"><small class="text-muted">@Model.returnReader["ProjectOwner"]</small></p>
+                                            <p class="card-owner"><small class="text-muted">@String.Format("{0:M/d/yyyy}",@Model.returnReader["ProjectBeginDate"])</small></p>
+                                        </div>
+                                        <div class="card-footer">
+                                            @{
                                             SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)Model.returnReader["ProjectID"], HttpContext.Session.GetString("username"));
                                             if (!QueryResults1.HasRows)
                                             {
-                                                <form asp-page="Index">
-                                                    <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@Model.returnReader["ProjectID"]" asp-route-ProjectOwnerID="@Model.returnReader["UserID"]">Request to Join</button>
-                                                </form>
+                                                        <form asp-page="Index">
+                                                            <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@Model.returnReader["ProjectID"]" asp-route-ProjectOwnerID="@Model.returnReader["UserID"]">Request to Join</button>
+                                                        </form>
                                             }
                                             else
                                             {
-                                                <div>Request Pending...</div>
+                                                        <div>Request Pending...</div>
                                             }
-                                        }
+                                            }
+                                            <small class="text-muted">See Details &rarr; </small>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                        }
+
                     }
-
-                }
-                else
-                {
-                    SqlDataReader QueryResults = DBClass.ProjectCardDisplay(HttpContext.Session.GetString("username"));
-
-                    while (QueryResults.Read())
+                    else
                     {
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="images/purplecover.png" class="card-img-top" alt="...">
-                                <div class="card-title">
-                                    <h4>@QueryResults["ProjectName"]</h4>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">@QueryResults["ProjectDescription"]</p>
-                                    <h5 class="card-owner">@QueryResults["ProjectOwner"]</h5>
-                                    <h6 class="Duration">@String.Format("{0:M/d/yyyy}",@QueryResults["ProjectBeginDate"])</h6>
-                                    <div class="card-footer">
+                        SqlDataReader QueryResults = DBClass.ProjectCardDisplay(HttpContext.Session.GetString("username"));
 
-                                        @{
+                        while (QueryResults.Read())
+                        {
+                                <div class="col">
+                                    <div class="card mb-3">
+                                        <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@QueryResults["ProjectName"]</h5>
+                                            <p class="card-text">@QueryResults["ProjectDescription"]</p>
+                                            <p class="card-owner"><small class="text-muted">@QueryResults["ProjectOwner"]</small></p>
+                                            <p class="card-owner"><small class="text-muted">@String.Format("{0:M/d/yyyy}",QueryResults["ProjectBeginDate"])</small></p>
+                                        </div>
+                                        <div class="card-footer">
+
+                                            @{
                                             SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)QueryResults["ProjectID"], HttpContext.Session.GetString("username"));
                                             if (!QueryResults1.HasRows)
                                             {
-                                                <form asp-page="Index">
-                                                    <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
-                                                </form>
+                                                        <form asp-page="Index">
+                                                            <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                                                        </form>
                                             }
                                             else
                                             {
@@ -360,27 +372,28 @@
                                                 QueryResults1.Read();
                                                 if (QueryResults1["Status"].Equals("Approved"))
                                                 {
-                                                    <div>You are already a member of this project</div>
+                                                            <div>You are already a member of this project</div>
                                                 }
                                                 else if (QueryResults1["Status"].Equals("Denied"))
                                                 {
-                                                    <div>The Project owner has denied your request</div>
+                                                            <div>The Project owner has denied your request</div>
                                                 }
                                                 else
                                                 {
-                                                    <div>Request Pending...</div>
+                                                            <div>Request Pending...</div>
                                                 }
                                             }
-                                        }
+                                            }
+                                            <small class="text-muted">See Details &rarr; </small>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                        }
                     }
                 }
-            }
+            </div>
         </div>
     </div>
-</div>
+</body>
 <br />
 <br />

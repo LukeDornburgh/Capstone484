@@ -14,10 +14,37 @@
 -->
 
 @{
+    //this gives us a query with the right data for each project that we own
+    SqlDataReader joinedProject = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
 
-    SqlDataReader ownedProject = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
+    while(joinedProject.Read()){
 
-    Console.WriteLine(ownedProject);
+        <p>@joinedProject["ProjectName"]</p>
+        <p>@joinedProject["ProjectDescription"]</p>
+        var StartDate = Convert.ToDateTime(joinedProject["ProjectBeginDate"]).ToString("MM/dd/yyyy");
+        <p>@StartDate</p>
+        <p>@joinedProject["ProjectOwner"]</p>
+        <br />
+    }
 
+    joinedProject.Close();
+
+}
+
+@{
+    SqlDataReader ownedProject = DBClass.MyOwnedProjects(HttpContext.Session.GetString("username"));
+
+    while (ownedProject.Read())
+    {
+
+        <p>@ownedProject["ProjectName"]</p>
+        <p>@ownedProject["ProjectDescription"]</p>
+        var StartDate = Convert.ToDateTime(ownedProject["ProjectBeginDate"]).ToString("MM/dd/yyyy");
+        <p>@StartDate</p>
+        <p>@ownedProject["ProjectOwner"]</p>
+        <br />
+    }
+
+    ownedProject.Close();
 
 }

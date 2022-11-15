@@ -57,6 +57,8 @@ namespace Lab1.Pages.UsersPages
                 });
             }
 
+            userReader.Close();
+
             SqlDataReader varSkillReader = DBClass.SkillsTableReader();
             //Loop through the rows of the product reader
             //for each record in product reader

@@ -265,7 +265,7 @@ body {
     padding: 2rem;
     font-family: Georgia sans-serif;
     height: 60vh;
-    overflow: hidden;
+    overflow: visible;
     position: absolute;
     top: 50%;
     left: 50%;

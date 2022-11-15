@@ -5,8 +5,8 @@
 }
 
 <style>
-    img.logo {
-        max-width: 250px;
+    img.logo{
+        width: 250px;
         height: 100%;
     }
 </style>
@@ -39,13 +39,13 @@
 @{
     if (ViewData["LoginMessage"] != null)
     {
-                <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
+                        <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
     }
 
     if (Model.alert != null){
-                <script type="text/javascript">
-                   myFunction.call(@HttpContext.Session.GetString("loginAlert");
-                </script>
+                        <script type="text/javascript">
+                           myFunction.call(@HttpContext.Session.GetString("loginAlert");
+                        </script>
     }
 }
 

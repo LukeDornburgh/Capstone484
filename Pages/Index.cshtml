@@ -33,7 +33,7 @@
 
         .home {
             display: grid;
-            max-width: 1500px;
+            max-width: auto;
             grid-template-columns: repeat(12, .5fr);
             position: relative;
             text-align: center;
@@ -181,7 +181,7 @@
             /*padding-top: 50px;*/
             background-color: #31184C;
             text-align: center;
-           /* padding-bottom: 50px;*/
+            /* padding-bottom: 50px;*/
             font-size: x-small;
             color: white;
         }
@@ -224,7 +224,6 @@
             margin-top: 10px;
             float: left;
             padding-left: 50px;
-
         }
     </style>
 </head>
@@ -241,11 +240,11 @@
                 @{
                     if (HttpContext.Session.GetString("username") == null)
                     {
-                        <div class="buttons2">
-                            <button type="button" class="btn btn-primary btn-lg">Sign Up</button>
-                            <div> </div>
-                            <button type="button" class="btn btn-primary btn-lg">Sign In</button>
-                        </div>
+                                            <div class="buttons2">
+                                                <button type="button" class="btn btn-primary btn-lg">Sign Up</button>
+                                                <div> </div>
+                                                <button type="button" class="btn btn-primary btn-lg">Sign In</button>
+                                            </div>
                     }
                 }
                 <br>

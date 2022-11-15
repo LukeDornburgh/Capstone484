@@ -19,23 +19,6 @@ namespace Lab1.Pages.ProjectsPages
         {
             return RedirectToPage("/BasicLogin");
         }
-        SqlDataReader projectReader = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
-        //Loop through the rows of the product reader
-        //for each record in product reader
-        //create a new instance object of Product and fill its properties with the columns from that DB row.
-        while (projectReader.Read())
-        {
-            ProjectList.Add(new Projects
-            {
-                ProjectID = Int32.Parse(projectReader["ProjectID"].ToString()),
-                ProjectName = projectReader["ProjectName"].ToString(),
-                ProjectDescription = projectReader["ProjectDescription"].ToString(),
-                ProjectType = projectReader["ProjectType"].ToString(),
-                UserID = Int32.Parse(projectReader["UserID"].ToString()),
-            });
-        }
-
-        projectReader.Close();
         return Page();
     }
 }

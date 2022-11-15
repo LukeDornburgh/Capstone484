@@ -30,18 +30,31 @@
     .btn {
         background: #D8EC91;
         margin-bottom: 10px;
+        border-color: #fff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
+
+        .btn:hover{
+            background: #9582aa;
+            border-color: #fff;
+        }
 
     button {
         background: #D8EC91;
         margin-bottom: 10px;
+        margin-top: 10px;
     }
 
     .compose {
-        /*need work to fix this*/
+        position: sticky;
+        padding-left: 50px;
+        padding-right: 50px;
         right: 5px;
         bottom: 0px;
-        width: 80%;
+        width: 100%;
         z-index: 1;
     }
 
@@ -68,7 +81,7 @@
 
             if (Model.MessagesToDisplay.Count < 1)
             {
-                <p>Compose your first message to @Model.OtherPerson.FirstName @Model.OtherPerson.LastName</p>
+                                                                                                <p>Compose your first message to @Model.OtherPerson.FirstName @Model.OtherPerson.LastName</p>
             }
 
             foreach (var message in Model.MessagesToDisplay)
@@ -76,60 +89,60 @@
                     
                 if (message.SenderID == myID)
                 {
-                        <li class="d-flex justify-content-end mb-4">
-                            <!-- <div class="circle">Me</div> -->
-                            <div class="card w-75">
-                                <div class="card-header d-flex justify-content-between p-3">
-                                    <p class="fw-bold mb-0">Me</p>
-                                    <p class=" small mb-0">
-                                        <i class="far fa-clock"></i>
-                                        @{
+                                                                                                        <li class="d-flex justify-content-end mb-4">
+                                                                                                            <!-- <div class="circle">Me</div> -->
+                                                                                                            <div class="card w-75">
+                                                                                                                <div class="card-header d-flex justify-content-between p-3">
+                                                                                                                    <p class="fw-bold mb-0">Me</p>
+                                                                                                                    <p class=" small mb-0">
+                                                                                                                        <i class="far fa-clock"></i>
+                                                                                                                        @{
                                         var SendTime = Convert.ToDateTime(message.SendTime).ToString("h:mm tt");
-                                        }
-                                        @SendTime
-                                    </p>
-                                </div>
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        @message.MessageBody
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
+                                                                                                                        }
+                                                                                                                        @SendTime
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                                <div class="card-body">
+                                                                                                                    <p class="mb-0">
+                                                                                                                        @message.MessageBody
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </li>
                 }
                 else
                 {
-                        <li class="d-flex justify-content-between mb-4">
-                            <div class="circle">
-                            @{
+                                                                                                        <li class="d-flex justify-content-between mb-4">
+                                                                                                            <div class="circle">
+                                                                                                            @{
                                 string first = Model.OtherPerson.FirstName.ToString();
                                 char fi = first[0];
 
                                 string last = Model.OtherPerson.LastName.ToString();
                                 char li = last[0];
-                            }
-                            @fi@li
-                            </div>
-                            <div class="card w-100">
-                                <div class="card-header d-flex justify-content-between p-3">
-                                    <p class="fw-bold mb-0">
-                                        @Model.OtherPerson.FirstName @Model.OtherPerson.LastName
-                                    </p>
-                                    <p class=" small mb-0">
-                                        <i class="far fa-clock"></i>
-                                        @{
+                                                                                                            }
+                                                                                                            @fi@li
+                                                                                                            </div>
+                                                                                                            <div class="card w-100">
+                                                                                                                <div class="card-header d-flex justify-content-between p-3">
+                                                                                                                    <p class="fw-bold mb-0">
+                                                                                                                        @Model.OtherPerson.FirstName @Model.OtherPerson.LastName
+                                                                                                                    </p>
+                                                                                                                    <p class=" small mb-0">
+                                                                                                                        <i class="far fa-clock"></i>
+                                                                                                                        @{
                                         var SendTime1 = Convert.ToDateTime(message.SendTime).ToString("h:mm tt");
-                                        }
-                                        @SendTime1
-                                    </p>
-                                </div>
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        @message.MessageBody
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
+                                                                                                                        }
+                                                                                                                        @SendTime1
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                                <div class="card-body">
+                                                                                                                    <p class="mb-0">
+                                                                                                                        @message.MessageBody
+                                                                                                                    </p>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </li>
                 }
             }
         }
@@ -143,7 +156,7 @@
             <input asp-for="@Model.otherID" type="hidden" value="@Model.OtherPerson.UserID" />
             <textarea class="form-control text-muted" asp-for="@Model.MessageToSend" rows="4"></textarea>
         </div>
-        <button type="submit" class="btn btn-info btn-rounded float-end">Send</button>
+        <button type="submit" class="btn btn-info btn-rounded"><b>Send</b></button>
     </form>
 </div>
 

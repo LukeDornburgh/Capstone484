@@ -7,65 +7,88 @@
     ViewData["Title"] = "View Requests";
 }
 
+<style>
+.tabs{
+        background: #D8EC91;
+        margin: 10px 50px 15px 50px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+
+    }
+
+      #projecticon{
+          max-width: 90px;
+          margin: 10px 10px 10px 75px;
+
+      }
+      .card{
+          margin: 10px 50px 15px 50px;
+          background: #9582AA80;
+          font-size: 20px;
+      }
+      .card-time{
+          float: right;
+          font-size: 15px;
+      }
+      .card-text{
+        font-size: 15px;
+      }
+</style>
+
 <h2>Requests To Join My Projects</h2>
-<table class="table table-bordered table-striped table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>Requestor Name</th>
-            <th>Requestor Email</th>
-            <th>Project Name</th>
-            <th>Status</th>
-            <th>Approve or Deny</th>
-
-        </tr>
-    </thead>
-    <tbody>
-
 
         @{
             SqlDataReader QueryResults = DBClass.RequestTableReader(HttpContext.Session.GetString("username"));
 
             while (QueryResults.Read())
             {
-                <tr>
-                    <td>@QueryResults["FullName"]</td>
-                    <td>@QueryResults["Email"]</td>
-                    <td>@QueryResults["ProjectName"]</td>
-                    <td>@QueryResults["Status"]</td>
-                    @{
-                        if (QueryResults["Status"].Equals("Pending"))
-                        {
-                            <td>
-                                <form asp-page="RequestNotifications">
-                                    <button type="submit" class="submitButton" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
-                                </form>
-                                <form asp-page="RequestNotifications">
-                                    <button type="submit" class="submitButton" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
-                                </form>
-                            </td>
-                        }
-                        else if (QueryResults["Status"].Equals("Approved"))
-                        {
-                            <td>
-                                <i class="fa-solid fa-circle-check"></i>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <i class="fa-solid fa-ban"></i>
-                            </td>
 
-                        }
+            <div class="card">
+            <div class="row no-gutters">
+            <div class="col-md-2">
+                <img src="images/project.png" class="card-img" alt="..." id="projecticon">
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                <p class="card-title">"<u><b>@QueryResults["FullName"]</b></u>" has requested to join your project: <b>@QueryResults["ProjectName"]</b></p> 
+                </div>
+            
+                @{
+                    if (QueryResults["Status"].Equals("Pending"))
+                    {
+                        
+                            <form asp-page="RequestNotifications">
+                                <button type="submit" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                            </form>
+                            <form asp-page="RequestNotifications">
+                                <button type="submit"  asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                            </form>
+                        
                     }
-                </tr>
+                    else if (QueryResults["Status"].Equals("Approved"))
+                    {
+                        
+                            <i class="fa-solid fa-circle-check"></i>
+                        
+                    }
+                    else
+                    {
+                        
+                            <i class="fa-solid fa-ban"></i>
+                        
+
+                    }
+                }
+                </div>
+            </div>
+        </div>
+
             }
         }
 
 
-
-    </tbody>
-</table>
 
 
 <h2>Invites to Other Projects</h2>

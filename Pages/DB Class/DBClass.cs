@@ -14,8 +14,9 @@ namespace Lab1.Pages.DB_Class
 
 
         //connection string
-        private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab1;Trusted_Connection=True";
-        private static readonly string AuthConStr = @"Server=Localhost;Database=AUTH;Trusted_Connection=True";
+        //private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab1;Trusted_Connection=True";
+        private static readonly string AuthConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=AUTH;uid=admin;password=dukedog1";
+        private static readonly string Lab1ConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=ConnectHub;uid=admin;password=dukedog1";
 
         public static SqlDataReader TableReader(string email)
         {
@@ -389,7 +390,7 @@ namespace Lab1.Pages.DB_Class
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();
             cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * from Users WHERE UserID = " + UserID;
+            cmdProductRead.CommandText = "SELECT * from Users WHERE UserID = " + UserID + ";";
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
 
@@ -1178,6 +1179,76 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead2.Connection.Open();
             cmdProductRead2.ExecuteNonQuery();
         }
+
+        public static SqlDataReader GetMessages(int UserID, string email)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "SELECT * from messages where (SenderID = " + myID + " and ReceiverID = " + UserID + ")" +
+                " OR (SenderID = " + UserID + " and ReceiverID = " + myID + ") " +
+                "ORDER BY SendTime asc;";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            return tempReader;
+        }
+
+        public static void SendMessage(int UserID, string email, string message)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "Insert into Messages (MessageBody, SendTime, SenderID, ReceiverID) " +
+                "VALUES ('" + message + "', '" + DateTime.Now + "'," + myID + "," + UserID + ");";
+
+            SqlCommand cmdProductRead2 = new SqlCommand();
+            cmdProductRead2.Connection = new SqlConnection();
+            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead2.CommandText = sqlQuery;
+            cmdProductRead2.Connection.Open();
+            cmdProductRead2.ExecuteNonQuery();
+        }
+
+        public static SqlDataReader ShowConversations(string email)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "Select * from users where users.userID in(SELECT DISTINCT Messages.SenderID from Messages " +
+                "WHERE Messages.ReceiverID = " + myID + ");";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+        }
+
+        public static SqlDataReader ConversationData(int UserID, string email)
+        {
+            int myID = GetUserIDSession(email);
+
+            string sqlQuery = "SELECT TOP(1) * from messages where (SenderID = " + myID + " and ReceiverID = " + UserID + ")" +
+                " OR (SenderID = " + UserID + " and ReceiverID = " + myID + ") " +
+                "ORDER BY SendTime desc;";
+
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = sqlQuery;
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            return tempReader;
+
+        }
+
 
 
 

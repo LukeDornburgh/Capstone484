@@ -1,28 +1,26 @@
-using Lab1.Pages.DB_Class;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.SqlClient;
 using Lab1.Pages.DataClasses;
+using Lab1.Pages.DB_Class;
+using System.Data.SqlClient;
+using System.Numerics;
 
 namespace Lab1.Pages.UsersPages
 {
-    public class IndexModel : PageModel
+    public class MessagesModel : PageModel
     {
         public List<Users> UserList { get; set; }
-        public IndexModel()
+
+        public MessagesModel()
         {
             UserList = new List<Users>();
         }
-        public IActionResult OnGet()
+        public void OnGet()
         {
-
-            if (HttpContext.Session.GetString("username") == null)
-            {
-                return RedirectToPage("/BasicLogin");
-            }
+            //this page should serve just as a place that users see their exisitng conversations with other users
 
 
-            SqlDataReader userReader = DBClass.TableReader(HttpContext.Session.GetString("username"));
+            SqlDataReader userReader = DBClass.UserReader(HttpContext.Session.GetString("username"));
             //Loop through the rows of the product reader
             //for each record in product reader
             //create a new instance object of Product and fill its properties with the columns from that DB row.
@@ -39,10 +37,6 @@ namespace Lab1.Pages.UsersPages
                     Position = userReader["Position"].ToString()
                 });
             }
-
-            userReader.Close();
-            return Page();
         }
     }
-
 }

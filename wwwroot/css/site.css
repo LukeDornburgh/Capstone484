@@ -41,50 +41,9 @@ html {
     --JMULightGray: #D6D6D6;
 }
 
-
-header{
-    margin-bottom: .5rem;
-}
-
 body {
     background-color: #fff;
 }
-
-nav {
-    position: relative;
-    z-index: 99;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: var(--primary);
-    color: #FFF;
-    padding: 1rem 1.5rem;
-}
-
-    nav h1 {
-        padding: 0.5rem .5rem;
-        padding-right: calc(1rem - 5px);
-        border: 3px solid var(--JMUGOLD);
-        transition: 0.2s;
-        border-radius: 4px;
-    }
-
-    nav h1 a {
-        letter-spacing: 3px;
-        text-decoration: none;
-        color: #fff;
-        
-    }
-
-        nav h1 a:hover {
-            color: var(--JMUGOLD);
-        }
-/*        nav .rightNav{
-            display: block;
-            float: right;
-            height: 50px;
-            width: auto;
-        }*/
 
 .menu {
     display: none;
@@ -397,6 +356,7 @@ form .txt-field{
     border: 1px solid var(--primary);
     border-radius: 5px;
     overflow: auto;
+    font-family: Helvetica, Sans-Serif;
 }
     .centerCreate h1 {
         text-align: center;
@@ -616,9 +576,6 @@ form .txt-field{
         box-sizing: border-box;
     }
 
-
-
-
     #tagArea span i {
         font-size: 20px;
         color: #adadad;
@@ -641,7 +598,15 @@ form .txt-field{
     margin-bottom: 12px; /* Add some space below the input */
 }
 
+img.logo {
+    max-width: 250px;
+    height: 100%;
+}
 
+a {
+    text-decoration: none;
+    color: white;
+}
 
 
 

@@ -240,11 +240,11 @@
                 @{
                     if (HttpContext.Session.GetString("username") == null)
                     {
-                                            <div class="buttons2">
-                                                <button type="button" class="btn btn-primary btn-lg">Sign Up</button>
-                                                <div> </div>
-                                                <button type="button" class="btn btn-primary btn-lg">Sign In</button>
-                                            </div>
+                        <div class="buttons2">
+                            <a type="button" class="btn btn-primary btn-lg" asp-area="" asp-page="/BasicLogin">Log in</a>
+                            <div> </div>
+                            <a type="button" class="btn btn-primary btn-lg" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
+                        </div>
                     }
                 }
                 <br>

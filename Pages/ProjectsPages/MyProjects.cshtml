@@ -1,4 +1,6 @@
 ﻿@page
+@using Lab1.Pages.DB_Class;
+@using System.Data.SqlClient;
 @model Lab1.Pages.ProjectsPages.MyProjectsModel
 @{
 }
@@ -10,3 +12,12 @@
 <!-- Need to run the myproject query which will get all the projects we own or are a part of, check the owner id of each project to
     see if it matches the logged in user, if it does, put it in the Owned projects catergory
 -->
+
+@{
+
+    SqlDataReader ownedProject = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
+
+    Console.WriteLine(ownedProject);
+
+
+}

@@ -6,33 +6,7 @@
 <!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
 <a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
 <h2 class="h2">My Projects</h2>
-<table class="table table-bordered table-striped table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>ProjectName</th>
-            <th>ProjectDescription</th>
-            <th>ProjectType</th>
-            <th>Edit This Project</th>
-            <th>Create a Project Team</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var project in Model.ProjectList)
-            {
-                <tr>
-                    <td>@project.ProjectName</td>
-                    <td>@project.ProjectDescription</td>
-                    <td>@project.ProjectType</td>
-                    <td>
-                        <a asp-page="EditProject" class="btn btn-primary" asp-route-ProjectID="@project.ProjectID">Edit</a>
-                    </td>
-                    <td>
-                        <a asp-page="/TeamsPages/AddTeam" class="btn btn-primary">Create a Team</a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-<br />
+
+<!-- Need to run the myproject query which will get all the projects we own or are a part of, check the owner id of each project to
+    see if it matches the logged in user, if it does, put it in the Owned projects catergory
+-->

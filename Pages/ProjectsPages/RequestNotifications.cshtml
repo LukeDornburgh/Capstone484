@@ -7,15 +7,99 @@
     ViewData["Title"] = "View Requests";
 }
 
+<style>
+.tabs{
+        background: #D8EC91;
+        margin: 10px 50px 15px 50px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+
+    }
+
+      #projecticon{
+          max-width: 90px;
+          margin: 10px 10px 10px 75px;
+
+      }
+      .card{
+          margin: 10px 50px 15px 50px;
+          background: #9582AA80;
+          font-size: 20px;
+      }
+      .card-time{
+          float: right;
+          font-size: 15px;
+      }
+      .card-text{
+        font-size: 15px;
+      }
+</style>
+
 <h2>Requests To Join My Projects</h2>
+
+        @{
+            SqlDataReader QueryResults = DBClass.RequestTableReader(HttpContext.Session.GetString("username"));
+
+            while (QueryResults.Read())
+            {
+
+            <div class="card">
+            <div class="row no-gutters">
+            <div class="col-md-2">
+                <img src="images/project.png" class="card-img" alt="..." id="projecticon">
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                <p class="card-title">"<u><b>@QueryResults["FullName"]</b></u>" has requested to join your project: <b>@QueryResults["ProjectName"]</b></p> 
+                </div>
+            
+                @{
+                    if (QueryResults["Status"].Equals("Pending"))
+                    {
+                        
+                            <form asp-page="RequestNotifications">
+                                <button type="submit" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                            </form>
+                            <form asp-page="RequestNotifications">
+                                <button type="submit"  asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                            </form>
+                        
+                    }
+                    else if (QueryResults["Status"].Equals("Approved"))
+                    {
+                        
+                            <i class="fa-solid fa-circle-check"></i>
+                        
+                    }
+                    else
+                    {
+                        
+                            <i class="fa-solid fa-ban"></i>
+                        
+
+                    }
+                }
+                </div>
+            </div>
+        </div>
+
+            }
+        }
+
+
+
+
+<h2>Invites to Other Projects</h2>
 <table class="table table-bordered table-striped table-hover table-responsive">
     <thead>
         <tr>
-            <th>Requestor Name</th>
-            <th>Requestor Email</th>
+            <th>Project Owner</th>
             <th>Project Name</th>
+            <th>Project Owner Email</th>
             <th>Status</th>
-            <th>Approve or Deny</th>
+            <th>Accept or Reject</th>
 
         </tr>
     </thead>
@@ -23,29 +107,28 @@
 
 
         @{
-            SqlDataReader QueryResults = DBClass.RequestTableReader(HttpContext.Session.GetString("username"));
+            SqlDataReader QueryResults1 = DBClass.InviteTableReader(HttpContext.Session.GetString("username"));
 
-            while (QueryResults.Read())
+            while (QueryResults1.Read())
             {
                 <tr>
-                    <td>@QueryResults["FullName"]</td>
-                    <td>@QueryResults["Email"]</td>
-                    <td>@QueryResults["ProjectName"]</td>
-                    <td>@QueryResults["Status"]</td>
+                    <td>@QueryResults1["FullName"]</td>
+                    <td>@QueryResults1["Email"]</td>
+                    <td>@QueryResults1["ProjectName"]</td>
+                    <td>@QueryResults1["Status"]</td>
                     @{
-                        if (QueryResults["Status"].Equals("Pending"))
+                        if (QueryResults1["Status"].Equals("Pending"))
                         {
                             <td>
                                 <form asp-page="RequestNotifications">
-                                    <button type="submit" class="submitButton" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                                    <button type="submit" class="submitButton" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
                                 </form>
-                                @*Change this to be a form that chnages it to deny*@
                                 <form asp-page="RequestNotifications">
-                                    <button type="submit" class="submitButton" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                                    <button type="submit" class="submitButton" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
                                 </form>
                             </td>
                         }
-                        else if (QueryResults["Status"].Equals("Approved"))
+                        else if (QueryResults1["Status"].Equals("Approved"))
                         {
                             <td>
                                 <i class="fa-solid fa-circle-check"></i>
@@ -56,24 +139,39 @@
                             <td>
                                 <i class="fa-solid fa-ban"></i>
                             </td>
-
                         }
                     }
                 </tr>
             }
         }
 
-
-        <!--
-            1. Need to query the database when the OnGet method is called(so when the page loads) and populate the
-                table with results based on a query
-            2. we must have a query that fires off when approve or deny is clicked which will either insert the
-                requestor into the project team members table or if denied, it will remove there request from the DB
-
-
-        -->
-
-
     </tbody>
 </table>
 
+<h2>Status of Invites I've sent out</h2>
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Invitee Name</th>
+            <th>Project Name</th>
+            <th>Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            SqlDataReader QueryResults2 = DBClass.SentInvites(HttpContext.Session.GetString("username"));
+
+            while (QueryResults2.Read())
+            {
+                <tr>
+                    <td>@QueryResults2["FullName"]</td>
+                    <td>@QueryResults2["ProjectName"]</td>
+                    <td>@QueryResults2["Status"]</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

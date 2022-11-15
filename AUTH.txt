@@ -3,7 +3,7 @@ UserName nvarchar(50) PRIMARY KEY,
 Password nvarchar(300)
 );
 
-INSERT INTO HashedCredentials (Username, Password) VALUES ('admin', '1000:8FhYm20CcjfSNsMCPB4fkcrV2RxST7VO:1ssf0vg7FJOJ5v2YuOvLiCqE6k0=');
+INSERT INTO HashedCredentials (Username, Password) VALUES ('admin@jmu.edu', '1000:8FhYm20CcjfSNsMCPB4fkcrV2RxST7VO:1ssf0vg7FJOJ5v2YuOvLiCqE6k0=');
 
 
 

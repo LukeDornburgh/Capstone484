@@ -10,7 +10,9 @@ PersonalInterests nvarchar(MAX),
 ProfessionalInterests nvarchar(MAX),
 Bio nvarchar(MAX),
 College nvarchar(100),
-ProfilePicturePath nvarchar(300)
+ProfilePicturePath nvarchar(MAX),
+ResumePath nvarchar(MAX),
+GeneralAvailability nvarchar(500)
 );
 
 CREATE TABLE Skills (
@@ -24,7 +26,10 @@ ProjectBeginDate Date,
 ProjectMission nvarchar(MAX),
 ProjectDescription nvarchar(MAX),
 ProjectType nvarchar(50),
+ProjectDuration nvarchar(50),
+GeneralTimeAvailability nvarchar (MAX),
 College nvarchar(100),
+DesiredSkills nvarchar(500),
 UserID int,
 Constraint FK_Projects_User_UserID FOREIGN KEY (UserID) REFERENCES Users(UserID));
 
@@ -100,22 +105,19 @@ ON UPDATE CASCADE
 );
 
 
-CREATE TABLE INTERESTS(
-InterestID int Identity(1,1) PRIMARY KEY,
-InterestName NVARCHAR(50),
-InterestCategory NVARCHAR(50)
-);
 
-CREATE TABLE InterestsAssociation (
-InterestID int,
-UserID int,
-Constraint PK_InterestsAssociation PRIMARY KEY CLUSTERED (InterestID, UserID),
-Constraint FK_InterestsAssociation_InterID FOREIGN KEY (InterestID) REFERENCES Interests(InterestID)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
-Constraint FK_InterestsAssociation_UID FOREIGN KEY (UserID) REFERENCES Users(UserID)
-ON DELETE CASCADE
-ON UPDATE CASCADE
+CREATE TABLE Messages(
+	MessageID int Identity(1,1) PRIMARY KEY,
+	MessageBody nvarchar(MAX),
+	SendTime DateTime,
+	SenderID int,
+	ReceiverID int,
+	Constraint fk_messages_sid FOREIGN KEY (SenderID) REFERENCES Users(UserID)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	Constraint fk_messages_rid FOREIGN KEY (ReceiverID) REFERENCES Users(UserID)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
 );
 
 
@@ -123,30 +125,25 @@ insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Positio
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Luke', 'Dornburgh', 'luked@jmu.edu', 'luked@gmail.com', '222-333-4444', 'Professional');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('John', 'Smith', 'johns@jmu.edu', null, '333-444-5555', 'Faculty');
 insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('Ryan', 'Done', 'ryand@jmu.edu', 'ryand@gmail.com', '444-555-6666', 'Professional');
-insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('admin', 'admin', 'admin', null, '111-222-3333', 'Faculty');
+insert into Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES ('admin', 'admin', 'admin@jmu.edu', null, '111-222-3333', 'Faculty');
 
 
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Web application', 'create web application for jmu', '2022-10-10', 'This is our mission statement', 'Coding', 1);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('UI implementation', 'create wireframe for jmu sports page', '2021-10-11', 'This is our second mission statement', 'UI design', 2);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Database Development', 'create database for jmu students', '2022-11-05', 'This is our third mission statement', 'SQL', 3);
 insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('AWS Web Server', 'connect jmu network to aws server', '2022-07-07', 'This is our fourth mission statement', 'Cloud', 4);
-insert into Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID) VALUES ('Admin Testing', 'admin testing app', '2022-10-10', 'This is our mission statement', 'Admin Coding', 5);
 
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Garrett', 'teamgarrett@gmail.com', 'team of coders', 1);
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Ferris', 'teamferris@gmail.com', 'team of designers', 2);
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Andres', 'teamandres@gmail.com', 'team of analysts', 3);
 insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Luke', 'teamluke@gmail.com', 'team of engineers', 4);
-insert into Teams (TeamName, TeamEmailAddress, TeamDescription, ProjectID) VALUES ('Team Admin', 'teamadmin@gmail.com', 'team of amdins', 5);
+
 
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-09-10', '5pm est', 'meeting MWF', 'Zoom', 1);   
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-10-02', '12pm cst', 'meeting TTH', 'Hartman', 2);   
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-10-25', '9am est', 'meeting MF', 'Showker', 3);   
 insert into TeamMeetings (Date, Time, Notes, Location, TeamID) VALUES ('2022-11-08', '3pm cst', 'meeting W', 'Carrier Libary', 4);
 
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (1, 1, 'Begineer');
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (2, 2, 'Intermediate');     
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (3, 3, 'Intermediate');     
-insert into SkillsAssociation (SkillID, UserID, MasteryLevel) VALUES (4, 4, 'Expert');
 
 insert into TeamMembers (UserID, TeamID, Role) VALUES (1, 1, 'project lead');
 insert into TeamMembers (UserID, TeamID, Role) VALUES (2, 2, 'program manager');

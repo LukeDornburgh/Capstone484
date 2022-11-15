@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Georgia sans-serif;
+    font-family: Helvetica, sans-serif ;
 }
 
 
@@ -50,7 +50,7 @@ body {
     background-color: #fff;
 }
 
-nav {
+/*nav {
     position: relative;
     z-index: 99;
     display: flex;
@@ -78,7 +78,7 @@ nav {
 
         nav h1 a:hover {
             color: var(--JMUGOLD);
-        }
+        }*/
 /*        nav .rightNav{
             display: block;
             float: right;
@@ -242,10 +242,6 @@ nav {
 @media (min-width: 1050px) {
     .mobile-menu, .hamburger {
         display: none;
-    }
-
-    .menu, .rightNav {
-        display: flex;
     }
 }
 .CreateAccount {
@@ -457,7 +453,6 @@ form .txt-field{
 
 
 
-
 .skillSelectContainer{
     position: relative;
     max-width: 320px;
@@ -594,7 +589,7 @@ form .txt-field{
 }
 
 
-#tagArea{
+#tagArea, #tagArea2{
     display: flex;
     justify-content: flex-start;
     overflow-wrap: anywhere;
@@ -604,7 +599,7 @@ form .txt-field{
 }
 
 
-    #tagArea span {
+    #tagArea span, #tagArea2 span {
         background-color: #ddd;
         height: fit-content;
         width: fit-content;

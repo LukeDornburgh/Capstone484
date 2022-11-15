@@ -29,6 +29,7 @@ namespace Lab1.Pages.UsersPages
         public List<Skills> SkillsDisplay { get; set; }
         public List<Teams> TeamsToDisplay { get; set; }
 
+        [BindProperty]
         public IFormFile upload { get; set; }
         private IHostingEnvironment _environment;
         public string ProfilePictureUrl { get; set; }
@@ -40,8 +41,10 @@ namespace Lab1.Pages.UsersPages
             TeamsToDisplay = new List<Teams>();
             ProfilePictureUrl = String.Empty;
         }
-        public void OnGet(int UserID)
+        public void OnGet(string email)
         {
+            int UserID = DBClass.GetUserIDSession(email);
+
             SqlDataReader singleUser = DBClass.SingleUserReader(UserID);
 
             while (singleUser.Read())
@@ -57,6 +60,7 @@ namespace Lab1.Pages.UsersPages
                 UserToUpdate.ProfessionalInterests = singleUser["ProfessionalInterests"].ToString();
                 UserToUpdate.Bio = singleUser["Bio"].ToString();
                 UserToUpdate.College = singleUser["College"].ToString();
+                UserToUpdate.GeneralAvailability = singleUser["GeneralAvailability"].ToString();
                 if (!singleUser.IsDBNull(singleUser.GetOrdinal("ProfilePicturePath")))
                 {
                     ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();
@@ -98,6 +102,7 @@ namespace Lab1.Pages.UsersPages
             varSkillReader.Close();
 
             singleUser.Close();
+
         }
 
         public IActionResult OnPost()
@@ -170,7 +175,7 @@ namespace Lab1.Pages.UsersPages
             {
                 DBClass.PopulateTeamMembersBridge(UserToUpdate, TeamIDSelected);
             }
-            return RedirectToPage(new { UserID = UserToUpdate.UserID });
+            return RedirectToPage(new { email = HttpContext.Session.GetString("username") });
         }
 
         public IActionResult OnPostSearch()

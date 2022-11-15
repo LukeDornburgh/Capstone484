@@ -1,4 +1,4 @@
-﻿@page "{UserID}"
+﻿@page
 @using System.Data.SqlClient
 @using Lab1.Pages.DB_Class;
 @model Lab1.Pages.UsersPages.EditUserModel
@@ -6,16 +6,25 @@
     ViewData["Title"] = "Edit User";
 }
 
-
 <style>
-
-    nav {
-        grid-column: 1/13;
-        display: flex;
-        justify-content: space-around;
+    img {
+        max-width: 250px;
+        max-height: 100%;
+        padding: 10px;
+        border-radius: 10%;
         align-items: center;
-        background-color: #31184C;
-        border: none;
+    }
+
+    .divider {
+        color: #9582AA;
+    }
+
+    .navbtn {
+        background: #9582AA;
+        border-radius: 8px;
+        border: 5px;
+        padding: 5px;
+        color: white;
     }
 
     .profile {
@@ -23,69 +32,45 @@
         margin: 0 auto;
         max-width: 1500px;
         grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: repeat(8, 1fr);
+        grid-template-rows: repeat(9, 1fr);
         gap: 20px 20px;
         background-color: #eae6ee;
         padding: 30px;
-        padding-inline-start: 2%;
     }
 
-    .container-fluid {
-        background-color: #31184C;
-        padding: 10px;
+    .pix {
         grid-column: 1/13;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        background-color: #31184C;
-    }
-
-    section {
-        grid-column: 1/13;
-        grid-row: 1/9;
-        background-color: white;
-        border-radius: 20px;
-        padding: 20px;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .section-one {
-        grid-column: 1/4;
         grid-row: 1/3;
-        background-color: aqua;
-    }
-
-    .section-two {
-        grid-row: 3/4;
-        background-color: blue;
-    }
-
-    .section.three {
-        grid-row: 4/5;
-        background-color: aliceblue;
-    }
-
-    aside {
-        grid-column: 1/13;
-        grid-row: 1/2;
         display: flex;
-        justify-content: space-around;
         background-color: white;
         border-radius: 20px;
-        padding: 10px;
-        align-items: center;
+        padding: 20px;
+        justify-content: space-around;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .mens {
+
+    .skills {
         grid-column: 1/13;
-        grid-row: 2/5;
+        grid-row: 3/4;
         background-color: white;
         border-radius: 20px;
         padding: 20px;
     }
 
-    .banner {
+    .icons {
+        grid-column: 1/13;
+        grid-row: 4/5;
+        display: flex;
+        justify-content: space-around;
+        background-color: white;
+        border-radius: 20px;
+        align-items: center;
+    }
+
+    .bio {
         grid-column: 1/13;
         grid-row: 5/7;
         background-color: white;
@@ -93,41 +78,37 @@
         padding: 20px;
     }
 
-    .banner2 {
+    .avail {
         grid-column: 1/13;
-        grid-row: 7/9s;
+        grid-row: 7/8;
         background-color: white;
         border-radius: 20px;
         padding: 20px;
     }
 
-    .featured1 {
+    .personalinterests {
         grid-column: 1/13;
+        grid-row: 8/9;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
     }
 
-    .featured2 {
+    .prointerests {
         grid-column: 1/13;
+        grid-row: 9/10;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
     }
 
-    .featured3 {
-        grid-column: 1/13;
+    h3 {
+        font-family: Helvetica, Sans-Serif;
+        color: black;
+        padding-left: 10px;
+        font-size: medium;
     }
 
-    .featured4 {
-        grid-column: 1/13;
-    }
-
-    .shop1 {
-        grid-column: 1/13;
-    }
-
-    .shop2 {
-        grid-column: 1/13;
-    }
-
-    .shop3 {
-        grid-column: 1/13;
-    }
 
     .material-symbols-rounded {
         font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 40, 'color' #31184C,
@@ -139,6 +120,15 @@
         color: #31184C;
     }
 
+    h2 {
+        font-family: Helvetica, Sans-Serif;
+        font-weight: bold;
+        color: #31184C;
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+
 
     .btn-primary {
         background-color: #31184C;
@@ -149,132 +139,182 @@
             background-color: #9582AA;
         }
 
+    .btn-secondary {
+        background-color: #D8EC91;
+        border: #D8EC91;
+    }
+
+    .btn-primary:hover {
+        background-color: #9582AA;
+    }
+
+    .row {
+        gap: 20px;
+    }
+
+    .picture {
+        padding: 25px;
+    }
+
+    .icon {
+        float: right;
+    }
+
+    #feedback {
+        width: 40px; /* width of button */
+        height: 40px; /* height of button */
+        line-height: 30px;
+        overflow: hidden;
+        z-index: 999;
+        cursor: pointer;
+        transform: rotate(270deg); /* turns right arrow 270 degrees */
+        position: fixed; /* fixed at bottom corner */
+        bottom: 30px; /* distance from bottom */
+        right: 40px; /* distance from right */
+        padding: 4px 4px 13px 4px; /* padding around arrow */
+        border-radius: 5px;
+        background: #31184C; /* background with transparency */
+        color: #eee; /* color of arrow */
+        text-align: center;
+        font-size: 20px; /* size of the arrow */
+        text-decoration: none;
+    }
+
+        #feedback:link {
+            background: #31184C;
+            color: #eee;
+        }
+
+        #feedback:hover {
+            background: #D8EC91;
+            color: #ccc;
+        }
+
+        #feedback:active {
+            background: #D8EC91;
+            color: #eee;
+        }
+
     @@media only screen and (min-width: 620px) {
 
+        .profile {
+            display: grid;
+            margin: 0 auto;
+            max-width: 1500px;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(9, 1fr);
+            gap: 20px 20px;
+            background-color: #eae6ee;
+            padding: 30px;
+        }
 
-        section {
+        .pix {
             grid-column: 1/13;
+            grid-row: 1/3;
+            display: block;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
         }
 
-        aside {
-            grid-column: 1/7;
-        }
 
-        .mens {
-            grid-column: 7/13;
-        }
-
-        .banner {
+        .skills {
             grid-column: 1/13;
+            grid-row: 3/4;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
         }
 
-        .banner2 {
+        .icons {
             grid-column: 1/13;
+            grid-row: 4/5;
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            border-radius: 20px;
+            align-items: center;
         }
 
-        .featured1 {
-            grid-column: 1/7;
+        .bio {
+            grid-column: 1/13;
+            grid-row: 5/7;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
         }
 
-        .featured2 {
-            grid-column: 7/13;
+        .avail {
+            grid-column: 1/13;
+            grid-row: 7/8;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
         }
 
-        .featured3 {
-            grid-column: 1/7;
+        .personalinterests {
+            grid-column: 1/13;
+            grid-row: 8/9;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
         }
 
-        .featured4 {
-            grid-column: 7/13;
-        }
-
-        .shop1 {
-            grid-column: 1/5;
-        }
-
-        .shop2 {
-            grid-column: 5/9;
-        }
-
-        .shop3 {
-            grid-column: 9/13;
+        .prointerests {
+            grid-column: 1/13;
+            grid-row: 9/10;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
         }
     }
 
     @@media only screen and (min-width: 900px) {
 
 
-        section {
-            grid-column: 3/6;
-            grid-row: 1/9;
+        .profile {
+            padding: 10px;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 20px 20px;
         }
 
-        aside {
+        .pix {
+            grid-column: 3/6;
+            grid-row: 1/4;
+        }
+
+        .skills {
+            grid-column: 3/6;
+            grid-row: 4/7;
+        }
+
+        .icons {
             grid-column: 6/11;
             grid-row: 1/2;
         }
 
-        .mens {
+        .bio {
             grid-column: 6/11;
-            grid-row: 2/5;
+            grid-row: 2/4;
         }
 
-        .banner {
+        .avail {
             grid-column: 6/11;
-            grid-row: 5/7;
+            grid-row: 4/5;
         }
 
-        .banner2 {
+        .personalinterests {
             grid-column: 6/11;
-            grid-row: 7/9;
+            grid-row: 5/6;
+        }
+
+        .prointerests {
+            grid-column: 6/11;
+            grid-row: 6/7;
         }
     }
 </style>
-
-
-<form asp-page="EditUser" enctype="multipart/form-data" method="post">
-    <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
-    <label asp-for="@Model.UserToUpdate.FirstName"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.FirstName" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.LastName"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.LastName" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.Email"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.Email" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.ProfessionalEmail"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.ProfessionalEmail" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.Position"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.Position" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.Phone"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.Phone" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.PersonalInterests"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.PersonalInterests" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.ProfessionalInterests"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.ProfessionalInterests" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.Bio"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.Bio" />
-    <br />
-    <label asp-for="@Model.UserToUpdate.College"></label>
-    <input type="text" asp-for="@Model.UserToUpdate.College" />
-    <br /><br />
-    <label asp-for="@Model.upload">Profile Picture</label>
-    @{
-        if (Model.ProfilePictureUrl != String.Empty) 
-        {
-            <br />
-            <img src="@Model.ProfilePictureUrl" width="200px" height="200px"  /> 
-            <br />
-        }  
-    }
-    <input type="file" asp-for="upload" />
-    <br /><br />
     <table class="table table-bordered table-hover table-responsive" style="display: none">
         <thead>
             <tr>
@@ -298,7 +338,357 @@
 
         </tbody>
     </table>
-    <h5>Add skill to this user</h5>
+<form asp-page="EditUser" enctype="multipart/form-data" id="fullForm" method="post">
+    <!-- Skills Modal -->
+<div class="modal fade" id="staticBackdrop8" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="staticBackdropLabel">Edit Skills</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+
+        <div class="skillCheck" style="width: 100%; float: left">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
+        <table id="myTable">
+
+            @{
+                foreach (var skill in Model.SkillsDisplay)
+                {
+                        <tr>
+                            <td>
+                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                <label>@skill.SkillName</label>
+                            </td>
+                        </tr>
+                }
+            }
+
+        </table>
+    </div>
+    <h5>My Skills</h5>
+    <div id="tagArea" style="display: inline">
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="profile">
+
+    <div class="pix">
+        <div class="icon">
+            <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+            </a>
+        </div>
+        <div class="picture">
+
+            @{
+                if (Model.ProfilePictureUrl != String.Empty)
+                {
+                        <img src="@Model.ProfilePictureUrl" width="500" height="250" />    
+                }
+                else{
+                        <p>Upload an Image</p>
+                }
+            } 
+            <h2> @Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName</H2>
+            <h3> <b>@Model.UserToUpdate.College</b></h3>
+            <h3><b> Phone:</b> @Model.UserToUpdate.Phone</h3>
+            <h3><b> Email:</b> @Model.UserToUpdate.Email</h3>
+        </div>
+    </div>
+
+    <div class="skills">
+<div class="skills">
+<div class="icon">
+  <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop8">
+      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
+          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+      </svg>
+  </a>
+  </div>
+  <h5> Skills</h5>
+  <div class="skillspills"></div>
+    <div id="tagArea2">
+    </div>
+</div>
+
+    </div>
+
+    <div class="icons">
+    <a asp-page="/ProjectsPages/MyProjects">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+      </svg>
+    </a>
+      
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
+        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
+        <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+      </svg>
+
+      <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
+          <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+        </svg>
+      </a>
+
+          
+ </div>
+
+    <div class="bio">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"><h5>Biography</h5></label>
+            <textarea readonly rows="8" class="form-control" id="biography1" >@Model.UserToUpdate.Bio</textarea>
+        </div>
+    </div>
+
+    <div class="avail">
+  <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label"><h5>General Availability</h5></label>
+      <textarea readonly rows = "2" class="form-control" id="biography1" >@Model.UserToUpdate.GeneralAvailability</textarea>
+    </div>
+</div>
+
+    <div class="personalinterests">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"><h5>Personal Interests</h5></label>
+            <textarea readonly class="form-control" id="personalinterests1" rows="3">@Model.UserToUpdate.PersonalInterests</textarea>
+        </div>
+
+    </div>
+
+    <div class="prointerests">
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"><h5>Professional Interests</h5></label>
+            <textarea readonly class="form-control" id="professionalinterests1" rows="3" >@Model.UserToUpdate.ProfessionalInterests</textarea>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <!---->
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-5" id="staticBackdropLabel">Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                         <div class="mb-3">
+                            <label asp-for="@Model.upload">Profile Picture</label>
+                            <input type="file" asp-for="upload" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit First Name</h3></label>
+                            <input type="hidden" asp-for="@Model.UserToUpdate.UserID" />
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.FirstName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit Last Name</h3></label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.LastName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit Email</h3></label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.Email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit Professional Email</h3></label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.ProfessionalEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit Position</h3></label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.Position">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit Phone Number</h3></label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.Phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label"><h3>Edit College</h3></label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.College">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Personal Interests</h3></label>
+                            <textarea type="text" class="form-control" rows="3" asp-for="@Model.UserToUpdate.PersonalInterests"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Professional Interests</h3> </label>
+                            <textarea class="form-control"  rows="3" asp-for="@Model.UserToUpdate.ProfessionalInterests"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Bio</h3></label>
+                            <textarea class="form-control"  rows="3" asp-for="@Model.UserToUpdate.Bio"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label"><h3>General Availability</h3></label>
+                            <textarea class="form-control"  rows="3" asp-for="@Model.UserToUpdate.GeneralAvailability"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Save Changes</button>
+
+                        <a asp-page="Index/EditUser" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="staticBackdropLabel">Got a comment or question? Let us know!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>First Name</h3></label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>Last Name</h3></label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>Email</h3></label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label"><h5> Feedback/Questions</h5></label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- feedback button -->
+    <a id="feedback" title="feedback" a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 20 20">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z" />
+        </svg>
+    </a>
+
+</div>
+
+<!-- Resume Upload Modal -->
+<div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="staticBackdropLabel">Attach Resume</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input class="form-control" type="file" id="formFile">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="staticBackdrop4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you would like to logout?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Yes, I understand</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Settings Modal -->
+<div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Settings</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                    <!-- Default switch -->
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+              <label class="form-check-label" for="flexSwitchCheckDefault">Allow Notifications</label>
+            </div>
+
+              <!-- Default switch -->
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+                <label class="form-check-label" for="flexSwitchCheckDefault">Allow Email Notifications</label>
+              </div>
+
+                
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Yes, I understand</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    /* Scroll to top when arrow up clicked BEGIN */
+    $(window).scroll(function () {
+        var height = $(window).scrollTop();
+        if (height > 100) {
+            $('#back2Top').fadeIn();
+        } else {
+            $('#back2Top').fadeOut();
+        }
+    });
+    $(document).ready(function () {
+        $("#back2Top").click(function (event) {
+            event.preventDefault();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
+
+    });
+    /* Scroll to top when arrow up clicked END */
+</script>
+
 
 
     <script>
@@ -350,10 +740,24 @@
 
                 document.getElementById("tagArea").appendChild(tag);
 
-
                 document.getElementById(`${skillIDExisting}`).innerHTML = (skillNameExisting + `<i onclick="onTagRemove(${skillIDExisting})" class="fa fa-times-circle"> </i>`);
 
                 console.log(newlyClickedValues);
+
+                /////////////////////////////////////////////
+                let tag2 = document.createElement("span");
+
+                tag2.innerHTML = skillNameExisting;
+
+                tag2.skillIdValue = skillIDExisting;
+
+                tag2.setAttribute('id', `display-${skillIDExisting}`);
+
+                console.log("this is the tag 2 id" + tag2.id);
+                document.getElementById("tagArea2").appendChild(tag2);
+
+
+                document.getElementById(`display-${skillIDExisting}`).innerHTML = skillNameExisting;
             }
 
         };
@@ -420,13 +824,6 @@
             // TODO: set the checkbox to be un-checked so the form is updated as well
         };
 
-        //const specialButtonClick = () => {
-        //
-        //    const el = document.getElementById("input-1087"); // get an element by its unique id
-        //    console.log(el.value, el.getAttribute("myCustomValue")); // get a custom attribute on an element
-        //    el.click(); // click an element
-        //    el.setAttribute("checked", false); // set the checkbox to be unchecked
-        //};
 
         const myFunction = () => {
             // Declare variables
@@ -457,105 +854,7 @@
 
     </script>
 
-    <div class="skillCheck">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skills.." />
-        <table id="myTable">
-
-            @{
-                foreach (var skill in Model.SkillsDisplay)
-                {
-                                    <tr>
-                                        <td>
-                                            <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                            <label>@skill.SkillName</label>
-                                        </td>
-                                    </tr>
-                }
-            }
-
-        </table>
-    </div>
-    <h5>My Skills</h5>
-    <div id="tagArea">
-    </div>
-
-
-
-    <!------------------------------------------------------------------------------------>
-    <h5 style="clear:both">Join a Team</h5>
-    <select name="TeamIDSelected" class="form-select">
-        <option value="">Select a Team</option>
-        @{
-            foreach (var team in Model.TeamsToDisplay)
-            {
-                                <option value=@team.TeamID>@team.TeamName</option>
-            }
-        }
-
-    </select>
-    <button id="formSubmitButton" type="submit" asp-route-UserID="@Model.UserToUpdate.UserID" class="btn btn-success" asp-page="EditUser">Submit</button>
-    <!-- <input type="button" id="specialButton" onclick="specialButtonClick()" value="Super special button"> -->
-    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
-</form>
-
-
-
-
-
-<div class="profile">
-
-    <section>
-        <h1>@Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName</h1>
-        <p><b>Phone:</b> @Model.UserToUpdate.Phone</p>
-        <p><b>Email:</b> @Model.UserToUpdate.Email</p>
-
-    </section>
-
-    <aside>
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
-            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
-            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-clock" viewBox="0 0 16 16">
-            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-paperclip" viewBox="0 0 16 16">
-            <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-        </svg>
-
-    </aside>
-
-    <div class="mens">
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label"><h5>Biography</h4></label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="8">@Model.UserToUpdate.Bio</textarea>
-        </div>
-    </div>
-
-    <div class="banner">
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label"><h5>Personal Interests</h4></label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">@Model.UserToUpdate.PersonalInterests</textarea>
-        </div>
-
-    </div>
-
-    <div class="banner2">
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label"><h5>Professional Interests</h4></label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">@Model.UserToUpdate.ProfessionalInterests</textarea>
-        </div>
-    </div>
-
-
-
-</div>
-
-
+    </form>
 <br />
 <br />
 <br />

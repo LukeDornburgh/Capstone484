@@ -21,10 +21,6 @@
 
     <style>
 
-        img .logo {
-            max-width: 250px;
-            height: 100%;
-        }
 
         nav {
             background-color: #31184C;
@@ -39,7 +35,7 @@
             width: 100%;
             height: auto;
             /*padding: 10px;
-                                    float: left;*/
+            float: left;*/
         }
 
         .buttons4 {
@@ -107,6 +103,11 @@
                 text-decoration: none;
                 color: inherit;
             }
+
+        img .logo {
+            max-width: 250px;
+            height: 100%;
+        }
 
     </style>
 </head>
@@ -184,6 +185,7 @@
                         <a type="button" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Log Out</a>
                     </div>
 
+
                     <button class="hamburger">
                         <span class="material-icons">menu</span>
                     </button>
@@ -206,15 +208,7 @@
                                 <a type="button" class="signup" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
                             </div>
 
-                        <div>
-                            <a asp-area="" asp-page="/Index">
-                            <img src="~/images/MCHwordmark.png">
-                            </a>
-                        </div>
-                        <div class="buttons">
-                            <a type="button" class="signup" asp-area="" asp-page="/BasicLogin">Log in</a>
-                            <a type="button" class="signup btn-info btn-rounded" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
-                        </div>
+                    </div>
                     </div>
                 </nav>
             }

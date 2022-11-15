@@ -125,12 +125,47 @@ namespace Lab1.Pages.DB_Class
                 "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
                 "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner, TeamMembers.UserID from Projects " +
                 "JOIN Users on Users.UserID = Projects.UserID JOIN TeamMembers on TeamMembers.UserID = Users.UserID " +
-                "where TeamMembers.TeamID in (select value from string_split('" + teamList + "', ',') as a);";
+                "where NOT Projects.UserID = " + temp + " AND TeamMembers.TeamID in (select value from string_split('" + teamList + "', ',') as a);";
             cmdProductRead1.Connection.Open();
             SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
             return tempReader1;
         }
-    
+
+
+        public static SqlDataReader MyOwnedProjects(string email)
+        {
+            int temp = GetUserIDSession(email);
+            string teamList = "";
+
+            //need to get a string with each team the user who is logged in belongs to and then display all the projects that
+            //arent associated with those teams
+            SqlCommand cmdProductRead = new SqlCommand();
+            cmdProductRead.Connection = new SqlConnection();
+            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+                "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
+            cmdProductRead.Connection.Open();
+            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            while (tempReader.Read())
+            {
+                teamList += tempReader["TeamID"] + ",";
+            }
+
+
+            SqlCommand cmdProductRead1 = new SqlCommand();
+            cmdProductRead1.Connection = new SqlConnection();
+            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
+            cmdProductRead1.CommandText = "Select DISTINCT Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
+                "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
+                "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner, TeamMembers.UserID from Projects " +
+                "JOIN Users on Users.UserID = Projects.UserID JOIN TeamMembers on TeamMembers.UserID = Users.UserID " +
+                "where Projects.UserID = " + temp + " AND TeamMembers.TeamID in (select value from string_split('" + teamList + "', ',') as a);";
+            cmdProductRead1.Connection.Open();
+            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+            return tempReader1;
+        }
+
 
 
         public static SqlDataReader InvitesDropdownReader(string email, int userID)
@@ -676,7 +711,7 @@ namespace Lab1.Pages.DB_Class
                     return true;
                 }
             }
-
+            cmdLogin.Connection.Close();
             return false;
         }
 
@@ -703,6 +738,9 @@ namespace Lab1.Pages.DB_Class
             {
                 correctHash = tempReader["Password"].ToString();
             }
+            cmdProductRead.Connection.Close();
+
+
 
             if (PasswordHash.ValidatePassword(Password, correctHash))
             {
@@ -815,11 +853,11 @@ namespace Lab1.Pages.DB_Class
             SqlCommand cmdProductRead1 = new SqlCommand();
             cmdProductRead1.Connection = new SqlConnection();
             cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = "Select DISTINCT Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
-                "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
-                "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner, TeamMembers.UserID from Projects " +
-                "JOIN Users on Users.UserID = Projects.UserID JOIN TeamMembers on TeamMembers.UserID = Users.UserID " +
-                "where TeamMembers.TeamID not in (select value from string_split('" + teamList + "', ',') as a);";
+            cmdProductRead1.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
+                "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, concat(Users.FirstName, ' ', Users.LastName) " +
+                "as ProjectOwner from Users JOIN Projects on Projects.UserID = Users.UserID where " +
+                "NOT Projects.UserID = " + temp + " AND projects.ProjectID in (select Teams.ProjectID from teams where teams.TeamID " +
+                "in (select TeamMembers.TeamID from TeamMembers where TeamMembers.TeamID NOT in (select value from string_split('" + teamList + "', ','))));";
             cmdProductRead1.Connection.Open();
             SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
             return tempReader1;
@@ -998,7 +1036,10 @@ namespace Lab1.Pages.DB_Class
             {
                 result = (int)tempReader["UserID"];
             }
+            tempReader.Close();
+
             return result;
+
         }
 
         public static SqlDataReader RequestTableReader(string email)
@@ -1019,6 +1060,7 @@ namespace Lab1.Pages.DB_Class
             cmdProductRead.CommandText = sqlQuery;
             cmdProductRead.Connection.Open();
             SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
 
             return tempReader;
 
@@ -1238,8 +1280,9 @@ namespace Lab1.Pages.DB_Class
         {
             int myID = GetUserIDSession(email);
 
-            string sqlQuery = "Select * from users where users.userID in(SELECT DISTINCT Messages.SenderID from Messages " +
-                "WHERE Messages.ReceiverID = " + myID + ");";
+            string sqlQuery = "Select DISTINCT * from users where users.userID in" +
+                "(SELECT DISTINCT Messages.SenderID from Messages WHERE Messages.ReceiverID = " + myID + ") or users.UserID " +
+                "in(Select Messages.ReceiverID from Messages where Messages.SenderID = " + myID + ");";
 
             SqlCommand cmdProductRead = new SqlCommand();
             cmdProductRead.Connection = new SqlConnection();

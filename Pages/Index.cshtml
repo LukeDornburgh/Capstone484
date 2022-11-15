@@ -181,7 +181,7 @@
             /*padding-top: 50px;*/
             background-color: #31184C;
             text-align: center;
-           /* padding-bottom: 50px;*/
+            /* padding-bottom: 50px;*/
             font-size: x-small;
             color: white;
         }
@@ -191,7 +191,7 @@
             background-size: cover;
         }
 
-        img .logo {
+        img.logo {
             max-width: 250px;
             height: 100%;
         }
@@ -224,7 +224,6 @@
             margin-top: 10px;
             float: left;
             padding-left: 50px;
-
         }
     </style>
 </head>
@@ -322,5 +321,39 @@
 
 
 
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @{
+        if (HttpContext.Session.GetString("username") != null)
+        {
+            <p class="centered">User @HttpContext.Session.GetString("username") is logged in!</p>
+        }
+        if (HttpContext.Session.GetString("username") == null){
+            <button class="simpleButton">
+                <a class="simpleButton" asp-page ="UsersPages/CreateHashedLogin">Make an Account</a>
+            </button >
+            <br />
+        }
+    }
+    <br />
+    <!-- <img src="/images/JMUAir.jpg" class="centered" width="800" height="450" /> -->
+
+    @{
+        //this method returns a string of the current abosolute path of the current working directory
+        //and does not end in a backslash
+        string imagesDir = Directory.GetCurrentDirectory();
+        imagesDir += @"\wwwroot\images\";
+            <p>@imagesDir</p>
+
+        DirectoryInfo imagesFolder = new DirectoryInfo(imagesDir);
+
+        var fileListing = imagesFolder.GetFiles();
+
+        foreach (var file in fileListing){
+                <p>@file.Name</p>
+                <img src="~/images/@file.Name" width="150" height="100">
+        }
+    }
+</div>*@
 
 

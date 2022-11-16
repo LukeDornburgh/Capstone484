@@ -5,7 +5,323 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <style>
+
+        /* Navbar css */
+
+        .navbar {
+            background-color: #31184C;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        .home {
+            display: grid;
+            max-width: auto;
+            grid-template-columns: repeat(12, .5fr);
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .centered {
+            position: absolute;
+            top: 23%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+        }
+
+        h1 {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bolder;
+            color: white;
+            padding-left: 50px;
+            text-align: left;
+            font-size: 2.25rem;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-top: 10px;
+        }
+
+        h2 {
+            font-family: Helvetica, Sans-Serif;
+            color: white;
+            padding-left: 50px;
+            text-align: left;
+            font-size: 1.75rem;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-top: 10px;
+        }
+
+        h3 {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bolder;
+            color: #D8EC91;
+            padding-left: 50px;
+            text-align: left;
+            font-size: 1.75rem;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-top: 10px;
+        }
+
+        h4 {
+            font-family: Helvetica, Sans-Serif;
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #31184C;
+            padding-top: 30px;
+        }
+
+        h5 {
+            font-family: Helvetica, Sans-Serif;
+        }
+
+        h6 {
+            font-family: Helvetica, Sans-Serif;
+        }
+
+        .hero {
+            grid-column: 1/13;
+            display: block;
+        }
+
+        p {
+            font-family: Helvetica, Sans-Serif;
+            font-size: 1rem;
+            color: black;
+        }
+
+
+        .buttons {
+            display: flex;
+            float: left;
+            padding-left: 50px;
+            display: block;
+        }
+
+        .btn-primary {
+            padding-right: 65px;
+            padding-left: 65px;
+            background-color: #31184C;
+            border: #31184C;
+            display: flex;
+            margin-right: 10px;
+            font-family: Helvetica, Sans-Serif;
+            text-align: center;
+            --bs-btn-active-bg: #D8EC91;
+            --bs-btn-active-border-color: #D8EC91;
+        }
+
+        .info {
+            padding: 100px;
+        }
+
+        .btn-length {
+            padding-left: 150px;
+            padding-right: 150px;
+            background-color: #D8EC91;
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bold;
+            text-align: center;
+            color: #31184C;
+        }
+
+        .buttons2 {
+            display: flex;
+            float: left;
+            padding-left: 50px;
+            padding-top: 10px;
+        }
+
+
+        .btn-primary:hover {
+            background-color: #9582AA;
+        }
+
+        .btn-primary:active {
+            background-color: #D8EC91;
+        }
+
+        .carousel {
+            grid-column: 1/13;
+            background-size: cover;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        footer {
+            /*padding-top: 50px;*/
+            background-color: #31184C;
+            text-align: center;
+            /* padding-bottom: 50px;*/
+            font-size: x-small;
+            color: white;
+        }
+
+        .panel3 {
+            grid-column: 1/13;
+            background-size: cover;
+        }
+
+        img.logo {
+            max-width: 250px;
+            height: 100%;
+        }
+
+        .login {
+            background: #9582aa;
+            color: #f8f9fa;
+            display: flex;
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 5px;
+        }
+
+        .signup {
+            background: #9582aa;
+            color: #f8f9fa;
+            display: flex;
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 5px;
+        }
+
+        .login, .signup {
+            display: inline-block;
+        }
+
+        .buttons3 {
+            margin-top: 10px;
+            float: left;
+            padding-left: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="home">
+
+        <div class="hero">
+            <img src="images/homepagenew.png" alt="">
+            <div class="centered">
+                <h2> Welcome to the <b>Hub.</b></h2>
+                <h1>Let's get something good started.</h1>
+                <h3>Collaborate, Connect, Create.</h3>
+                @{
+                    if (HttpContext.Session.GetString("username") == null)
+                    {
+                        <div class="buttons2">
+                            <a type="button" class="btn btn-primary btn-lg" asp-area="" asp-page="/BasicLogin">Log in</a>
+                            <div> </div>
+                            <a type="button" class="btn btn-primary btn-lg" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
+                        </div>
+                    }
+                }
+                <br>
+                <div class="buttons3">
+                    <div class="d-grid gap-2">
+                        <a href="#info" button class="btn btn-length" type="button">Learn More!</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="carousel">
+
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/slide1.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Low-cost Greenhouse with Automated Systems</h5>
+                            Some representative placeholder content for the first slide.
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/slide2.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Harrisonburg Greenway</h5>
+                            Some representative placeholder content for the second slide.
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/slide3.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Harvesting Energy From Human Movementl</h5>
+                            Some representative placeholder content for the third slide.
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="info" id="info">
+        <h4> What is Madison Connect Hub?</h4>
+
+        <p>
+            The Madison Connect Hub is a way to find group members to collaborate withon projects.
+
+        </p>
+    </div>
+
+
+
+    <div class="panel3">
+        <img src="images/2.png" alt="">
+    </div>
+
+</body>
+</html>
+
+
+
+
+@*<div class="text-center">
     <h1 class="display-4">Welcome</h1>
     @{
         if (HttpContext.Session.GetString("username") != null)
@@ -38,6 +354,6 @@
                 <img src="~/images/@file.Name" width="150" height="100">
         }
     }
-</div>
+</div>*@
 
 

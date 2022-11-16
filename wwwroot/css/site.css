@@ -42,9 +42,6 @@ html {
 }
 
 
-header{
-    margin-bottom: .5rem;
-}
 
 body {
     background-color: #fff;
@@ -268,7 +265,7 @@ body {
     padding: 2rem;
     font-family: Georgia sans-serif;
     height: 60vh;
-    overflow: hidden;
+    overflow: visible;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -642,7 +639,15 @@ form .txt-field{
 }
 
 
+img.logo{
+    max-width: 250px;
+    height: 100%;
 
+}
+
+a{
+    text-decoration: none;
+}
 
 
 

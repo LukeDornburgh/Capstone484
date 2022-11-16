@@ -3,6 +3,201 @@
 @{
     ViewData["Title"] = "Login";
 }
+<style>
+
+    [type="checkbox"]:checked,
+    [type="checkbox"]:not(:checked),
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+        position: absolute;
+        left: -9999px;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .checkbox-budget:checked + label,
+    .checkbox-budget:not(:checked) + label {
+        position: relative;
+        display: inline-block;
+        padding: 0;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 300px;
+        font-size: 52px;
+        line-height: 52px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin: 0 auto;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 10px;
+        text-align: center;
+        border-radius: 4px;
+        overflow: hidden;
+        cursor: pointer;
+        text-transform: uppercase;
+        -webkit-transition: all 300ms linear;
+        transition: all 300ms linear;
+        -webkit-text-stroke: 1px var(--white);
+        text-stroke: 1px #35154F;
+        -webkit-text-fill-color: #35154F;
+        text-fill-color: #35154F;
+        color: #35154F;
+    }
+
+
+    .checkbox-budget:not(:checked) + label {
+        background-color: #9582AA;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .checkbox-budget:checked + label {
+        background-color: #D8EC91;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .checkbox-budget:not(:checked) + label:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .checkbox-budget:checked + label::before,
+    .checkbox-budget:not(:checked) + label::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        background-image: linear-gradient(138deg, var(--red), var(--yellow));
+        z-index: -1;
+    }
+
+    .checkbox-budget:checked + label span,
+    .checkbox-budget:not(:checked) + label span {
+        position: relative;
+        display: block;
+    }
+
+        .checkbox-budget:checked + label span::before,
+        .checkbox-budget:not(:checked) + label span::before {
+            position: absolute;
+            content: attr(data-hover);
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            -webkit-text-stroke: transparent;
+            -webkit-text-stroke: transparent;
+            -webkit-text-fill-color: var(--white);
+            -webkit-text-fill-color: var(--dark);
+            color: var(--white);
+            -webkit-transition: max-height 0.3s;
+            -moz-transition: max-height 0.3s;
+            transition: max-height 0.3s;
+        }
+
+        .checkbox-budget:not(:checked) + label span::before {
+            max-height: 0;
+        }
+
+        .checkbox-budget:checked + label span::before {
+            max-height: 100%;
+        }
+
+    .checkbox:checked ~ .section .container .row .col-xl-10 .checkbox-budget:not(:checked) + label {
+        background-color: var(--light);
+        -webkit-text-stroke: 1px var(--dark-blue);
+        -webkit-text-stroke: 1px var(--dark-blue);
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+        background-color: #fff;
+        position: absolute;
+        top: -50px;
+        left: calc(48% - 50px);
+    }
+</style>
+
+<div class="center">
+    <img src="~/images/purplehub.png" class="avatar">
+    <br />
+    <br />
+    <h1>Welcome Back.</h1>
+    <form asp-action="BasicLogin">
+
+
+
+        <div class="form-floating mb-3">
+            <input asp-for="Username" class="form-control" id="floatingInput" placeholder="Username" type="text" required>
+            <label for="floatingInput">Username/JMU EID</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Password" class="form-control" id="floatingInput" placeholder="Password" type="password" required>
+            <label for="floatingInput">Password</label>
+        </div>
+        <br />
+        <div class="text-center">
+            <div class="pass">Forgot Password?</div>
+            <input class="submitButton" type="submit" value="Login" />
+        </div>
+        <br />
+        <div class="text-center">
+            Not a member yet? <a asp-page="UsersPages/CreateHashedLogin">Sign up</a>
+        </div>
+
+    </form>
+
+
+    @{
+        if (ViewData["LoginMessage"] != null)
+        {
+                <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
+        }
+
+        if (Model.alert != null)
+        {
+                <script type="text/javascript">
+                    myFunction.call(@HttpContext.Session.GetString("loginAlert");
+                </script>
+        }
+    }
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@page
+@model BasicLoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    img.logo{
+        width: 250px;
+        height: 100%;
+    }
+</style>
 
 <div class="center">
     <h1>Login</h1>
@@ -32,14 +227,14 @@
 @{
     if (ViewData["LoginMessage"] != null)
     {
-                <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
+                        <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
     }
 
     if (Model.alert != null){
-                <script type="text/javascript">
-                   myFunction.call(@HttpContext.Session.GetString("loginAlert");
-                </script>
+                        <script type="text/javascript">
+                           myFunction.call(@HttpContext.Session.GetString("loginAlert");
+                        </script>
     }
 }
 
-</div>
+</div>*@

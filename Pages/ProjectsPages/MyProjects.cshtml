@@ -1,38 +1,198 @@
 ﻿@page
+@using Lab1.Pages.DB_Class;
+@using System.Data.SqlClient;
 @model Lab1.Pages.ProjectsPages.MyProjectsModel
 @{
 }
 
-<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
-<a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
-<h2 class="h2">My Projects</h2>
-<table class="table table-bordered table-striped table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>ProjectName</th>
-            <th>ProjectDescription</th>
-            <th>ProjectType</th>
-            <th>Edit This Project</th>
-            <th>Create a Project Team</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var project in Model.ProjectList)
-            {
-                <tr>
-                    <td>@project.ProjectName</td>
-                    <td>@project.ProjectDescription</td>
-                    <td>@project.ProjectType</td>
-                    <td>
-                        <a asp-page="EditProject" class="btn btn-primary" asp-route-ProjectID="@project.ProjectID">Edit</a>
-                    </td>
-                    <td>
-                        <a asp-page="/TeamsPages/AddTeam" class="btn btn-primary">Create a Team</a>
-                    </td>
-                </tr>
-            }
+
+    <style>
+
+h2{
+    font-family: Helvetica, Sans-Serif;
+    font-weight: bold;
+    color:#31184C ;
+}
+
+h3{
+    font-family: Helvetica, Sans-Serif;
+      font-weight: bold;
+      color:#31184C;
+      display: flex;
+      text-align: center;
+      font-size: small;
+}
+
+h4{
+      font-family: Helvetica, Sans-Serif;
+      font-weight: bold;
+      color:white;
+   
+    }
+
+  h5{
+      font-family: Helvetica, Sans-Serif;
+      font-weight: bold;
+      color:#31184C;
+   
+    }
+    h6{
+      font-family: Helvetica, Sans-Serif;
+      color:grey;
+      font-size: small;
+      
+    }
+    p{
+      font-family: Helvetica, Sans-Serif;
+      color:black;
+    }
+
+.search{
+    grid-column: 3/10;
+    grid-row: 1/2;
+}
+.createproject{
+grid-column: 10/11;
+grid-row: 1/2;
+}
+
+    .projects{
+    display: grid;
+    margin:0 auto;
+    max-width: 1500px;
+    grid-template-columns:repeat(12, 1fr);
+    gap: 20px 20px;
+    background-color:#eae6ee;
+    padding: 30px;
+    padding-inline-start: 2%;
+    }
+
+.owned{
+    grid-column: 3/7;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    padding: 7%;
+    align-items: center;
+}
+.joined{
+grid-column: 7/11;
+background-color:white;
+border-radius: 10px;
+text-align: center;
+padding: 7%;
+
+
+}
+
+.cardleft{
+    grid-column: 3/7;
+    background-color:white;
+    border-radius: 10px;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.cardright{
+    grid-column: 7/11;
+    background-color: WHITE;
+    border-radius: 10px;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+
+}
+
+
+a{
+    text-decoration: none;
+    align-items: center;
+}
+
+
+    
+.btn-primary{
+            background-color:#31184C;
+            border: #31184C;
+            display: flex;
+            float: inline-end;
         }
-    </tbody>
-</table>
-<br />
+        .btn-primary:hover {
+      background-color:#9582AA;
+    }
+
+</style>
+
+
+<div class="projects">
+
+<div class="owned">
+    <h2> Owned Projects</h2>
+</div>
+
+<div class="joined">
+    <h2> Joined Projects</h2>
+</div>
+
+
+
+    <div class="cardleft">
+        
+        @{
+        SqlDataReader ownedProject = DBClass.MyOwnedProjects(HttpContext.Session.GetString("username"));
+
+        while (ownedProject.Read())
+        {
+
+            <a href="novelprostheticsuspensionsystem.html">
+                <div class="card mb-3">
+                    <img src="~/images/purplecover.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@ownedProject["ProjectName"]</h5>
+                        <p class="card-text">@ownedProject["ProjectDescription"]</p>
+                        <p class="card-owner"><small class="text-muted">Project Owner: @ownedProject["ProjectOwner"]</small></p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">See Details &rarr; </small>
+                    </div>
+                </div>
+            </a>
+        }
+
+        ownedProject.Close();
+
+        }
+    </div>
+
+<div class="cardright">
+
+
+@{
+    //this gives us a query with the right data for each project that we own
+    SqlDataReader joinedProject = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
+
+    while(joinedProject.Read()){
+
+
+            <a href="novelprostheticsuspensionsystem.html">
+                <div class="card mb-3">
+                    <img src="~/images/purplecover.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@joinedProject["ProjectName"]</h5>
+                        <p class="card-text">@joinedProject["ProjectDescription"]</p>
+                        <p class="card-owner"><small class="text-muted">Project Owner: @joinedProject["ProjectOwner"]</small></p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">See Details &rarr; </small>
+                    </div>
+                </div>
+            </a>
+    }
+
+    joinedProject.Close();
+
+}
+</div>
+
+</div>

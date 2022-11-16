@@ -66,6 +66,7 @@ namespace Lab1.Pages.UsersPages
                     ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();
                 }
             }
+            singleUser.Close();
 
             SqlDataReader varSkillReader = DBClass.SkillsTableReader();
             //Loop through the rows of the product reader
@@ -79,6 +80,8 @@ namespace Lab1.Pages.UsersPages
                     SkillName = varSkillReader["SkillName"].ToString(),
                 });
             }
+
+            varSkillReader.Close();
 
             SqlDataReader teamReader = DBClass.TeamsTableReader();
             //Loop through the rows of the product reader
@@ -123,6 +126,7 @@ namespace Lab1.Pages.UsersPages
             {
                 listToRemove.Add((int)QueryResults["SkillID"]);
             }
+            QueryResults.Close();
 
             // [8,9,10,11] // listToRemove(pre-existing)
             // [8,9,10,11,12,13] // selectedSkills

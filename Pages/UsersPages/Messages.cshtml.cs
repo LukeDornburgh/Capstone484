@@ -37,6 +37,8 @@ namespace Lab1.Pages.UsersPages
                     Position = userReader["Position"].ToString()
                 });
             }
+
+            userReader.Close();
         }
     }
 }

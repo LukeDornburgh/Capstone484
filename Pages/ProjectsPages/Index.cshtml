@@ -339,6 +339,7 @@
                                     </div>
                                 </div>
                         }
+                        Model.returnReader.Close();
 
                     }
                     else
@@ -380,15 +381,17 @@
                                                 }
                                                 else
                                                 {
-                                                            <div>Request Pending...</div>
+                                                    <div>Request Pending...</div>
                                                 }
                                             }
-                                            }
+                                            QueryResults1.Close();
+                                        }
                                             <small class="text-muted">See Details &rarr; </small>
                                         </div>
                                     </div>
-                                </div>
+                            </div>
                         }
+                        QueryResults.Close();
                     }
                 }
             </div>

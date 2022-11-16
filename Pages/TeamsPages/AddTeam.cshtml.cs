@@ -36,6 +36,7 @@ namespace Lab1.Pages.TeamsPages
                 });
             }
             varProjectReader.Close();
+            DBClass.CloseGlobalConnection();
         }
         public IActionResult OnPost()
         {
@@ -64,6 +65,7 @@ namespace Lab1.Pages.TeamsPages
                     });
                 }
                 varProjectReader.Close();
+                DBClass.CloseGlobalConnection();
 
                 ModelState.Clear();
                 NewTeam.TeamName = "Team 11";

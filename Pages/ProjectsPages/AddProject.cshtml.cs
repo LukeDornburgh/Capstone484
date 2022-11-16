@@ -35,6 +35,7 @@ namespace Lab1.Pages.ProjectsPages
             });
             }
             varOwnerReader.Close();
+            DBClass.CloseGlobalConnection();
         }
         public IActionResult OnPost()
         {
@@ -62,6 +63,7 @@ namespace Lab1.Pages.ProjectsPages
                 }
 
                 varOwnerReader.Close();
+                DBClass.CloseGlobalConnection();
 
                 ModelState.Clear();
                 NewProject.ProjectName = "Project 25";

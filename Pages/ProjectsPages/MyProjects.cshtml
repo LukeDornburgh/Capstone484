@@ -161,6 +161,7 @@ a{
         }
 
         ownedProject.Close();
+            DBClass.CloseGlobalConnection();
 
         }
     </div>
@@ -191,6 +192,7 @@ a{
     }
 
     joinedProject.Close();
+    DBClass.CloseGlobalConnection();
 
 }
 </div>

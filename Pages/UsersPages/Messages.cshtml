@@ -187,6 +187,8 @@
 
         }
         messageData.Close();
+        DBClass.CloseGlobalConnection();
     }
     conversationReader.Close();
+    DBClass.CloseGlobalConnection();
 }

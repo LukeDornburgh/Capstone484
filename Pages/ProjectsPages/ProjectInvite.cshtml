@@ -1,4 +1,5 @@
 ﻿@page
+@using Lab1.Pages.DB_Class;
 @model Lab1.Pages.ProjectsPages.ProjectInviteModel
 @{
     ViewData["Title"] = "Project Invite";
@@ -23,6 +24,7 @@
             <p> @Model.ExistingInvites["ProjectName"], </p>
         }
         Model.ExistingInvites.Close();
+        DBClass.CloseGlobalConnection();
     }
     @{
         if(Model.inviteText != null){

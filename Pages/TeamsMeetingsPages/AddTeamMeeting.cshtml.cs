@@ -35,6 +35,7 @@ namespace Lab1.Pages.TeamsMeetingsPages
             }
 
             varTeamFKReader.Close();
+            DBClass.CloseGlobalConnection();
         }
         public IActionResult OnPost()
         {
@@ -66,6 +67,7 @@ namespace Lab1.Pages.TeamsMeetingsPages
                 }
 
                 varTeamFKReader.Close();
+                DBClass.CloseGlobalConnection();
 
                 ModelState.Clear();
                 NewTeamMeeting.Date = DateTime.Now;

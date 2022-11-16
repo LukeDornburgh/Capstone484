@@ -39,7 +39,7 @@
             width: 100%;
             height: auto;
             /*padding: 10px;
-                                            float: left;*/
+                    float: left;*/
         }
 
         .buttons4 {
@@ -94,9 +94,10 @@
             display: inline-block;
         }
 
-        a {
-            text-decoration: none;
+        .color {
+            text-decoration: underline;
             color: white;
+            --bs-link-hover-color: #9582aa;
         }
 
         .signup {
@@ -106,6 +107,41 @@
             .signup:hover {
                 text-decoration: none;
                 color: inherit;
+            }
+
+        #feedback {
+            width: 40px; /* width of button */
+            height: 40px; /* height of button */
+            line-height: 30px;
+            overflow: hidden;
+            z-index: 999;
+            cursor: pointer;
+            transform: rotate(270deg); /* turns right arrow 270 degrees */
+            position: fixed; /* fixed at bottom corner */
+            bottom: 30px; /* distance from bottom */
+            right: 40px; /* distance from right */
+            padding: 4px 4px 13px 4px; /* padding around arrow */
+            border-radius: 5px;
+            background: #31184C; /* background with transparency */
+            color: #eee; /* color of arrow */
+            text-align: center;
+            font-size: 20px; /* size of the arrow */
+            text-decoration: none;
+        }
+
+            #feedback:link {
+                background: #31184C;
+                color: #eee;
+            }
+
+            #feedback:hover {
+                background: #D8EC91;
+                color: #ccc;
+            }
+
+            #feedback:active {
+                background: #D8EC91;
+                color: #eee;
             }
 
     </style>
@@ -126,10 +162,10 @@
                     </div>
 
                     <div>
-                        <a asp-area="" asp-page="/UsersPages/AllProfiles">People</a>
+                        <a class="color" asp-area="" asp-page="/UsersPages/AllProfiles">People</a>
                     </div>
                     <div>
-                        <a asp-area="" asp-page="/ProjectsPages/Index">Projects</a>
+                        <a class="color" asp-area="" asp-page="/ProjectsPages/Index">Projects</a>
                     </div>
                     <div class="divider">|</div>
                     <div>
@@ -181,7 +217,7 @@
 
                     </div>
                     <div class="nav3">
-                        <a type="button" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Log Out</a>
+                        <a class="color" type="button" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Log Out</a>
                     </div>
 
                     <button class="hamburger">
@@ -211,63 +247,6 @@
             }
         }
 
-
-        @*<nav>
-
-        <h1><img src="~/images/MCHwordmark.png"></h1>
-
-        <div class="menu">
-        <a asp-area="" asp-page="/UsersPages/AllProfiles">People</a>
-        <a asp-area="" asp-page="/ProjectsPages/Index">Projects</a>
-        @*<a asp-area="" asp-page="/TeamsPages/MyTeams">My Teams</a>
-        <a asp-area="" asp-page="/TeamsMeetingsPages/Index">My Meetings</a>*@
-
-        @*<div class="v1"></div>
-        </div>
-
-        <div class="rightNav">
-        @{
-        if (Context.Session.GetString("username") != null)
-        {
-        <p>
-        Hello: @Context.Session.GetString("username")
-        </p>
-        }
-        }
-        @{
-        if (Context.Session.GetString("username") == null)
-        {
-        <p></p>
-        }
-        }
-        @{
-        if (Context.Session.GetString("username") == null)
-        {
-        <a class="buttonLink" asp-area="" asp-page="/BasicLogin">Log in</a>
-
-        }
-        else
-        {
-        <a class="buttonLink notification" asp-area="" asp-page="/ProjectsPages/RequestNotifications">
-        <span>Notifications</span>
-        @{
-        if (Context.Session.GetInt32("badgeNum") != 0)
-        {
-        <span style="border-radius: 80%" class="badge">@Context.Session.GetInt32("badgeNum")</span>
-        }
-        }
-        </a>
-        <a class="buttonLink" asp-area="" asp-page="/UsersPages/Index">My Profile</a>
-        <a class="buttonLink" asp-area="" asp-page="/BasicLogin" asp-route-logout="true">Logout</a>
-        }
-        }
-        </div>
-
-        <button class="hamburger">
-        <span class="material-icons">menu</span>
-        </button>
-        </nav>*@
-
         <div class="mobile-menu">
             <a asp-area="" asp-page="/Index">Home</a>
             <a asp-area="" asp-page="/UsersPages/Index">Users</a>
@@ -285,6 +264,39 @@
             @RenderBody()
         </main>
     </div>
+
+    <!-- Button trigger modal -->
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="staticBackdropLabel">Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>Got a comment or question? Let us know!</h3></label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="mailto:madisonconnecthub@gmail.com?subject=Feedback for Madison Connect Hub">
+                        <button type="button" class="btn btn-primary">Send Email</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- feedback button -->
+    <a id="feedback" title="feedback" a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 20 20">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z" />
+        </svg>
+    </a>
 
     <footer class="border-top footer text-muted">
         <div class="container">

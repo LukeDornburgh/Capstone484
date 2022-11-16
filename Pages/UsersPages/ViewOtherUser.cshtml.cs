@@ -31,6 +31,7 @@ namespace Lab1.Pages.UsersPages
 
                 });
             }
+            singleUser.Close();
         }
     }
 }

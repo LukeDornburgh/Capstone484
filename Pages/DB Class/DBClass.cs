@@ -15,14 +15,14 @@ namespace Lab1.Pages.DB_Class
 
         //connection string
         //private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab1;Trusted_Connection=True";
-        private static readonly string AuthConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=AUTH;uid=admin;password=dukedog1";
-        private static readonly string Lab1ConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=ConnectHub;uid=admin;password=dukedog1";
+        private static readonly string AuthConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=AUTH;uid=admin;password=dukedog1;Pooling=false";
+        private static readonly string Lab1ConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=ConnectHub;uid=admin;password=dukedog1;Pooling=false";
 
 
         public static void CloseGlobalConnection()
         {
-
             globalReader.Connection.Close();
+            SqlConnection.ClearAllPools();
         }
 
         public static SqlDataReader TableReader(string email)
@@ -32,12 +32,12 @@ namespace Lab1.Pages.DB_Class
             //open a connection
             //issue the query
             //capture those results and return them
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * FROM Users WHERE Users.Email = '" + email + "'";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * FROM Users WHERE Users.Email = '" + email + "'";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 
@@ -70,12 +70,12 @@ namespace Lab1.Pages.DB_Class
             //open a connection
             //issue the query
             //capture those results and return them
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * FROM Users;";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * FROM Users;";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 
@@ -91,12 +91,12 @@ namespace Lab1.Pages.DB_Class
 
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * FROM Projects";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * FROM Projects";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
 
 
@@ -110,30 +110,30 @@ namespace Lab1.Pages.DB_Class
 
             //need to get a string with each team the user who is logged in belongs to and then display all the projects that
             //arent associated with those teams
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection(); 
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+            
+            globalReader.Connection = new SqlConnection(); 
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
                 "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             while (tempReader.Read())
             {
                 teamList += tempReader["TeamID"] + ",";
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
                 "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, concat(Users.FirstName, ' ', Users.LastName) " +
                 "as ProjectOwner from Users JOIN Projects on Projects.UserID = Users.UserID where NOT Projects.UserID = " + temp + " " +
                 "AND projects.ProjectID in (select Teams.ProjectID from teams where teams.TeamID in (select TeamMembers.TeamID " +
                 "from TeamMembers where TeamMembers.TeamID in (select value from string_split('" + teamList + "',','))));";
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader1 = globalReader.ExecuteReader();
             return tempReader1;
         }
 
@@ -143,14 +143,14 @@ namespace Lab1.Pages.DB_Class
             int temp = GetUserIDSession(email);
 
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
                 "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, concat(Users.FirstName, ' ', Users.LastName) as " +
                 "ProjectOwner from Users JOIN Projects on Projects.UserID = Users.UserID where Projects.UserID = " + temp + ";";
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader1 = globalReader.ExecuteReader();
             return tempReader1;
         }
 
@@ -159,14 +159,14 @@ namespace Lab1.Pages.DB_Class
         public static SqlDataReader InvitesDropdownReader(string email, int userID)
         {
             //this should return all the projects that the current user does not have an invite pending for
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from projects where Projects.UserID in (select Users.UserID from Users " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from projects where Projects.UserID in (select Users.UserID from Users " +
                 "WHERE Users.Email = '" +  email + "') AND Projects.ProjectID " +
                 "NOT in(select Invites.ProjectID from Invites where Invites.UserID = " + userID + ");";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -174,13 +174,13 @@ namespace Lab1.Pages.DB_Class
         {
             int temp = GetUserIDSession(email);
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "select Projects.ProjectName from projects where projects.projectID " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "select Projects.ProjectName from projects where projects.projectID " +
                 "in(select Invites.projectID from Invites where Invites.ProjectOwnerID = " + temp + " and  Invites.UserID = "  + UserID + ");";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -212,12 +212,12 @@ namespace Lab1.Pages.DB_Class
 
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * FROM Teams";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * FROM Teams";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
 
 
@@ -234,12 +234,12 @@ namespace Lab1.Pages.DB_Class
 
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from Teams where teams.TeamID in (Select TeamMembers.TeamId from TeamMembers where TeamMembers.UserID  in (select Users.UserID from Users WHERE Users.Email = '" + email + "'));";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from Teams where teams.TeamID in (Select TeamMembers.TeamId from TeamMembers where TeamMembers.UserID  in (select Users.UserID from Users WHERE Users.Email = '" + email + "'));";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
 
 
@@ -254,12 +254,12 @@ namespace Lab1.Pages.DB_Class
             //issue the query
             //capture those results and return them
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from TeamMeetings where TeamMeetings.TeamID in(Select teams.TeamID from Teams where teams.TeamID in (Select TeamMembers.TeamId from TeamMembers where TeamMembers.UserID  in (select Users.UserID from Users WHERE Users.Email = '" + email + "')));";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from TeamMeetings where TeamMeetings.TeamID in(Select teams.TeamID from Teams where teams.TeamID in (Select TeamMembers.TeamId from TeamMembers where TeamMembers.UserID  in (select Users.UserID from Users WHERE Users.Email = '" + email + "')));";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
         }
@@ -270,12 +270,14 @@ namespace Lab1.Pages.DB_Class
         {
             string sqlQuery = "INSERT INTO Skills (SkillName) VALUES (";
             sqlQuery += "'" + s.SkillName + "')";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static void InsertProject(Projects p)
@@ -287,12 +289,14 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + p.ProjectMission + "',";
             sqlQuery += "'" + p.ProjectType + "',";
             sqlQuery += "'" + p.UserID + "')";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
 
             //get the project ID of the new project
             int pID = GetProjectID(p.ProjectName);
@@ -307,6 +311,7 @@ namespace Lab1.Pages.DB_Class
             sqlProductRead2.CommandText = sqlQuery1;
             sqlProductRead2.Connection.Open();
             sqlProductRead2.ExecuteNonQuery();
+            sqlProductRead2.Connection.Close();
 
             //get the teamID of the new team
             int temp2 = GetTeamID(p.ProjectName);
@@ -322,7 +327,7 @@ namespace Lab1.Pages.DB_Class
             sqlProductRead3.CommandText = sqlQuery2;
             sqlProductRead3.Connection.Open();
             sqlProductRead3.ExecuteNonQuery();
-
+            sqlProductRead3.Connection.Close();
 
         }
 
@@ -330,12 +335,12 @@ namespace Lab1.Pages.DB_Class
         {
             string sqlQuery = "Select Teams.TeamID from Teams where Teams.TeamName = '" + teamName + "';";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             int result = 0;
 
@@ -343,7 +348,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader["TeamID"];
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
             return result;
 
@@ -353,12 +358,12 @@ namespace Lab1.Pages.DB_Class
         {
             string sqlQuery = "Select Projects.ProjectID from Projects where Projects.ProjectName = '" + projectName + "';";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             int result = 0;
 
@@ -366,7 +371,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader["ProjectID"];
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
             return result;
 
@@ -379,12 +384,14 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + t.TeamEmailAddress + "',";
             sqlQuery += "'" + t.TeamDescription + "',";
             sqlQuery += "'" + t.ProjectID + "')";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
 
             int user = GetUserIDSession(email);
             int teamID = GetTeamID(t.TeamName);
@@ -394,12 +401,14 @@ namespace Lab1.Pages.DB_Class
             sqlQuery1 += user;
             sqlQuery1 += ", " + teamID + ", ";
             sqlQuery1 += "'Project Leader');";
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = sqlQuery1;
-            cmdProductRead1.Connection.Open();
-            cmdProductRead1.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery1;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader GetSpecificSkillObject(int num)
@@ -422,22 +431,24 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + t.Notes + "',";
             sqlQuery += "'" + t.Location + "',";
             sqlQuery += "'" + t.TeamID + "')";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader SingleUserReader(int UserID)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * from Users WHERE UserID = " + UserID + ";";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * from Users WHERE UserID = " + UserID + ";";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
         }
@@ -459,26 +470,28 @@ namespace Lab1.Pages.DB_Class
                 sqlQuery += "ProfilePicturePath=@ProfilePicturePath,";
             }
             sqlQuery += "Position='" + p.Position + "'" + "WHERE UserID=" + p.UserID;
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
             if(p.ProfilePicturePath != null)
             {
-                cmdProductRead.Parameters.AddWithValue("@ProfilePicturePath", p.ProfilePicturePath);
+                globalReader.Parameters.AddWithValue("@ProfilePicturePath", p.ProfilePicturePath);
             }
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader SingleSkillReader(int SkillID)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * from Skills WHERE SkillID = " + SkillID;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * from Skills WHERE SkillID = " + SkillID;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
         }
@@ -487,22 +500,23 @@ namespace Lab1.Pages.DB_Class
         {
             string sqlQuery = "Update Skills SET ";
             sqlQuery += "SkillName='" + s.SkillName + "'" + "WHERE SkillID=" + s.SkillID;
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader SingleProjectReader(int ProjectID)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from Projects WHERE ProjectID = " + ProjectID;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from Projects WHERE ProjectID = " + ProjectID;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -518,22 +532,23 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "ProjectType='" + p.ProjectType + "'" + "WHERE ProjectID=" + p.ProjectID;
             Console.WriteLine(sqlQuery);
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader SingleTeamReader(int TeamID)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from Teams WHERE TeamID = " + TeamID;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from Teams WHERE TeamID = " + TeamID;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
 
 
@@ -552,24 +567,25 @@ namespace Lab1.Pages.DB_Class
 
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
 
 
         public static SqlDataReader SingleTeamMeetingReader(int TeamMeetingID)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from TeamMeetings WHERE TeamID = " + TeamMeetingID;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from TeamMeetings WHERE TeamID = " + TeamMeetingID;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
 
 
@@ -589,12 +605,13 @@ namespace Lab1.Pages.DB_Class
 
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
         public static void PopulateSkillBridge(Users u, int s)
@@ -603,35 +620,37 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + s + "',";
             sqlQuery += "'" + u.UserID + "')";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
         public static void RemoveSkillFromUser(Users u, int s)
         {
             string sqlQuery = "DELETE from SkillsAssociation WHERE SkillsAssociation.SkillID = " + s + " AND SkillsAssociation.UserID = " + u.UserID + ";";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
         //General reader query for bypassing the model page and calling a query from the view page via razor code
 
         public static SqlDataReader GeneralReaderQuery(string sqlQuery)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
         }
@@ -642,12 +661,13 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + u.UserID + "',";
             sqlQuery += "'" + s + "')";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
         }
 
         // New Methods for DBClass.cs
@@ -708,26 +728,21 @@ namespace Lab1.Pages.DB_Class
         public static bool StoredProcedureLogin(string Username, string Password)
         {
 
-            //call the stored procedure to retrieve the true password from the DB based on the Username 
-            //check the parameter hashed and the retrival from the SP. 
-
-
-
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = AuthConStr;
-            cmdProductRead.CommandType = System.Data.CommandType.StoredProcedure;
-            cmdProductRead.Parameters.AddWithValue("@Username", Username);
-            cmdProductRead.CommandText = "sp_hashedlogin";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            SqlCommand command = new SqlCommand();
+            command.Connection = new SqlConnection();
+            command.Connection.ConnectionString = AuthConStr;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Username", Username);
+            command.CommandText = "sp_hashedlogin";
+            command.Connection.Open();
+            SqlDataReader tempReader = command.ExecuteReader();
 
             string correctHash = "";
             while (tempReader.Read())
             {
                 correctHash = tempReader["Password"].ToString();
             }
-            cmdProductRead.Connection.Close();
+            command.Connection.Close();
 
 
 
@@ -762,6 +777,8 @@ namespace Lab1.Pages.DB_Class
             // Method returns first column of first row.
             cmdLogin.ExecuteNonQuery();
 
+            cmdLogin.Connection.Close();
+
             string sqlQuery = "INSERT INTO Users (FirstName, LastName, Email, ProfessionalEmail, Phone, Position) VALUES (";
             sqlQuery += "'" + u.FirstName + "',";
             sqlQuery += "'" + u.LastName + "',";
@@ -769,12 +786,13 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + u.ProfessionalEmail + "',";
             sqlQuery += "'" + u.Phone + "',";
             sqlQuery += "'" + u.Position + "');";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
 
         }
 
@@ -786,12 +804,12 @@ namespace Lab1.Pages.DB_Class
             " where Requests.ProjectOwnerID = ";
             sqlQuery += userID + "AND Requests.Status = 'Pending';";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             int result = 0;
 
@@ -799,23 +817,23 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader["number"];
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
             string sqlQuery1 = "SELECT Count(Users.FirstName) as number FROM Users JOIN Invites ON Invites.UserID = Users.UserID " +
                 "JOIN Projects ON Projects.ProjectID = Invites.ProjectID where Invites.UserID = " + userID + " AND Invites.Status = 'Pending';";
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = sqlQuery1;
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery1;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader1 = globalReader.ExecuteReader();
 
             while (tempReader1.Read())
             {
                 result += (int)tempReader1["number"];
             }
-            cmdProductRead1.Connection.Close();
+            globalReader.Connection.Close();
 
             return result;
         }
@@ -827,44 +845,43 @@ namespace Lab1.Pages.DB_Class
 
             //need to get a string with each team the user who is logged in belongs to and then display all the projects that
             //arent associated with those teams
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
                 "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             while (tempReader.Read())
             {
                 teamList += tempReader["TeamID"] + ",";
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "select Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
                 "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, concat(Users.FirstName, ' ', Users.LastName) " +
                 "as ProjectOwner from Users JOIN Projects on Projects.UserID = Users.UserID where " +
                 "NOT Projects.UserID = " + temp + " AND projects.ProjectID in (select Teams.ProjectID from teams where teams.TeamID " +
                 "in (select TeamMembers.TeamID from TeamMembers where TeamMembers.TeamID NOT in (select value from string_split('" + teamList + "', ','))));";
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempReader1 = cmdProductRead1.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader1 = globalReader.ExecuteReader();
             return tempReader1;
         }
 
 
         public static SqlDataReader UserSearch(string searchText)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandType = System.Data.CommandType.StoredProcedure;
-            cmdProductRead.Parameters.AddWithValue("@SearchText", searchText);
-            cmdProductRead.CommandText = "sp_usersearch"; 
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandType = System.Data.CommandType.StoredProcedure;
+            globalReader.Parameters.AddWithValue("@SearchText", searchText);
+            globalReader.CommandText = "sp_usersearch"; 
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -890,45 +907,45 @@ namespace Lab1.Pages.DB_Class
 
             //need to get a string with each team the user who is logged in belongs to and then display all the projects that
             //arent associated with those teams
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
                 "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             while (tempReader.Read())
             {
                 teamList += tempReader["TeamID"] + ",";
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = "Select DISTINCT Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select DISTINCT Projects.ProjectID, Projects.UserID, Projects.ProjectName, " +
                 "Projects.ProjectDescription, Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, " +
                 "concat(Users.FirstName, ' ', Users.LastName) as ProjectOwner, TeamMembers.UserID from Projects JOIN Users on " +
                 "Users.UserID = Projects.UserID JOIN TeamMembers on TeamMembers.UserID = Users.UserID where TeamMembers.TeamID " +
                 "not in (select value from string_split('" + teamList + "', ',') as a) " +
                 "AND projects.College in(select value from string_split('" + filterList + "', ',') " +
                 "as b);";
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempreader1 = cmdProductRead1.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempreader1 = globalReader.ExecuteReader();
 
             return tempreader1;
         }
 
         public static SqlDataReader SkillSearch(string searchText)
         {
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select Skills.SkillID, Skills.SkillName from Skills" +
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select Skills.SkillID, Skills.SkillName from Skills" +
                 " where Skills.SkillName Like '%' + '" + searchText + "' + '%';";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -939,12 +956,12 @@ namespace Lab1.Pages.DB_Class
             //need to check to see if the owner has already invited us to this project. If they have, then perform the addition
             string sqlQuery1 = "SELECT * from Invites where Invites.UserID = " + userIDTemp + " AND Invites.ProjectID = " + ProjectID + " AND Invites.Status = 'Pending';";
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = sqlQuery1;
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead1.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery1;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             if (tempReader.HasRows)
             {
@@ -952,6 +969,7 @@ namespace Lab1.Pages.DB_Class
                 AcceptInvite(ProjectID, userIDTemp);
                 return "The owner of this project has already invited you to it. Welcome to the team!";
             }
+            globalReader.Connection.Close();
 
 
             string sqlQuery = "INSERT INTO Requests (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
@@ -960,12 +978,13 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += ProjectOwnerID + ",";
             sqlQuery += " 'Pending');";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
 
             return "The owner has already invited you, Welcome to the team!";
         }
@@ -978,12 +997,12 @@ namespace Lab1.Pages.DB_Class
             //need to add them to the teammembers table and delete both the invite and the request and notify the user
             string sqlQuery1 = "SELECT * from Requests where Requests.UserID = " + UserID + " AND Requests.ProjectID = " + ProjectID + " AND Requests.Status = 'Pending';";
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = sqlQuery1;
-            cmdProductRead1.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead1.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery1;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             if (tempReader.HasRows)
             {
@@ -992,6 +1011,7 @@ namespace Lab1.Pages.DB_Class
                 ApproveRequest(ProjectID, UserID);
                 return "User has already requested to join this project, therefore we have accepted this request for you. They are now on your team!";
             }
+            globalReader.Connection.Close();
 
             string sqlQuery = "INSERT INTO Invites (UserID, ProjectID, ProjectOwnerID, Status) VALUES (";
             sqlQuery += UserID + ",";
@@ -999,13 +1019,13 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += OwnerIDTemp + ",";
             sqlQuery += " 'Pending');";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            cmdProductRead.ExecuteNonQuery();
-
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
             return "User has been invited!";
 
         }
@@ -1016,18 +1036,18 @@ namespace Lab1.Pages.DB_Class
 
             string sqlQuery = "SELECT Users.UserID from Users where Users.Email = '" + email + "';";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             while (tempReader.Read())
             {
                 result = (int)tempReader["UserID"];
             }
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
             return result;
 
@@ -1045,12 +1065,12 @@ namespace Lab1.Pages.DB_Class
                 " where Requests.ProjectOwnerID = " + OwnerID + "ORDER BY Requests.Status;";
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
 
             return tempReader;
@@ -1068,12 +1088,12 @@ namespace Lab1.Pages.DB_Class
                 "where Invites.ProjectOwnerID = " + OwnerID + " ORDER BY Invites.Status;";
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 
@@ -1085,12 +1105,12 @@ namespace Lab1.Pages.DB_Class
             int temp = GetUserIDSession(email);
 
             string sqlQuery = "Select * from Requests where Requests.ProjectID = " + projectID + " AND Requests.UserID = " + temp + ";";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
         } 
@@ -1105,12 +1125,12 @@ namespace Lab1.Pages.DB_Class
                 "JOIN Projects ON Projects.ProjectID = Invites.ProjectID where Invites.UserID = " + UserID + " ORDER BY Invites.Status;";
 
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 
@@ -1125,12 +1145,12 @@ namespace Lab1.Pages.DB_Class
                 " JOIN Requests on Requests.ProjectID = Projects.ProjectID" +
                 " WHERE requests.ProjectID = " + projectID + ";";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             int teamID = 0;
 
@@ -1139,29 +1159,32 @@ namespace Lab1.Pages.DB_Class
                 teamID = (int)tempReader["TeamID"];
             }
 
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
             string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID) VALUES (";
             sqlQuery1 += userID + ", ";
             sqlQuery1 += teamID + ");";
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = sqlQuery1;
-            cmdProductRead1.Connection.Open();
-            cmdProductRead1.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery1;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
 
             //now to chnage the status of the request from pending to approved
 
             string sqlQuery2 = "Update Requests SET Status = 'Approved' where Requests.ProjectID = " + projectID + " AND Requests.UserID = " + userID + ";";
 
-            SqlCommand cmdProductRead2 = new SqlCommand();
-            cmdProductRead2.Connection = new SqlConnection();
-            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead2.CommandText = sqlQuery2;
-            cmdProductRead2.Connection.Open();
-            cmdProductRead2.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery2;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
 
         }
 
@@ -1174,12 +1197,12 @@ namespace Lab1.Pages.DB_Class
                 " JOIN Invites on Invites.ProjectID = Projects.ProjectID" +
                 " WHERE Invites.ProjectID = " + projectID + ";";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             int teamID = 0;
 
@@ -1188,29 +1211,32 @@ namespace Lab1.Pages.DB_Class
                 teamID = (int)tempReader["TeamID"];
             }
 
-            cmdProductRead.Connection.Close();
+            globalReader.Connection.Close();
 
             string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID) VALUES (";
             sqlQuery1 += userID + ", ";
             sqlQuery1 += teamID + ");";
 
-            SqlCommand cmdProductRead1 = new SqlCommand();
-            cmdProductRead1.Connection = new SqlConnection();
-            cmdProductRead1.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead1.CommandText = sqlQuery1;
-            cmdProductRead1.Connection.Open();
-            cmdProductRead1.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery1;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+            globalReader.Connection.Close();
 
             //now to chnage the status of the request from pending to approved
 
             string sqlQuery2 = "Update Invites SET Status = 'Approved' where Invites.ProjectID = " + projectID + " AND Invites.UserID = " + userID + ";";
 
-            SqlCommand cmdProductRead2 = new SqlCommand();
-            cmdProductRead2.Connection = new SqlConnection();
-            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead2.CommandText = sqlQuery2;
-            cmdProductRead2.Connection.Open();
-            cmdProductRead2.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery2;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
 
         }
 
@@ -1218,24 +1244,28 @@ namespace Lab1.Pages.DB_Class
         {
             string sqlQuery = "Update Requests SET Status = 'Denied' where Requests.ProjectID = " + ProjectID + " AND Requests.UserID = " + UserID + ";";
 
-            SqlCommand cmdProductRead2 = new SqlCommand();
-            cmdProductRead2.Connection = new SqlConnection();
-            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead2.CommandText = sqlQuery;
-            cmdProductRead2.Connection.Open();
-            cmdProductRead2.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static void RejectInvite(int ProjectID, int UserID)
         {
             string sqlQuery = "Update Invites SET Status = 'Denied' where Invites.ProjectID = " + ProjectID + " AND Invites.UserID = " + UserID + ";";
 
-            SqlCommand cmdProductRead2 = new SqlCommand();
-            cmdProductRead2.Connection = new SqlConnection();
-            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead2.CommandText = sqlQuery;
-            cmdProductRead2.Connection.Open();
-            cmdProductRead2.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader GetMessages(int UserID, string email)
@@ -1246,12 +1276,12 @@ namespace Lab1.Pages.DB_Class
                 " OR (SenderID = " + UserID + " and ReceiverID = " + myID + ") " +
                 "ORDER BY SendTime asc;";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             
             return tempReader;
         }
@@ -1263,12 +1293,14 @@ namespace Lab1.Pages.DB_Class
             string sqlQuery = "Insert into Messages (MessageBody, SendTime, SenderID, ReceiverID) " +
                 "VALUES ('" + message + "', '" + DateTime.Now + "'," + myID + "," + UserID + ");";
 
-            SqlCommand cmdProductRead2 = new SqlCommand();
-            cmdProductRead2.Connection = new SqlConnection();
-            cmdProductRead2.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead2.CommandText = sqlQuery;
-            cmdProductRead2.Connection.Open();
-            cmdProductRead2.ExecuteNonQuery();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            globalReader.ExecuteNonQuery();
+
+            globalReader.Connection.Close();
         }
 
         public static SqlDataReader ShowConversations(string email)
@@ -1279,12 +1311,12 @@ namespace Lab1.Pages.DB_Class
                 "(SELECT DISTINCT Messages.SenderID from Messages WHERE Messages.ReceiverID = " + myID + ") or users.UserID " +
                 "in(Select Messages.ReceiverID from Messages where Messages.SenderID = " + myID + ");";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
         }
@@ -1297,12 +1329,12 @@ namespace Lab1.Pages.DB_Class
                 " OR (SenderID = " + UserID + " and ReceiverID = " + myID + ") " +
                 "ORDER BY SendTime desc;";
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 

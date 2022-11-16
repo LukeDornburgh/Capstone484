@@ -27,6 +27,7 @@ namespace Lab1.Pages.SkillsPages
             }
 
             singleSkill.Close();
+            DBClass.CloseGlobalConnection();
         }
 
         public IActionResult OnPost()

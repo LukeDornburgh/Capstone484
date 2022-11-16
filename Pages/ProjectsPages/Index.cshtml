@@ -340,6 +340,7 @@
                                 </div>
                         }
                         Model.returnReader.Close();
+                        DBClass.CloseGlobalConnection();
 
                     }
                     else
@@ -385,6 +386,7 @@
                                                 }
                                             }
                                             QueryResults1.Close();
+                                            DBClass.CloseGlobalConnection();
                                         }
                                             <small class="text-muted">See Details &rarr; </small>
                                         </div>
@@ -392,6 +394,7 @@
                             </div>
                         }
                         QueryResults.Close();
+                        DBClass.CloseGlobalConnection();
                     }
                 }
             </div>

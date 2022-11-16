@@ -63,6 +63,7 @@ namespace Lab1.Pages.ProjectsPages
             }
 
             projectReader.Close();
+            DBClass.CloseGlobalConnection();
             return Page();
         }
 

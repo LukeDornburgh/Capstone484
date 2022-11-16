@@ -29,6 +29,7 @@ namespace Lab1.Pages.TeamsPages
             }
 
             singleTeam.Close();
+            DBClass.CloseGlobalConnection();
         }
 
         public IActionResult OnPost()

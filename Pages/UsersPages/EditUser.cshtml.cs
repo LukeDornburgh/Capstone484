@@ -67,6 +67,7 @@ namespace Lab1.Pages.UsersPages
                 }
             }
             singleUser.Close();
+            DBClass.CloseGlobalConnection();
 
             SqlDataReader varSkillReader = DBClass.SkillsTableReader();
             //Loop through the rows of the product reader
@@ -82,6 +83,7 @@ namespace Lab1.Pages.UsersPages
             }
 
             varSkillReader.Close();
+            DBClass.CloseGlobalConnection();
 
             SqlDataReader teamReader = DBClass.TeamsTableReader();
             //Loop through the rows of the product reader
@@ -101,10 +103,7 @@ namespace Lab1.Pages.UsersPages
             }
 
             teamReader.Close();
-
-            varSkillReader.Close();
-
-            singleUser.Close();
+            DBClass.CloseGlobalConnection();
 
         }
 
@@ -127,6 +126,7 @@ namespace Lab1.Pages.UsersPages
                 listToRemove.Add((int)QueryResults["SkillID"]);
             }
             QueryResults.Close();
+            DBClass.CloseGlobalConnection();
 
             // [8,9,10,11] // listToRemove(pre-existing)
             // [8,9,10,11,12,13] // selectedSkills

@@ -41,10 +41,11 @@ html {
     --JMULightGray: #D6D6D6;
 }
 
+
+
 body {
     background-color: #fff;
 }
-
 
 /*nav {
     position: relative;
@@ -264,7 +265,7 @@ body {
     padding: 2rem;
     font-family: Georgia sans-serif;
     height: 60vh;
-    overflow: hidden;
+    overflow: visible;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -393,7 +394,6 @@ form .txt-field{
     border: 1px solid var(--primary);
     border-radius: 5px;
     overflow: auto;
-    font-family: Helvetica, Sans-Serif;
 }
     .centerCreate h1 {
         text-align: center;
@@ -613,6 +613,9 @@ form .txt-field{
         box-sizing: border-box;
     }
 
+
+
+
     #tagArea span i {
         font-size: 20px;
         color: #adadad;
@@ -635,16 +638,16 @@ form .txt-field{
     margin-bottom: 12px; /* Add some space below the input */
 }
 
-img.logo {
+
+img.logo{
     max-width: 250px;
     height: 100%;
+
 }
 
-a {
+a{
     text-decoration: none;
-    color: white;
 }
-
 
 
 

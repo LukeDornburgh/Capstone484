@@ -1,4 +1,6 @@
 ﻿@page
+@using System.Data.SqlClient
+@using Lab1.Pages.DB_Class
 @model Lab1.Pages.ProjectsPages.AddProjectModel
 @{
 }
@@ -11,10 +13,14 @@
     <label> Project start date</label>
     <input class="form-control" type="date" asp-for="NewProject.ProjectBeginDate" />
     <br />
-    <input class="form-control" type="text" asp-for="NewProject.ProjectMission" placeholder="Enter your mission statement" />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectDuration" placeholder="Enter Duration of Project" />
     <br />
     <input class="form-control" type="text" asp-for="NewProject.ProjectType" placeholder="Project Type" width="100" />
     <br/>
+    <input class="form-control" type="text" asp-for="NewProject.DesiredSkills" placeholder="Enter Desired Skills for Project" width="100" />
+    <br />
+    <input class="form-control" type="text" asp-for="NewProject.GeneralTimeAvailability" placeholder="Time Availability" width="100" />
+    <br />
     <select name="NewProject.UserID">
         <option value="">Select Project Owner</option>
         @{

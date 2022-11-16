@@ -15,9 +15,16 @@ namespace Lab1.Pages.ProjectsPages
         [BindProperty]
         public List <Users> ProjectOwners { get; set; }
 
+        [BindProperty]
+        public List<Skills> SkillsWanted { get; set; }
+        public Users UserToUpdate { get; set; }
+
+
         public AddProjectModel()
         {
-            ProjectOwners = new List<Users>();    
+            ProjectOwners = new List<Users>();
+            SkillsWanted = new List<Skills>();
+            UserToUpdate = new Users();
         }
         public void OnGet()
         {
@@ -33,7 +40,10 @@ namespace Lab1.Pages.ProjectsPages
                     FirstName = varOwnerReader["FirstName"].ToString(),
                     LastName = varOwnerReader["LastName"].ToString(),
             });
+
+
             }
+
         }
         public IActionResult OnPost()
         {
@@ -58,14 +68,17 @@ namespace Lab1.Pages.ProjectsPages
                         FirstName = varOwnerReader["FirstName"].ToString(),
                         LastName = varOwnerReader["LastName"].ToString(),
                     });
+                    
                 }
 
                 ModelState.Clear();
                 NewProject.ProjectName = "Project 25";
                 NewProject.ProjectDescription = "New project!";
                 NewProject.ProjectBeginDate = DateTime.Now;
+                NewProject.ProjectDuration = "3 Months";
                 NewProject.ProjectMission = "this is our mission for lab 2";
                 NewProject.ProjectType = "Advanced";
+                NewProject.DesiredSkills = "Python, SQL, AWS";
                 NewProject.UserID = 1;
             }       
             return Page();

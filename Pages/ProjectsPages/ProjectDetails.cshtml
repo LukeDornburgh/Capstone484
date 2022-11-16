@@ -1,0 +1,60 @@
+﻿@page
+@using System.Data.SqlClient
+@using Lab1.Pages.DB_Class
+@model Lab1.Pages.ProjectsPages.ProjectDetailsModel
+@{
+    ViewData["Title"] = "Project Details";
+}
+}
+
+<a asp-page="Index" class="btn btn-secondary">&larr;  Back to Projects</a>
+
+<table class="table table-bordered table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>ProjectName</th>
+            <th>Proposed Start Date</th>
+            <th>Duration</th>
+            <th>Details</th>
+            <th>DesiredSkills</th>
+            <th>General Time Availability</th>
+            <
+        </tr>
+    </thead>
+    <tbody>
+
+
+
+        @{
+            foreach (var project in Model.DisplayedProject)
+            {
+                <tr>
+                    <td>@project.ProjectName</td>
+                    <td>@project.ProjectBeginDate</td>
+                    <td>@project.ProjectDuration</td>
+                    <td>@project.ProjectDescription</td>
+                    <td>@project.DesiredSkills</td>
+                    <td>@project.GeneralTimeAvailability</td>
+                </tr>
+
+            }
+        }
+
+
+    <thead>
+        <tr>
+            <th>Team Members</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            @{
+                foreach (var user in Model.TeamMembers)
+                {
+                <option value=@user.UserID>@user.FirstName @user.LastName</option>
+                }
+            }
+
+
+
+       

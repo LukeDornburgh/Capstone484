@@ -352,6 +352,7 @@
                                             {
                                                 <form asp-page="Index">
                                                     <button type="submit" class="simpleButton" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                                                    <p> <a asp-page="ProjectDetails" asp-route-ProjectID="@QueryResults["ProjectID"]" class="simpleButton">ProjectDetails</a> </p>
                                                 </form>
                                             }
                                             else

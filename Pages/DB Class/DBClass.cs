@@ -11,12 +11,19 @@ namespace Lab1.Pages.DB_Class
 {
     public class DBClass
     {
-
+        private static SqlCommand globalReader = new SqlCommand();
 
         //connection string
         //private static readonly string Lab1ConStr = @"Server=Localhost;Database=Lab1;Trusted_Connection=True";
         private static readonly string AuthConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=AUTH;uid=admin;password=dukedog1";
         private static readonly string Lab1ConStr = @"Server=teametadb.cdwfnemiw5lp.us-east-1.rds.amazonaws.com;Database=ConnectHub;uid=admin;password=dukedog1";
+
+
+        public static void CloseGlobalConnection()
+        {
+
+            globalReader.Connection.Close();
+        }
 
         public static SqlDataReader TableReader(string email)
         {
@@ -45,12 +52,11 @@ namespace Lab1.Pages.DB_Class
             //open a connection
             //issue the query
             //capture those results and return them
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * FROM Users WHERE NOT Users.UserID = " + temp + ";";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * FROM Users WHERE NOT Users.UserID = " + temp + ";";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 
@@ -116,7 +122,7 @@ namespace Lab1.Pages.DB_Class
             {
                 teamList += tempReader["TeamID"] + ",";
             }
-
+            cmdProductRead.Connection.Close();
 
             SqlCommand cmdProductRead1 = new SqlCommand();
             cmdProductRead1.Connection = new SqlConnection();
@@ -186,12 +192,11 @@ namespace Lab1.Pages.DB_Class
             //issue the query
             //capture those results and return them
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "SELECT * FROM Skills";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "SELECT * FROM Skills";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
 
             return tempReader;
 
@@ -338,6 +343,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader["TeamID"];
             }
+            cmdProductRead.Connection.Close();
 
             return result;
 
@@ -360,6 +366,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader["ProjectID"];
             }
+            cmdProductRead.Connection.Close();
 
             return result;
 
@@ -398,12 +405,12 @@ namespace Lab1.Pages.DB_Class
         public static SqlDataReader GetSpecificSkillObject(int num)
         {
             string sqlQuery = "Select * from Skills where Skills.SkillID = " + num + ";";
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = sqlQuery;
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -792,6 +799,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader["number"];
             }
+            cmdProductRead.Connection.Close();
 
             string sqlQuery1 = "SELECT Count(Users.FirstName) as number FROM Users JOIN Invites ON Invites.UserID = Users.UserID " +
                 "JOIN Projects ON Projects.ProjectID = Invites.ProjectID where Invites.UserID = " + userID + " AND Invites.Status = 'Pending';";
@@ -807,6 +815,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result += (int)tempReader1["number"];
             }
+            cmdProductRead1.Connection.Close();
 
             return result;
         }
@@ -830,7 +839,7 @@ namespace Lab1.Pages.DB_Class
             {
                 teamList += tempReader["TeamID"] + ",";
             }
-
+            cmdProductRead.Connection.Close();
 
             SqlCommand cmdProductRead1 = new SqlCommand();
             cmdProductRead1.Connection = new SqlConnection();
@@ -863,15 +872,14 @@ namespace Lab1.Pages.DB_Class
         {
             int temp = GetUserIDSession(email);
 
-            SqlCommand cmdProductRead = new SqlCommand();
-            cmdProductRead.Connection = new SqlConnection();
-            cmdProductRead.Connection.ConnectionString = Lab1ConStr;
-            cmdProductRead.CommandText = "Select * from (Select DISTINCT * FROM Users WHERE Users.UserID " +
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select * from (Select DISTINCT * FROM Users WHERE Users.UserID " +
                 "in(Select SkillsAssociation.UserID from SkillsAssociation where SkillsAssociation.SkillID in " +
                 " (Select Skills.SkillID from Skills WHERE Skills.SkillID in (select value from string_split('" + filterList + "', ' '))))) " +
                 " as a WHERE NOT UserID = " + temp + ";";
-            cmdProductRead.Connection.Open();
-            SqlDataReader tempReader = cmdProductRead.ExecuteReader();
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
             return tempReader;
         }
 
@@ -894,6 +902,7 @@ namespace Lab1.Pages.DB_Class
             {
                 teamList += tempReader["TeamID"] + ",";
             }
+            cmdProductRead.Connection.Close();
 
             SqlCommand cmdProductRead1 = new SqlCommand();
             cmdProductRead1.Connection = new SqlConnection();
@@ -1018,7 +1027,7 @@ namespace Lab1.Pages.DB_Class
             {
                 result = (int)tempReader["UserID"];
             }
-            tempReader.Close();
+            cmdProductRead.Connection.Close();
 
             return result;
 
@@ -1130,6 +1139,8 @@ namespace Lab1.Pages.DB_Class
                 teamID = (int)tempReader["TeamID"];
             }
 
+            cmdProductRead.Connection.Close();
+
             string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID) VALUES (";
             sqlQuery1 += userID + ", ";
             sqlQuery1 += teamID + ");";
@@ -1176,6 +1187,8 @@ namespace Lab1.Pages.DB_Class
             {
                 teamID = (int)tempReader["TeamID"];
             }
+
+            cmdProductRead.Connection.Close();
 
             string sqlQuery1 = "INSERT INTO TeamMembers (UserID, TeamID) VALUES (";
             sqlQuery1 += userID + ", ";

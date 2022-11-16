@@ -33,6 +33,8 @@ namespace Lab1.Pages.TeamsMeetingsPages
                     ProjectID = Int32.Parse(varTeamFKReader["ProjectID"].ToString()),
                 });
             }
+
+            varTeamFKReader.Close();
         }
         public IActionResult OnPost()
         {
@@ -62,6 +64,8 @@ namespace Lab1.Pages.TeamsMeetingsPages
                         ProjectID = Int32.Parse(varTeamFKReader["ProjectID"].ToString()),
                     });
                 }
+
+                varTeamFKReader.Close();
 
                 ModelState.Clear();
                 NewTeamMeeting.Date = DateTime.Now;

@@ -20,8 +20,9 @@
     @{
         while(Model.ExistingInvites.Read())
         {
-            <p> @Model.ExistingInvites["ProjectName"], </p>  
+            <p> @Model.ExistingInvites["ProjectName"], </p>
         }
+        Model.ExistingInvites.Close();
     }
     @{
         if(Model.inviteText != null){

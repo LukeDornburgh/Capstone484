@@ -34,6 +34,7 @@ namespace Lab1.Pages.ProjectsPages
                     LastName = varOwnerReader["LastName"].ToString(),
             });
             }
+            varOwnerReader.Close();
         }
         public IActionResult OnPost()
         {
@@ -59,6 +60,8 @@ namespace Lab1.Pages.ProjectsPages
                         LastName = varOwnerReader["LastName"].ToString(),
                     });
                 }
+
+                varOwnerReader.Close();
 
                 ModelState.Clear();
                 NewProject.ProjectName = "Project 25";

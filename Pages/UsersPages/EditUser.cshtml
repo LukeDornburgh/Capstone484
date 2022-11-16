@@ -160,41 +160,6 @@
         float: right;
     }
 
-    #feedback {
-        width: 40px; /* width of button */
-        height: 40px; /* height of button */
-        line-height: 30px;
-        overflow: hidden;
-        z-index: 999;
-        cursor: pointer;
-        transform: rotate(270deg); /* turns right arrow 270 degrees */
-        position: fixed; /* fixed at bottom corner */
-        bottom: 30px; /* distance from bottom */
-        right: 40px; /* distance from right */
-        padding: 4px 4px 13px 4px; /* padding around arrow */
-        border-radius: 5px;
-        background: #31184C; /* background with transparency */
-        color: #eee; /* color of arrow */
-        text-align: center;
-        font-size: 20px; /* size of the arrow */
-        text-decoration: none;
-    }
-
-        #feedback:link {
-            background: #31184C;
-            color: #eee;
-        }
-
-        #feedback:hover {
-            background: #D8EC91;
-            color: #ccc;
-        }
-
-        #feedback:active {
-            background: #D8EC91;
-            color: #eee;
-        }
-
     @@media only screen and (min-width: 620px) {
 
         .profile {
@@ -294,6 +259,19 @@
             grid-row: 1/2;
         }
 
+         #iconlabels {
+            font-family: Helvetica, Sans-Serif;
+            font-weight: bold;
+            color:#31184C;
+            font-size: small;
+            text-align: center;
+        }
+
+        .colors {
+            text-decoration: unset;
+            color:#31184C;
+        }
+
         .bio {
             grid-column: 6/11;
             grid-row: 2/4;
@@ -329,9 +307,9 @@
 
                 while (QueryResults.Read())
                 {
-                                    <tr>
-                                        <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
-                </tr>
+                                                <tr>
+                                                    <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
+                            </tr>
             }
             QueryResults.Close();
             DBClass.CloseGlobalConnection();
@@ -359,12 +337,12 @@
             @{
                 foreach (var skill in Model.SkillsDisplay)
                 {
-                        <tr>
-                            <td>
-                                <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                <label>@skill.SkillName</label>
-                            </td>
-                        </tr>
+                                    <tr>
+                                        <td>
+                                            <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                            <label>@skill.SkillName</label>
+                                        </td>
+                                    </tr>
                 }
             }
 
@@ -397,10 +375,10 @@
             @{
                 if (Model.ProfilePictureUrl != String.Empty)
                 {
-                        <img src="@Model.ProfilePictureUrl" width="500" height="250" />    
+                                    <img src="@Model.ProfilePictureUrl" width="500" height="250" />    
                 }
                 else{
-                        <p>Upload an Image</p>
+                                    <p>Upload an Image</p>
                 }
             } 
             <h2> @Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName</H2>
@@ -429,25 +407,19 @@
     </div>
 
     <div class="icons">
-    <a asp-page="/ProjectsPages/MyProjects">
+    <a class="colors" asp-page="/ProjectsPages/MyProjects">
     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
         <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
       </svg>
+      <div id="iconlabels">My Projects</div>
     </a>
-      
-    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
-        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
-      </svg>
 
-      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
-        <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
-      </svg>
-
-      <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">
+      <a class="colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
           <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
         </svg>
+        <div id="iconlabels">Upload Resume</div>
       </a>
 
           
@@ -482,9 +454,7 @@
         </div>
     </div>
 
-    <!-- Button trigger modal -->
     <!-- Modal -->
-    <!---->
 
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -553,47 +523,6 @@
                 </div>
             </div>
         </div>
-    <!-- Feedback Modal -->
-    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fs-5" id="staticBackdropLabel">Got a comment or question? Let us know!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label"><h3>First Name</h3></label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label"><h3>Last Name</h3></label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label"><h3>Email</h3></label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label"><h5> Feedback/Questions</h5></label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- feedback button -->
-    <a id="feedback" title="feedback" a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 20 20">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z" />
-        </svg>
-    </a>
-
 </div>
 
 <!-- Resume Upload Modal -->
@@ -668,30 +597,6 @@
     </div>
   </div>
 </div>
-
-
-<script>
-    /* Scroll to top when arrow up clicked BEGIN */
-    $(window).scroll(function () {
-        var height = $(window).scrollTop();
-        if (height > 100) {
-            $('#back2Top').fadeIn();
-        } else {
-            $('#back2Top').fadeOut();
-        }
-    });
-    $(document).ready(function () {
-        $("#back2Top").click(function (event) {
-            event.preventDefault();
-            $("html, body").animate({ scrollTop: 0 }, "slow");
-            return false;
-        });
-
-    });
-    /* Scroll to top when arrow up clicked END */
-</script>
-
-
 
     <script>
 

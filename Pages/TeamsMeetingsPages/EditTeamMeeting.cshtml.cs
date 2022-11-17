@@ -30,6 +30,7 @@ namespace Lab1.Pages.TeamMeetingsPages
             }
 
             singleTeamMeeting.Close();
+            DBClass.CloseGlobalConnection();
         }
 
         public IActionResult OnPost()

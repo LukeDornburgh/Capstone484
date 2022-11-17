@@ -72,10 +72,10 @@
                                 {
 
                                     <form asp-page="RequestNotifications">
-                                        <button type="submit" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                                        <button class="btn btn-primary type="submit" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
                                     </form>
                                     <form asp-page="RequestNotifications">
-                                        <button type="submit" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                                        <button class="btn btn-primary" type="submit" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
                                     </form>
 
                                 }
@@ -129,10 +129,10 @@
                             {
 
                                 <form asp-page="RequestNotifications">
-                                    <button type="submit" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
+                                    <button class="btn btn-primary" type="submit" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
                                 </form>
                                 <form asp-page="RequestNotifications">
-                                    <button type="submit" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
+                                    <button class="btn btn-primary" type="submit" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
                                 </form>
 
                             }
@@ -182,3 +182,6 @@
     }
     QueryResults2.Close();
 }
+<br />
+<br />
+<br />

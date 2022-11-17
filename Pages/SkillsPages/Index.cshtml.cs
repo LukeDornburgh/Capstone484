@@ -33,6 +33,7 @@ namespace Lab1.Pages.SkillsPages
             }
 
             skillReader.Close();
+            DBClass.CloseGlobalConnection();
             return Page();
         }
     }

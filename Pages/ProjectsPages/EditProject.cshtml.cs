@@ -31,6 +31,7 @@ namespace Lab1.Pages.ProjectsPages
             }
 
             singleProject.Close();
+            DBClass.CloseGlobalConnection();
         }
 
         public IActionResult OnPost()

@@ -157,8 +157,14 @@
         </div>
         <script>
             function ShowEmail(x) {
-                if (x == 1) { document.getElementById("profEmail").style.display = 'block'; }
-                else { document.getElementById("profEmail").style.display = 'none'; }
+                if (x == 1) { 
+                    document.getElementById("profEmail").style.display = 'block';
+                    document.getElementById("profEmailLabel").style.display = 'block';
+                }
+                else { 
+                    document.getElementById("profEmail").style.display = 'none';
+                    document.getElementById("profEmailLabel").style.display = 'none';
+                }
                 return;
                 console.log(ShowEmail(x))
             }
@@ -176,8 +182,10 @@
 
 
             <div class="form-floating mb-3">
-                <input asp-for="NewUser.ProfessionalEmail" type="text" required class="form-control" id="profEmail" placeholder="Professional Email" />
-                <label for="floatingInput">Professional Email</label>
+                
+                <input asp-for="NewUser.ProfessionalEmail" type="text" class="form-control" id="profEmail" placeholder="Professional Email" />
+                <label id="profEmailLabel" style="display: none" for="floatingInput">Professional Email</label>
+                
             </div>
             <input class="submitButton" type="submit" value="Create Account" />
         </label>
@@ -188,7 +196,7 @@
     @{
         if (ViewData["UserCreate"] != null)
         {
-            <p class="text-success">@ViewData["UserCreate"]</p>
+                <p class="text-success">@ViewData["UserCreate"]</p>
         }
 
     }

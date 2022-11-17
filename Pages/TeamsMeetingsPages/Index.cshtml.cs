@@ -38,6 +38,7 @@ namespace Lab1.Pages.TeamMeetingsPages
             }
 
             teamMeetingsReader.Close();
+            DBClass.CloseGlobalConnection();
             return Page();
         }
     }

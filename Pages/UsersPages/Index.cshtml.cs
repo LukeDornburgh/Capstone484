@@ -41,6 +41,7 @@ namespace Lab1.Pages.UsersPages
             }
 
             userReader.Close();
+            DBClass.CloseGlobalConnection();
             return Page();
         }
     }

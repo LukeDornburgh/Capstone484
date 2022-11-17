@@ -28,6 +28,9 @@ namespace Lab1.Pages
                 int badgeNum = DBClass.NotificationNumber(temp);
                 HttpContext.Session.SetInt32("badgeNum", badgeNum);
             }
+            else
+            {
+            }
 
         }
     }

@@ -12,6 +12,18 @@
 
 <style>
 
+    .apply {
+        background: #9582aa;
+        color: #f8f9fa;
+        margin-bottom: 10px;
+        display: flex;
+        border-radius: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 5px;
+    }
 
     .btn-primary {
         background-color: #31184C;
@@ -294,12 +306,12 @@
                     @{
                         foreach (var skill in Model.SkillsDisplay)
                         {
-                                                            <tr>
-                                                                <td>
-                                                                    <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                                                    <label>@skill.SkillName</label>
-                                                                </td>
-                                                            </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                                                        <label>@skill.SkillName</label>
+                                                                    </td>
+                                                                </tr>
                         }
                     }
 
@@ -308,14 +320,14 @@
             <div class="space">
 
             </div>
-            <button class="filterButton" type="submit">Submit</button>
+            <button class="apply" type="submit">Submit</button>
         </form>
        
 
         @{
             if (Model.SelectedSkills != null)
             {
-                                                <a asp-page="AllProfiles" class="btn btn-primary">Clear Filters</a>
+                    <a asp-page="AllProfiles" class="btn btn-primary">Clear Filters</a>
             }
         }
     </aside>
@@ -333,7 +345,7 @@
                     {
                         foreach (var skill in Model.skillsAlreadySelected)
                         {
-                                                            <span id="@skill.SkillID">@skill.SkillName<i onclick="onTagRemove(@skill.SkillID)" class="fa fa-times-circle"></i></span>
+                                                                <span id="@skill.SkillID">@skill.SkillName<i onclick="onTagRemove(@skill.SkillID)" class="fa fa-times-circle"></i></span>
                         }
                     }
                 }
@@ -345,30 +357,30 @@
 
                         while (Model.returnReader.Read())
                         {
-                                                            <div class="card" style="border-radius: 15px;">
-                                                                <div class="card-body p-4">
-                                                                    <div class="d-flex text-black">
-                                                                        <div class="flex-shrink-0">
-                                                                            <img src="~/images/User.png"
+                                                                <div class="card" style="border-radius: 15px;">
+                                                                    <div class="card-body p-4">
+                                                                        <div class="d-flex text-black">
+                                                                            <div class="flex-shrink-0">
+                                                                                <img src="~/images/User.png"
                                      alt="Generic placeholder image" class="img-fluid"
                                      style="width: 100px; border-radius: 10px;">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-3">
-                                                                            <h5 class="mb-1">@Model.returnReader["FirstName"] @Model.returnReader["LastName"]</h5>
-                                                                            <p class="mb-2 pb-1" style="color: #2b2a2a;">@Model.returnReader["Position"]</p>
-                                                                            <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2"
-                                                                         style="background-color: #efefef;">
+                                                                            </div>
+                                                                            <div class="flex-grow-1 ms-3">
+                                                                                <h5 class="mb-1">@Model.returnReader["FirstName"] @Model.returnReader["LastName"]</h5>
+                                                                                <p class="mb-2 pb-1" style="color: #2b2a2a;">@Model.returnReader["Position"]</p>
+                                                                                <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2"
+                                                                             style="background-color: #efefef;">
 
-                                                                                @{
+                                                                                    @{
                                                     string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.returnReader["UserID"] + "));";
 
                                                     SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 
                                                     while (QueryResults.Read())
                                                     {
-                                                                                                                        <h6>
-                                                                                                                            @QueryResults["SkillName"]
-                                                                                                                        </h6>
+                                                                                                                                <h6>
+                                                                                                                                    @QueryResults["SkillName"]
+                                                                                                                                </h6>
 
                                                     }
 
@@ -376,26 +388,26 @@
                                                     DBClass.CloseGlobalConnection();
                                                 
 
-                                                                                }
-                                                                            </div>
-                                                                            <div class="view profile">
-                                                                                <p> <a asp-page="ViewOtherUser" asp-route-UserID="@Model.returnReader["UserID"]" class="simpleButton">View Profile</a> </p>
-                                                                                <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@Model.returnReader["UserID"]" class="simpleButton">Invite to my projects</a> </p>
-                                                                            </div>
-                                                                            <div class="d-flex pt-1">
-                                                                                <a asp-page="MessageThread" asp-route-UserID="@Model.returnReader["UserID"]">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
-                                                                                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="view profile">
+                                                                                    <p> <a asp-page="ViewOtherUser" asp-route-UserID="@Model.returnReader["UserID"]" class="simpleButton">View Profile</a> </p>
+                                                                                    <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@Model.returnReader["UserID"]" class="simpleButton">Invite to my projects</a> </p>
+                                                                                </div>
+                                                                                <div class="d-flex pt-1">
+                                                                                    <a asp-page="MessageThread" asp-route-UserID="@Model.returnReader["UserID"]">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
+                                                                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                                                        </svg>
+                                                                                    </a>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
                                                                                     </svg>
-                                                                                </a>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
-                                                                                </svg>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
                         }
                         Model.returnReader.Close();
@@ -407,56 +419,56 @@
                         {
                             //run a query to get their skill names (top5?) and display them in replacement of the pills
 
-                                                            <div class="card" style="border-radius: 15px;">
-                                                                <div class="card-body p-4">
-                                                                    <div class="d-flex text-black">
-                                                                        <div class="flex-shrink-0">
-                                                                            <img src="~/images/User.png"
+                                                                <div class="card" style="border-radius: 15px;">
+                                                                    <div class="card-body p-4">
+                                                                        <div class="d-flex text-black">
+                                                                            <div class="flex-shrink-0">
+                                                                                <img src="~/images/User.png"
                                      alt="Generic placeholder image" class="img-fluid"
                                      style="width: 100px; border-radius: 10px;">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-3">
-                                                                            <h5 class="mb-1">@user.FirstName @user.LastName</h5>
-                                                                            <p class="mb-2 pb-1" style="color: #2b2a2a;">@user.Position</p>
-                                                                            <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2"
-                                                                         style="background-color: #efefef;">
+                                                                            </div>
+                                                                            <div class="flex-grow-1 ms-3">
+                                                                                <h5 class="mb-1">@user.FirstName @user.LastName</h5>
+                                                                                <p class="mb-2 pb-1" style="color: #2b2a2a;">@user.Position</p>
+                                                                                <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2"
+                                                                             style="background-color: #efefef;">
 
-                                                                                @{
+                                                                                    @{
                                                     string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + user.UserID + "));";
 
                                                     SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 
                                                     while (QueryResults.Read())
                                                     {
-                                                                                                                        <h6>
-                                                                                                                            @QueryResults["SkillName"]
-                                                                                                                        </h6>
+                                                                                                                                <h6>
+                                                                                                                                    @QueryResults["SkillName"]
+                                                                                                                                </h6>
 
                                                     }
 
                                                     QueryResults.Close();
                                                     DBClass.CloseGlobalConnection();
 
-                                                                                }
-                                                                            </div>
-                                                                            <div class="view profile">
-                                                                                <p> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </p>
-                                                                                <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a> </p>
-                                                                            </div>
-                                                                            <div class="d-flex pt-1">
-                                                                                <a asp-page="MessageThread" asp-route-UserID="@user.UserID">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
-                                                                                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="view profile">
+                                                                                    <p> <a asp-page="ViewOtherUser" asp-route-UserID="@user.UserID" class="simpleButton">View Profile</a> </p>
+                                                                                    <p> <a asp-page="/ProjectsPages/ProjectInvite" asp-route-UserID="@user.UserID" class="simpleButton">Invite to my projects</a> </p>
+                                                                                </div>
+                                                                                <div class="d-flex pt-1">
+                                                                                    <a asp-page="MessageThread" asp-route-UserID="@user.UserID">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#31184C" class="bi bi-send" viewBox="0 0 16 16">
+                                                                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                                                        </svg>
+                                                                                    </a>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
                                                                                     </svg>
-                                                                                </a>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
-                                                                                </svg>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
                         }
                     }

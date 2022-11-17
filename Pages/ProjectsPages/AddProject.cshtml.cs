@@ -12,34 +12,16 @@ namespace Lab1.Pages.ProjectsPages
         [BindProperty]
         public Projects NewProject { get; set; }
 
-        [BindProperty]
-        public List <Users> ProjectOwners { get; set; }
 
-        public AddProjectModel()
-        {
-            ProjectOwners = new List<Users>();    
-        }
         public void OnGet()
         {
-            SqlDataReader varOwnerReader = DBClass.UserReader();
-            //Loop through the rows of the product reader
-            //for each record in product reader
-            //create a new instance object of Product and fill its properties with the columns from that DB row.
-            while (varOwnerReader.Read())
-            {
-                ProjectOwners.Add(new Users
-                {
-                    UserID = Int32.Parse(varOwnerReader["UserID"].ToString()),
-                    FirstName = varOwnerReader["FirstName"].ToString(),
-                    LastName = varOwnerReader["LastName"].ToString(),
-            });
-            }
-            varOwnerReader.Close();
-            DBClass.CloseGlobalConnection();
+
         }
         public IActionResult OnPost()
         {
-            DBClass.InsertProject(NewProject);
+            int myID = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+
+            DBClass.InsertProject(NewProject, myID);
 
             return RedirectToPage("Index");
         }
@@ -48,22 +30,7 @@ namespace Lab1.Pages.ProjectsPages
         {
             if (!ModelState.IsValid)
             {
-                SqlDataReader varOwnerReader = DBClass.UserReader();
-                //Loop through the rows of the product reader
-                //for each record in product reader
-                //create a new instance object of Product and fill its properties with the columns from that DB row.
-                while (varOwnerReader.Read())
-                {
-                    ProjectOwners.Add(new Users
-                    {
-                        UserID = Int32.Parse(varOwnerReader["UserID"].ToString()),
-                        FirstName = varOwnerReader["FirstName"].ToString(),
-                        LastName = varOwnerReader["LastName"].ToString(),
-                    });
-                }
 
-                varOwnerReader.Close();
-                DBClass.CloseGlobalConnection();
 
                 ModelState.Clear();
                 NewProject.ProjectName = "Project 25";

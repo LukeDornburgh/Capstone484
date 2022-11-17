@@ -5,30 +5,115 @@
     ViewData["Title"] = "Project Invite";
 }
 
-<a asp-page="/UsersPages/AllProfiles" class="btn btn-primary">Go Back</a>
-<form asp-page="ProjectInvite">
-<select asp-for="selectedProject" class="form-control">
-    @{
-        foreach(var proj in @Model.projectDropDown){
-            <option value=@proj.ProjectID>@proj.ProjectName</option>
-        }
+<style>
+    h2 {
+        font-family: helvetica, sans-serif;
+        font-weight: bold;
+        color: #31184C;
     }
-</select>
-<button type="submit">Invite</button>
-</form>
-<div>
-    You have already invited this user to the following projects: 
-    @{
-        while(Model.ExistingInvites.Read())
-        {
-            <p> @Model.ExistingInvites["ProjectName"], </p>
-        }
-        Model.ExistingInvites.Close();
-        DBClass.CloseGlobalConnection();
+
+    p {
+        font-family: helvetica, sans-serif;
+        margin-bottom: 0px;
     }
-    @{
-        if(Model.inviteText != null){
-            <p>@Model.inviteText</p>
-        }
+
+    .individualprojects {
+        display: grid;
+        margin: 0 auto;
+        max-width: 1500px;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 20px 20px;
+        background-color: #eae6ee;
+        padding: 50px;
+        padding-top: 15%;
+        padding-bottom: 15%;
     }
+
+    .box {
+        grid-column: 3/10;
+        background-color: white;
+        padding: 50px;
+        border-radius: 20px;
+    }
+
+    .heading {
+        grid-column: 3/10;
+        display: flex;
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .inside {
+        grid-column: 3/10;
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .blockbtn {
+        grid-column: 3/10;
+    }
+
+    .btn-primary1 {
+        background-color: #31184C;
+        font-family: Helvetica, sans-serif;
+        color: #fff;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        --bs-btn-active-bg: #D8EC91;
+        --bs-btn-active-border-color: #D8EC91;
+        --bs-btn-hover-bg: #D8EC91;
+    }
+
+</style>
+
+<div class="individualprojects">
+
+    <div class="box">
+        <div class="heading">
+            <h2> Invite to Project</h2>
+        </div>
+
+
+
+                <form asp-page="ProjectInvite">
+            <select asp-for="selectedProject" class=" form-select form-select-lg mb-3">
+                        @{
+                            foreach (var proj in @Model.projectDropDown)
+                            {
+                                            <option class="dropdown-item" value=@proj.ProjectID>@proj.ProjectName</option>
+                            }
+                        }
+                    </select>
+                    <button class="btn btn-primary1" type="submit">Invite</button>
+                </form>
+
+        <div class="inside">
+            @{
+                if(Model.ExistingInvites.HasRows){
+                    <span>You have already invited this user to the following projects:</span>
+                }
+
+                while (Model.ExistingInvites.Read())
+                {
+                    <span>@Model.ExistingInvites["ProjectName"] </span>
+                }
+                Model.ExistingInvites.Close();
+                DBClass.CloseGlobalConnection();
+            }
+            @{
+                if (Model.inviteText != null)
+                {
+                    
+                    <p>@Model.inviteText</p>
+                }
+            }
+
+        </div>
+
+    </div>
+
 </div>
+

@@ -280,15 +280,20 @@ namespace Lab1.Pages.DB_Class
             globalReader.Connection.Close();
         }
 
-        public static void InsertProject(Projects p)
+        public static void InsertProject(Projects p, int myID)
         {
-            string sqlQuery = "INSERT INTO Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, ProjectType, UserID ) VALUES (";
+            string sqlQuery = "INSERT INTO Projects (ProjectName, ProjectDescription, ProjectBeginDate, ProjectMission, " +
+                "ProjectType, GeneralTimeAvailability, College, DesiredSkills, ProjectDuration, UserID ) VALUES (";
             sqlQuery += "'" + p.ProjectName + "',";
             sqlQuery += "'" + p.ProjectDescription + "',";
             sqlQuery += "'" + p.ProjectBeginDate + "',";
             sqlQuery += "'" + p.ProjectMission + "',";
             sqlQuery += "'" + p.ProjectType + "',";
-            sqlQuery += "'" + p.UserID + "')";
+            sqlQuery += "'" + p.GeneralTimeAvailability + "',";
+            sqlQuery += "'" + p.college + "',";
+            sqlQuery += "'" + p.DesiredSkills + "', ";
+            sqlQuery += "'" + p.ProjectDuration + "',";
+            sqlQuery += myID + ");";
             
             globalReader.Connection = new SqlConnection();
             globalReader.Connection.ConnectionString = Lab1ConStr;
@@ -318,7 +323,7 @@ namespace Lab1.Pages.DB_Class
 
             //now insert the project owner as a team member 
             string sqlQuery2 = "INSERT INTO TeamMembers (UserID, TeamID, Role) VALUES (";
-            sqlQuery2 += p.UserID + ", ";
+            sqlQuery2 += myID + ", ";
             sqlQuery2 += temp2 + ", ";
             sqlQuery2 += "'Project Owner');";
             SqlCommand sqlProductRead3 = new SqlCommand();
@@ -529,8 +534,11 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "ProjectDescription='" + p.ProjectDescription + "',";
             sqlQuery += "ProjectBeginDate='" + p.ProjectBeginDate + "',";
             sqlQuery += "ProjectMission='" + p.ProjectMission + "',";
+            sqlQuery += "ProjectDuration='" + p.ProjectDuration + "',";
+            sqlQuery += "DesiredSkills='" + p.DesiredSkills + "',";
+            sqlQuery += "GeneralTimeAvailability='" + p.GeneralTimeAvailability + "',";
+            sqlQuery += "college='" + p.college + "',";
             sqlQuery += "ProjectType='" + p.ProjectType + "'" + "WHERE ProjectID=" + p.ProjectID;
-            Console.WriteLine(sqlQuery);
 
             
             globalReader.Connection = new SqlConnection();

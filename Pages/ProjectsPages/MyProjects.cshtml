@@ -154,7 +154,7 @@ a{
                         <p class="card-owner"><small class="text-muted">Project Owner: @ownedProject["ProjectOwner"]</small></p>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">See Details &rarr; </small>
+                        <a asp-page="ProjectDetails" asp-route-ProjectID="@ownedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
                     </div>
                 </div>
             </a>
@@ -185,7 +185,7 @@ a{
                         <p class="card-owner"><small class="text-muted">Project Owner: @joinedProject["ProjectOwner"]</small></p>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">See Details &rarr; </small>
+                        <a asp-page="ProjectDetails" asp-route-ProjectID="@joinedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
                     </div>
                 </div>
             </a>

@@ -63,8 +63,9 @@ namespace Lab1.Pages.UsersPages
                 UserToUpdate.GeneralAvailability = singleUser["GeneralAvailability"].ToString();
                 if (!singleUser.IsDBNull(singleUser.GetOrdinal("ProfilePicturePath")))
                 {
-                    ProfilePictureUrl = "~/uploads/" + singleUser["ProfilePicturePath"].ToString();
+                    ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();
                 }
+       
             }
             singleUser.Close();
             DBClass.CloseGlobalConnection();

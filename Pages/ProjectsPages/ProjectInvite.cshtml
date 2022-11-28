@@ -83,7 +83,7 @@
                         @{
                             foreach (var proj in @Model.projectDropDown)
                             {
-                                            <option class="dropdown-item" value=@proj.ProjectID>@proj.ProjectName</option>
+                                                    <option class="dropdown-item" value=@proj.ProjectID>@proj.ProjectName</option>
                             }
                         }
                     </select>
@@ -93,12 +93,12 @@
         <div class="inside">
             @{
                 if(Model.ExistingInvites.HasRows){
-                    <span>You have already invited this user to the following projects:</span>
+                            <span>You have already invited this user to the following projects:</span>
                 }
 
                 while (Model.ExistingInvites.Read())
                 {
-                    <span>@Model.ExistingInvites["ProjectName"] </span>
+                            <span>@Model.ExistingInvites["ProjectName"] </span>
                 }
                 Model.ExistingInvites.Close();
                 DBClass.CloseGlobalConnection();
@@ -107,7 +107,7 @@
                 if (Model.inviteText != null)
                 {
                     
-                    <p>@Model.inviteText</p>
+                            <p>@Model.inviteText</p>
                 }
             }
 

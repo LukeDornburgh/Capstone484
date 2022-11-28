@@ -1,156 +1,4 @@
-﻿@*@page "{URLDate:datetime?}"
-@model Lab1.Pages.UsersPages.CalendarModel
-@{
-}
-
-<style>
-    @@media (max-width:575px) {
-        .display-4 {
-            font-size: 1.5rem;
-        }
-
-        .day h5 {
-            background-color: #f8f9fa;
-            padding: 3px 5px 5px;
-            margin: -8px -8px 8px -8px;
-        }
-
-        .date {
-            padding-left: 4px;
-        }
-    }
-
-    @@media (min-width: 576px) {
-        .day {
-            height: 14.2857vw;
-        }
-    }
-
-    .calendar {
-        color: #31184C;
-        padding: 10px;
-    }
-
-    .display-4 {
-        text-align: center;
-    }
-
-    .title {
-        background-color: #D8EC91;
-        color: #31184C;
-        text-align: center;
-    }
-
-    .btn1 {
-        background: #9582aa;
-        color: #f8f9fa;
-        margin-bottom: 10px;
-        display: flex;
-        border-radius: 8px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 5px;
-    }
-
-    .next {
-        display: flex;
-        float: right;
-    }
-
-    .event {
-        background-color: #9582aa;
-        color: white;
-    }
-</style>
-
-<div class="calendar">
-    <header>
-        <button type="button" class="btn1 btn-info btn-rounded"> Add Event</button>
-        <div class="next">
-            @{
-                if (Model.FirstDayOfMonth > new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
-                {
-                    <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
-                }
-            }
-            <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfNextMonth.ToString("yyyy-M-d")">@Model.FirstDayOfNextMonth.ToString("MMMM") &rarr;</a>
-        </div>
-
-        <h4 class="display-4 mb-4 ">@Model.FirstDayOfMonth.ToString("MMMM yyyy")</h4>
-
-        <div class="title d-none d-sm-flex p-1">
-            <h5 class="col-sm p-1 ">Sunday</h5>
-            <h5 class="col-sm p-1 ">Monday</h5>
-            <h5 class="col-sm p-1 ">Tuesday</h5>
-            <h5 class="col-sm p-1 ">Wednesday</h5>
-            <h5 class="col-sm p-1 ">Thursday</h5>
-            <h5 class="col-sm p-1">Friday</h5>
-            <h5 class="col-sm p-1 ">Saturday</h5>
-        </div>
-    </header>
-</div>
-@{
-    // Model.FirstDayOfMonth = new DateTime(2023, 2, 1);
-    int firstDayOfWeek = (int)Model.FirstDayOfMonth.DayOfWeek;
-    DateTime firstDayOfCalendar = Model.FirstDayOfMonth.AddDays(firstDayOfWeek * -1);
-    DateTime lastDayOfMonth = Model.FirstDayOfMonth.AddDays(DateTime.DaysInMonth(Model.FirstDayOfMonth.Year, Model.FirstDayOfMonth.Month) - 1);
-    int lastDayOfMonthDayOfWeek = (int)lastDayOfMonth.DayOfWeek;
-    int daysToAdd = 6 - lastDayOfMonthDayOfWeek;
-
-    DateTime lastDayOfCalendar = new DateTime(Model.FirstDayOfMonth.Year, Model.FirstDayOfMonth.Month, DateTime.DaysInMonth(Model.FirstDayOfMonth.Year, Model.FirstDayOfMonth.Month)).AddDays(daysToAdd);
-    double totalDaysInCalendar = (lastDayOfCalendar - firstDayOfCalendar).TotalDays + 1;
-    int rowsInCalendar = (int)totalDaysInCalendar / 7;
-
-    for (int i = 0; i < rowsInCalendar; i++)
-    {
-        <div class="row border border-right-0 border-bottom-0">
-
-            @{
-                for (int d = 0; d < 7; d++)
-                {
-                    int daysFromFirstDay = (i * 7) + d;
-                    DateTime thisDay = firstDayOfCalendar.AddDays(daysFromFirstDay);
-                    string dayDivClasses = "day col-sm p-2 border border-left-0 border-top-0 text-truncate";
-                    if (thisDay < Model.FirstDayOfMonth || thisDay > lastDayOfMonth)
-                    {
-                        dayDivClasses = "day col-sm p-2 border border-left-0 border-top-0 text-truncate d-none d-sm-inline-block bg-light text-muted";
-                    }
-
-                    <div class="@dayDivClasses">
-                        <h5 class="row align-items-center">
-                            <span class="date col-1">@thisDay.Day</span>
-                            <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
-                            <span class="col-1"></span>
-                        </h5>
-                        @{
-                            bool eventFound = false;
-                            foreach (Event thisEvent in Model.Events)
-                            {
-                                if (thisEvent.EventDate == thisDay)
-                                {
-                                    eventFound = true;
-                                    <a class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small " title="@thisEvent.EventName">@thisEvent.EventName</a>
-                                }
-                            }
-                            if (!eventFound)
-                            {
-                                <p class="d-sm-none">No events</p>
-                            }
-                        }
-                    </div>
-                }
-            }
-        </div>
-    }
-
-}
-<br />
-<br />
-<br />*@
-
-
+﻿
 @page "{URLDate:datetime?}"
 @model Lab1.Pages.UsersPages.CalendarModel
 @{
@@ -216,6 +64,11 @@
         background-color: #9582aa;
         color: white;
     }
+
+    #calendarIcon {
+        fill: blue;
+    }
+
 </style>
 
 <div class="calendar">

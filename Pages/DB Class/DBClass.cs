@@ -1296,7 +1296,6 @@ namespace Lab1.Pages.DB_Class
             string sqlQuery = "Insert into Messages (MessageBody, SendTime, SenderID, ReceiverID) " +
                 "VALUES ('" + message + "', '" + DateTime.Now + "'," + myID + "," + UserID + ");";
 
-            
             globalReader.Connection = new SqlConnection();
             globalReader.Connection.ConnectionString = Lab1ConStr;
             globalReader.CommandText = sqlQuery;
@@ -1343,6 +1342,33 @@ namespace Lab1.Pages.DB_Class
 
         }
 
+
+        public static void InsertEvent(Events newEvent, int currentUserID)
+        {
+            string sqlQuery = "INSERT INTO Events (EventName, EventDate, OwnerID) VALUES (@EventName, @EventDate, @OwnerID)";
+            SqlCommand newReader = new SqlCommand();
+            newReader.Connection = new SqlConnection();
+            newReader.Connection.ConnectionString = Lab1ConStr;
+            newReader.CommandText = sqlQuery;
+            newReader.Parameters.AddWithValue("@EventName", newEvent.EventName);
+            newReader.Parameters.AddWithValue("@EventDate", newEvent.EventDate);
+            newReader.Parameters.AddWithValue("@OwnerID", currentUserID);
+            newReader.Connection.Open();
+            newReader.ExecuteNonQuery();
+            newReader.Connection.Close();
+        }
+
+        public static SqlDataReader EventsTableReader(int currentUserID)
+        {
+            SqlCommand newReader = new SqlCommand();
+            newReader.Connection = new SqlConnection();
+            newReader.Connection.ConnectionString = Lab1ConStr;
+            newReader.CommandText = "SELECT * FROM Events where ownerID = @currentUserID";
+            newReader.Parameters.AddWithValue("@currentUserID", currentUserID);
+            newReader.Connection.Open();
+            SqlDataReader tempReader = newReader.ExecuteReader();
+            return tempReader;
+        }
 
 
 

@@ -65,6 +65,7 @@ namespace Lab1.Pages.UsersPages
                 {
                     ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();
                 }
+       
             }
             singleUser.Close();
             DBClass.CloseGlobalConnection();

@@ -27,11 +27,6 @@ namespace Lab1.Pages.DB_Class
 
         public static SqlDataReader TableReader(string email)
         {
-            //Sql command
-            //set it properites
-            //open a connection
-            //issue the query
-            //capture those results and return them
             
             globalReader.Connection = new SqlConnection();
             globalReader.Connection.ConnectionString = Lab1ConStr;

@@ -300,7 +300,7 @@
     if(Model.UserToUpdate.Email.Equals(HttpContext.Session.GetString("username"))){
     <style>
                     #profileIcon{
-                        fill: blue;
+                        fill: #d8ec91;
                     }
     </style>
 }
@@ -531,7 +531,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label"><h3>Edit College</h3></label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.UserToUpdate.College">
+                                <select class="form-control" asp-for="@Model.UserToUpdate.College">
+                                    <option value="Arts and Letters">Arts and Letters</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Health and Behavioral Studies">Health and Behavioral Studies</option>
+                                    <option value="Integrated Science and Engineering">Integrated Science and Engineering</option>
+                                    <option value="Science and Mathematics">Science and Mathematics</option>
+                                    <option value="Visal and Performing Arts">Visual and Performing Arts</option>
+                                </select>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label"><h3>Edit Personal Interests</h3></label>

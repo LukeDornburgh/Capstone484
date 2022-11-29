@@ -875,6 +875,40 @@ namespace Lab1.Pages.DB_Class
         }
 
 
+        public static SqlDataReader ProjectRecommend(string college, string email)
+        {
+            int temp = GetUserIDSession(email);
+            string teamList = "";
+
+            //need to get a string with each team the user who is logged in belongs to and then display all the projects that
+            //arent associated with those teams
+
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "Select Teams.TeamID from Teams where Teams.TeamID in " +
+                "(Select TeamMembers.TeamID from TeamMembers where TeamMembers.UserID = " + temp + ");";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
+
+            while (tempReader.Read())
+            {
+                teamList += tempReader["TeamID"] + ",";
+            }
+            globalReader.Connection.Close();
+
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = "select TOP(5) Projects.ProjectID, Projects.UserID, Projects.ProjectName, Projects.ProjectDescription, " +
+                "Projects.ProjectBeginDate, Projects.ProjectMission, Projects.ProjectType, concat(Users.FirstName, ' ', Users.LastName) " +
+                "as ProjectOwner from Users JOIN Projects on Projects.UserID = Users.UserID where NOT Projects.UserID = " + temp + " " +
+                "AND projects.College = '" + college + "' AND projects.ProjectID in " +
+                "(select Teams.ProjectID from teams where teams.TeamID in (select TeamMembers.TeamID from TeamMembers where TeamMembers.TeamID" +
+                " NOT in (select value from string_split('" + teamList + "', ','))));";
+            globalReader.Connection.Open();
+            SqlDataReader tempReader1 = globalReader.ExecuteReader();
+            return tempReader1;
+        }
+
         public static SqlDataReader UserSearch(string searchText)
         {
             

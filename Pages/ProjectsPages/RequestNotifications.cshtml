@@ -18,7 +18,7 @@
     }
 
     #projecticon {
-        max-width: 90px;
+        max-width: 50px;
         margin: 10px 10px 10px 75px;
     }
 
@@ -42,67 +42,89 @@
 
     .card-title {
         display: inline;
+        font-size: 17px;
     }
 
     .status {
         float: right;
+        font-size: 17px;
     }
 
     #requestIcon {
         fill: blue;
     }
 
+    .colors {
+        background-color: #d8ec91;
+        margin: 10px 50px 10px 50px;
+        padding: 10px;
+    }
+
+    .btn1 {
+        background: #D8EC91;
+        margin-bottom: 5px;
+        border-radius: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 5px;
+    }
+
+    form{
+        display: inline;
+    }
+
 </style>
 
-<h2>Requests To Join My Projects</h2>
+<h2 class="colors"><b>Requests To Join My Projects</b></h2>
 
 @{
     SqlDataReader QueryResults = DBClass.RequestTableReader(HttpContext.Session.GetString("username"));
 
     while (QueryResults.Read())
     {
-
-        <div class="card">
-            <div class="row no-gutters">
-                <div class="col-md-2">
-                    <img src="~/images/project.png" class="card-img" alt="..." id="projecticon">
-                </div>
-                <div class="col-md-10">
-                    <div class="card-body">
-                        <p class="card-title">"<u><b>@QueryResults["FullName"]</b></u>" has requested to join your project: <b>@QueryResults["ProjectName"]</b></p>
-                        <div class="status">
-                            Status: @QueryResults["Status"]
-                            @{
+    <div class="card">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="~/images/project.png" class="card-img" alt="..." id="projecticon">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <p class="card-title">"<u><b>@QueryResults["FullName"]</b></u>" has requested to join your project: <b>@QueryResults["ProjectName"]</b></p>
+                                        <div class="status" style="font-weight: bold;">
+                                            Status: @QueryResults["Status"]
+                                            @{
                                 if (QueryResults["Status"].Equals("Pending"))
                                 {
 
-                                    <form asp-page="RequestNotifications">
-                                        <button class="btn btn-primary type="submit" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
-                                    </form>
-                                    <form asp-page="RequestNotifications">
-                                        <button class="btn btn-primary" type="submit" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
-                                    </form>
+                                                                    <form  asp-page="RequestNotifications">
+                                                                        <button class="btn1" type="submit" asp-page-handler="Approve" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Approve</button>
+                                                                    </form>
+                                                                    <form asp-page="RequestNotifications">
+                                                                        <button class="btn1" type="submit" asp-page-handler="Deny" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-UserID="@QueryResults["UserID"]">Deny</button>
+                                                                    </form>
 
                                 }
                                 else if (QueryResults["Status"].Equals("Approved"))
                                 {
 
-                                    <i class="fa-solid fa-circle-check"></i>
+                                                                    <i class="fa-solid fa-circle-check"></i>
 
                                 }
                                 else
                                 {
 
-                                    <i class="fa-solid fa-ban"></i>
+                                                                    <i class="fa-solid fa-ban"></i>
 
 
                                 }
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    </div>
 
     }
     QueryResults.Close();
@@ -111,7 +133,7 @@
 
 
 
-<h2>Invites to Other Projects</h2>
+<h2 class="colors"><b>Invites to Other Projects</b></h2>
 
 @{
     SqlDataReader QueryResults1 = DBClass.InviteTableReader(HttpContext.Session.GetString("username"));
@@ -119,51 +141,51 @@
     while (QueryResults1.Read())
     {
 
-        <div class="card">
-            <div class="row no-gutters">
-                <div class="col-md-2">
-                    <img src="~/images/project.png" class="card-img" alt="..." id="projecticon">
-                </div>
-                <div class="col-md-10">
-                    <div class="card-body">
-                        <p class="card-title">"<u><b>@QueryResults1["FullName"]</b></u>" Invited you to: <b>@QueryResults1["ProjectName"]</b></p>
-                        <div class="status">
+    <div class="card">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="~/images/project.png" class="card-img" alt="..." id="projecticon">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <p class="card-title">"<u><b>@QueryResults1["FullName"]</b></u>" Invited you to: <b>@QueryResults1["ProjectName"]</b></p>
+                                        <div class="status">
 
-                        @{
-                            if (QueryResults1["Status"].Equals("Pending"))
-                            {
+                                            @{
+                                if (QueryResults1["Status"].Equals("Pending"))
+                                {
 
-                                <form asp-page="RequestNotifications">
-                                    <button class="btn btn-primary" type="submit" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
-                                </form>
-                                <form asp-page="RequestNotifications">
-                                    <button class="btn btn-primary" type="submit" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
-                                </form>
+                                                                    <form asp-page="RequestNotifications">
+                                                                        <button class="btn btn-primary" type="submit" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
+                                                                    </form>
+                                                                    <form asp-page="RequestNotifications">
+                                                                        <button class="btn btn-primary" type="submit" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
+                                                                    </form>
 
-                            }
-                            else if (QueryResults1["Status"].Equals("Approved"))
-                            {
-                                <span>Status: Accepted</span>
-                                <i class="fa-solid fa-circle-check"></i>
+                                }
+                                else if (QueryResults1["Status"].Equals("Approved"))
+                                {
+                                                                    <span>Status: Accepted</span>
+                                                                    <i class="fa-solid fa-circle-check"></i>
 
-                            }
-                            else
-                            {
-                                <span>Status: Rejected</span>
-                                <i class="fa-solid fa-ban"></i>
+                                }
+                                else
+                                {
+                                                                    <span>Status: Rejected</span>
+                                                                    <i class="fa-solid fa-ban"></i>
 
-                            }
-                        }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    </div>
     }
     QueryResults1.Close();
 }
 
-<h2>Status of Invites I've sent out</h2>
+<h2 class="colors"><b>Status of Invites I've sent out</b></h2>
 
 @{
     SqlDataReader QueryResults2 = DBClass.SentInvites(HttpContext.Session.GetString("username"));
@@ -171,19 +193,19 @@
     while (QueryResults2.Read())
     {
 
-        <div class="card">
-            <div class="row no-gutters">
-                <div class="col-md-2">
-                    <img src="~/images/project.png" class="card-img" alt="..." id="projecticon">
-                </div>
-                <div class="col-md-10">
-                    <div class="card-body">
-                        <p class="card-title">You Invited: "<u><b>@QueryResults2["FullName"]</b></u>" to @QueryResults2["ProjectName"]</p>
-                        <div class="status">Status: @QueryResults2["Status"]</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="card">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="~/images/project.png" class="card-img" alt="..." id="projecticon">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <p class="card-title">You Invited: "<u><b>@QueryResults2["FullName"]</b></u>" to @QueryResults2["ProjectName"]</p>
+                                        <div class="status">Status: @QueryResults2["Status"]</div>
+                                    </div>
+                                </div>
+                            </div>
+    </div>
     }
     QueryResults2.Close();
 }

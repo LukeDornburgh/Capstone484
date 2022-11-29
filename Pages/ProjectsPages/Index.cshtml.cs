@@ -8,6 +8,9 @@ namespace Lab1.Pages.ProjectsPages
 {
     public class IndexModel : PageModel
     {
+
+        [BindProperty]
+        public Projects NewProject { get; set; }
         public List<Projects> ProjectList { get; set; }
 
         [BindProperty]
@@ -73,6 +76,15 @@ namespace Lab1.Pages.ProjectsPages
 
             return RedirectToPage();
 
+        }
+
+        public IActionResult OnPostCreate()
+        {
+            int myID = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+
+            DBClass.InsertProject(NewProject, myID);
+
+            return RedirectToPage("Index");
         }
 
         public IActionResult OnPostCollege()

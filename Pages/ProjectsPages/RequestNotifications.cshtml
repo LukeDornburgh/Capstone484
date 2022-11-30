@@ -149,17 +149,17 @@
                                 <div class="col-md-10">
                                     <div class="card-body">
                                         <p class="card-title">"<u><b>@QueryResults1["FullName"]</b></u>" Invited you to: <b>@QueryResults1["ProjectName"]</b></p>
-                                        <div class="status">
+                                        <div class="status"><b>
 
                                             @{
                                 if (QueryResults1["Status"].Equals("Pending"))
                                 {
-
+                                    <span>Status: Pending</span>
                                                                     <form asp-page="RequestNotifications">
-                                                                        <button class="btn btn-primary" type="submit" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
+                                                                        <button class="btn1" type="submit" asp-page-handler="Accept" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Accept</button>
                                                                     </form>
                                                                     <form asp-page="RequestNotifications">
-                                                                        <button class="btn btn-primary" type="submit" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
+                                                                        <button class="btn1" type="submit" asp-page-handler="Reject" asp-route-ProjectID="@QueryResults1["ProjectID"]" asp-route-UserID="@QueryResults1["UserID"]">Reject</button>
                                                                     </form>
 
                                 }
@@ -176,7 +176,7 @@
 
                                 }
                                             }
-                                        </div>
+                                        </b></div>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +201,24 @@
                                 <div class="col-md-10">
                                     <div class="card-body">
                                         <p class="card-title">You Invited: "<u><b>@QueryResults2["FullName"]</b></u>" to @QueryResults2["ProjectName"]</p>
-                                        <div class="status">Status: @QueryResults2["Status"]</div>
+                                        <div class="status"><b>
+                                        Status:
+                                        
+                                        @{
+                                            if(QueryResults2["Status"].Equals("Approved")){
+                                                <span>Accepted</span>
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            }
+                                            else if(QueryResults2["Status"].Equals("Denied"))
+                                            {
+                                                <span>Rejected</span>
+                                                <i class="fa-solid fa-ban"></i>
+                                            }
+                                            else{
+                                                <span>Pending</span>
+                                            }
+                                        }
+                                        </b></div>
                                     </div>
                                 </div>
                             </div>

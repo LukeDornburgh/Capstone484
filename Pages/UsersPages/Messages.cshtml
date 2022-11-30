@@ -67,11 +67,8 @@
         left: 5%;
     }
 
-    #myInput{
-        max-width: 80%;
-    }
 
-    #messageIcon{
+    #messageIcon {
         fill: #d8ec91;
     }
 </style>
@@ -117,7 +114,9 @@
 
 </script>
 
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for users to message..." />
+<div style="margin-left: 75px; margin-right: 75px; margin-top: 25px;">
+    <input type="text" name="myInput" id="myInput" onkeyup="myFunction()" placeholder="Search for users to message..." />
+</div>
 <table id="myTable" class="table table-bordered table-striped table-hover table-responsive">
     <tr class="header" style="display: none">
         <th style="width:60%;">Name</th>
@@ -127,7 +126,7 @@
         {
 
                                             <tr style="display: none">
-                                            <td><a style="color: inherit; text-decoration: underline" asp-page="MessageThread" asp-route-UserID="@user.UserID">@user.FirstName @user.LastName</a></td>
+                                                <td><a style="color: inherit; text-decoration: underline" asp-page="MessageThread" asp-route-UserID="@user.UserID">@user.FirstName @user.LastName</a></td>
                                             </tr>
 
         }

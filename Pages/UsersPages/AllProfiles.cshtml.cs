@@ -53,8 +53,9 @@ namespace Lab1.Pages.UsersPages
                     Email = userReader["Email"].ToString(),
                     ProfessionalEmail = userReader["ProfessionalEmail"].ToString(),
                     Phone = userReader["Phone"].ToString(),
-                    Position = userReader["Position"].ToString()
-                });
+                    Position = userReader["Position"].ToString(),
+                    ProfilePicturePath = userReader["ProfilePicturePath"].ToString()
+            });
             }
             userReader.Close();
             DBClass.CloseGlobalConnection();

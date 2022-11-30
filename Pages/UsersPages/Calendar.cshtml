@@ -1,5 +1,4 @@
-﻿
-@page "{URLDate:datetime?}"
+﻿@page "{URLDate:datetime?}"
 @model Lab1.Pages.UsersPages.CalendarModel
 @{
     ViewData["Title"] = "Calendar";
@@ -80,7 +79,7 @@
             @{
                 if (Model.FirstDayOfMonth > new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
                 {
-                            <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
+                                        <a style="margin-right: 10px;" asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
                 }
             }
             <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfNextMonth.ToString("yyyy-M-d")">@Model.FirstDayOfNextMonth.ToString("MMMM") &rarr;</a>
@@ -115,7 +114,7 @@
     {
     <div class="row border border-right-0 border-bottom-0">
 
-                    @{
+                                @{
                 for (int d = 0; d < 7; d++)
                 {
                     int daysFromFirstDay = (i * 7) + d;
@@ -126,30 +125,39 @@
                         dayDivClasses = "day col-sm p-2 border border-left-0 border-top-0 text-truncate d-none d-sm-inline-block bg-light text-muted";
                     }
 
-                                    <div class="@dayDivClasses">
-                                        <h5 class="row align-items-center">
-                                            <span class="date col-1">@thisDay.Day</span>
-                                            <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
-                                            <span class="col-1"></span>
-                                        </h5>
-                                        @{
+                                                            <div class="@dayDivClasses">
+                                                                <h5 class="row align-items-center">
+                                                                    <span class="date col-1">@thisDay.Day</span>
+                                                                    <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
+                                                                    <span class="col-1"></span>
+                                                                </h5>
+                                                                @{
                             bool eventFound = false;
+
                             foreach (DataClasses.Events thisEvent in Model.Events)
                             {
                                 if (thisEvent.EventDate == thisDay)
                                 {
                                     eventFound = true;
-                                                            <a class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small " title="@thisEvent.EventName">@thisEvent.EventName</a>
+                                                                                                <div class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small ">
+                                                                                                    <p>@thisEvent.EventName</p>                                        <p>@thisEvent.EventTime</p>                                        <p>@thisEvent.EventDescription</p>                                        @if (thisEvent.EventLink != string.Empty)
+                                        {
+                                                                                                        <p><a href="@thisEvent.EventLink" class="btn1 btn-info btn-rounded">Join</a></p>
+                                        }                                    
+                                                                                                </div>
                                 }
                             }
+
+
+
                             if (!eventFound)
                             {
-                                                        <p class="d-sm-none">No events</p>
+                                                                                            <p class="d-sm-none">No events</p>
                             }
-                                        }
-                                    </div>
+                                                                }
+                                                            </div>
                 }
-                    }
+                                }
     </div>
     }
 
@@ -166,12 +174,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label"><h3>Event Name</h3></label>
-                        <input type="text" class="form-control" id="eventName" asp-for="@Model.NewEvent.EventName">
+                        <label for="eventName" class="form-label"><h3>Event Name</h3></label>
+                        <input required type="text" class="form-control" id="eventName" asp-for="@Model.NewEvent.EventName">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label"><h3>Event Date</h3></label>
-                        <input type="date" class="form-control" id="eventDate" asp-for="@Model.NewEvent.EventDate">
+                        <label for="eventDescription" class="form-label"><h3>Event Description</h3></label>
+                        <input required type="text" class="form-control" id="eventDescription" asp-for="@Model.NewEvent.EventDescription">
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDate" class="form-label"><h3>Event Date</h3></label>
+                        <input required type="date" class="form-control" id="eventDate" asp-for="@Model.NewEvent.EventDate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventTime" class="form-label"><h3>Event Time</h3></label>
+                        <input required type="text" class="form-control" id="eventTime" asp-for="@Model.NewEvent.EventTime">
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventLink" class="form-label"><h3>Event Link</h3></label>
+                        <input required type="text" class="form-control" id="eventLink" asp-for="@Model.NewEvent.EventLink">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -182,3 +202,6 @@
         </div>
     </div>
 </div>
+<br />
+<br /> 
+<br />

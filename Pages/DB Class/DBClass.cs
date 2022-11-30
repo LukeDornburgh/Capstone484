@@ -841,7 +841,35 @@ namespace Lab1.Pages.DB_Class
             return result;
         }
 
-        public static SqlDataReader ProjectCardDisplay(string email)
+
+        public static int MessagesNumber(int userID)
+        {
+
+            string sqlQuery = "Select count(*) as count from (Select DISTINCT * from users where users.userID " +
+                "in(SELECT DISTINCT Messages.SenderID from Messages WHERE Messages.ReceiverID = " + userID + ") or users.UserID " +
+                "in(Select Messages.ReceiverID from Messages where Messages.SenderID = " + userID + ")) as dt;";
+
+            //need to get each conversation and then for each conversation, query its messages and add to the total if the last message(top1)
+            //has my ID and the receiver
+
+            globalReader.Connection = new SqlConnection();
+            globalReader.Connection.ConnectionString = Lab1ConStr;
+            globalReader.CommandText = sqlQuery;
+            globalReader.Connection.Open();
+            SqlDataReader tempReader = globalReader.ExecuteReader();
+
+            int result = 0;
+
+            while (tempReader.Read())
+            {
+                result += (int)tempReader["count"];
+            }
+            globalReader.Connection.Close();
+
+            return result;
+        }
+
+            public static SqlDataReader ProjectCardDisplay(string email)
         {
             int temp = GetUserIDSession(email);
             string teamList = "";

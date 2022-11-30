@@ -13,8 +13,13 @@
         padding-right: 50px;
         padding-top: 20px;
         padding-bottom: 20px;
+        background-color: #eae6ee;
     }
-
+    .details{
+        background-color:#ffffff;
+        border-radius: 10%;
+        padding: 70px;
+    }
     .btn {
         background: #D8EC91;
         margin-bottom: 10px;
@@ -29,6 +34,7 @@
 
     h1 {
         color: #31184C;
+        font-weight: bold;
     }
 
     .btn1 {
@@ -74,28 +80,29 @@ will need all the base project information, the project owner, and the team memb
     {
 
 
-        <div class="fullPage">
-            <a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
-            @{
+    <div class="fullPage">
+                    <div class="details">
+                                        <a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
+                                        @{
                 if ((int)ProjectDataReader["UserID"] != uID)
                 {
 
-                    <a class="btn btn-primary" asp-page="/UsersPages/MessageThread" asp-route-UserID="@ProjectDataReader["UserID"]">Message the Owner</a>
+                                                                            <a class="btn btn-primary" asp-page="/UsersPages/MessageThread" asp-route-UserID="@ProjectDataReader["UserID"]">Message the Owner</a>
                 }
-            }
-            @{
+                                        }
+                                        @{
                 SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)ProjectDataReader["ProjectID"], HttpContext.Session.GetString("username"));
                 if (QueryResults1.HasRows == false && (int)ProjectDataReader["UserID"] != uID)
                 {
-                    <form asp-page="Index">
-                        <button type="submit" asp-route-handler="Request" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@ProjectDataReader["ProjectID"]" asp-route-ProjectOwnerID="@ProjectDataReader["UserID"]">Request to Join</button>
-                    </form>
+                                                                            <form asp-page="Index">
+                                                                                <button type="submit" asp-route-handler="Request" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@ProjectDataReader["ProjectID"]" asp-route-ProjectOwnerID="@ProjectDataReader["UserID"]">Request to Join</button>
+                                                                            </form>
                 }
                 else
                 {
                     if ((int)ProjectDataReader["UserID"] == uID)
                     {
-                        <span style="display: none"></span>
+                                                                                <span style="display: none"></span>
                     }
                     else
                     {
@@ -103,47 +110,48 @@ will need all the base project information, the project owner, and the team memb
                         QueryResults1.Read();
                         if (QueryResults1["Status"].Equals("Approved"))
                         {
-                            <div>You are already a member of this project</div>
+                                                                                    <div>You are already a member of this project</div>
                         }
                         else if (QueryResults1["Status"].Equals("Denied"))
                         {
-                            <div>The Project owner has denied your request</div>
+                                                                                    <div>The Project owner has denied your request</div>
                         }
                         else
                         {
-                            <div>Request Pending...</div>
+                                                                                    <div>Request Pending...</div>
                         }
                     }
                 }
-            }
-            <br />
-            <h1>
-                @ProjectDataReader["ProjectName"]
-            </h1>
+                                        }
+                                        <br />
+                                        <h1>
+                                            @ProjectDataReader["ProjectName"]
+                                        </h1>
 
-            @{
+                                        @{
 
                 int myID = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
 
                 if ((int)ProjectDataReader["UserID"] == myID)
                 {
-                    <div class="icon">
-                        <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                            </svg>
-                        </a>
-                    </div>
+                                                                            <div class="icon">
+                                                                                <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                                                    </svg>
+                                                                                </a>
+                                                                            </div>
                 }
-            }
+                                        }
 
-            <h4>Project Owner: <u>@ProjectDataReader["ProjectOwner"]</u><br></h4>
+                                        <h4><b>Project Owner:</b> <u>@ProjectDataReader["ProjectOwner"]</u><br></h4>
 
-            <h4>
-                Team Members: <u>
+                                        <h4> <b>
+                        Team Members:
+                    </b> <u>
 
-                    @{
+                                                @{
                         string sqlQuery2 = "SELECT concat(Users.FirstName, ' ', Users.LastName) as FullName from users where NOT Users.UserID = " + ProjectDataReader["UserID"] + " AND Users.UserID in (SELECT TeamMembers.UserID from TeamMembers " +
                         "where TeamMembers.TeamID in (SELECT Teams.TeamID from Teams where Teams.ProjectID = " + ProjectDataReader["ProjectID"] + "));";
 
@@ -151,116 +159,117 @@ will need all the base project information, the project owner, and the team memb
 
                         while (teamMembersReader.Read())
                         {
-                            <span>@teamMembersReader["FullName"] </span>
+                                                                                    <span>@teamMembersReader["FullName"] </span>
                         }
                         teamMembersReader.Close();
                         DBClass.CloseGlobalConnection();
-                    }
+                                                }
 
-                </u><br>
-            </h4>
-            <br>
+                                            </u><br>
+                                        </h4>
+                                        <br>
 
 
-            <h4>Proposed Start Date:</h4>
-            @{
+                <h4><b>Proposed Start Date:</b></h4>
+                                        @{
                 var Start = Convert.ToDateTime(ProjectDataReader["ProjectBeginDate"]).ToString("MM/dd/yyyy");
-            }
-            @Start
-            <br />
-            <br />
-            <h4>Duration:</h4>
-            @ProjectDataReader["ProjectDuration"]
-            <br />
-            <br />
-            <h4>Details:</h4>
-            <p>@ProjectDataReader["ProjectDescription"]</p>
+                                        }
+                                        @Start
+                                        <br />
+                                        <br />
+                                        <h4><b>Duration:</b></h4>
+                                        @ProjectDataReader["ProjectDuration"]
+                                        <br />
+                                        <br />
+                                        <h4><b>Details:</b></h4>
+                                        <p>@ProjectDataReader["ProjectDescription"]</p>
 
 
-            <h4>Related College:</h4>
-            <p>@ProjectDataReader["College"]</p>
+                                        <h4><b>Related College:</b></h4>
+                                        <p>@ProjectDataReader["College"]</p>
 
 
-            <h4>Skills Wanted:</h4>
-            <span>@ProjectDataReader["DesiredSkills"]</span>
-            <br>
-            <br>
-            <h4>General Team Availability:</h4>
-            <p class="indent">Mondays: after 3pm</p>
-            <p class="indent">Tuesdays: after 6pm</p>
-            <p class="indent">Wednesdays: 8am-9am</p>
-            <p class="indent">Thursdays: 1-5pm</p>
-            <p class="indent">Fridays: 12-9pm</p>
-            <p class="indent">Saturdays: n/a</p>
-            <p class="indent">Sundays: 8-9pm</p>
-        </div>
-        <br />
-        <br />
-        <br />
-
-
-        <form asp-page="ProjectDetails">
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title fs-5" id="staticBackdropLabel">Edit Project</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit Project Name</label>
-                                <input type="hidden" asp-for="@Model.ProjectToUpdate.ProjectID" />
-                                <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectName">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit Start Date</label>
-                                <input type="date" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectBeginDate">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit Project Duration</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectDuration">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit Project Mission</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectMission">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit Description</label>
-                                <textarea type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectDescription"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit Desired Skills</label>
-                                <textarea type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.DesiredSkills"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit General Availability</label>
-                                <textarea type="date" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.GeneralTimeAvailability"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Edit College</label>
-                                <select class="form-control" asp-for="@Model.ProjectToUpdate.college">
-                                    <option value="Arts and Letters">Arts and Letters</option>
-                                    <option value="Business">Business</option>
-                                    <option value="Education">Education</option>
-                                    <option value="Health and Behavioral Studies">Health and Behavioral Studies</option>
-                                    <option value="Integrated Science and Engineering">Integrated Science and Engineering</option>
-                                    <option value="Science and Mathematics">Science and Mathematics</option>
-                                    <option value="Visal and Performing Arts">Visual and Performing Arts</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <button id="formSubmitButton" type="submit" class="btn btn-success">Save Changes</button>
-
-                            <a asp-page="ProjectDetails" asp-route-ProjectID="@ProjectDataReader["ProjectID"]" class="btn btn-secondary">Cancel</a>
-                        </div>
+                <h4><b>Skills Wanted:</b></h4>
+                                        <span>@ProjectDataReader["DesiredSkills"]</span>
+                                        <br>
+                                        <br>
+                <h4><b>General Team Availability:</b></h4>
+                                        <p class="indent">Mondays: after 3pm</p>
+                                        <p class="indent">Tuesdays: after 6pm</p>
+                                        <p class="indent">Wednesdays: 8am-9am</p>
+                                        <p class="indent">Thursdays: 1-5pm</p>
+                                        <p class="indent">Fridays: 12-9pm</p>
+                                        <p class="indent">Saturdays: n/a</p>
+                                        <p class="indent">Sundays: 8-9pm</p>
                     </div>
-                </div>
-            </div>
-        </form>
+    </div>
+    <br />
+    <br />
+    <br />
+
+
+    <form asp-page="ProjectDetails">
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title fs-5" id="staticBackdropLabel">Edit Project</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit Project Name</label>
+                                                            <input type="hidden" asp-for="@Model.ProjectToUpdate.ProjectID" />
+                                                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectName">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit Start Date</label>
+                                                            <input type="date" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectBeginDate">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit Project Duration</label>
+                                                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectDuration">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit Project Mission</label>
+                                                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectMission">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit Description</label>
+                                                            <textarea type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.ProjectDescription"></textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit Desired Skills</label>
+                                                            <textarea type="text" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.DesiredSkills"></textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit General Availability</label>
+                                                            <textarea type="date" class="form-control" id="exampleFormControlInput1" asp-for="@Model.ProjectToUpdate.GeneralTimeAvailability"></textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Edit College</label>
+                                                            <select class="form-control" asp-for="@Model.ProjectToUpdate.college">
+                                                                <option value="Arts and Letters">Arts and Letters</option>
+                                                                <option value="Business">Business</option>
+                                                                <option value="Education">Education</option>
+                                                                <option value="Health and Behavioral Studies">Health and Behavioral Studies</option>
+                                                                <option value="Integrated Science and Engineering">Integrated Science and Engineering</option>
+                                                                <option value="Science and Mathematics">Science and Mathematics</option>
+                                                                <option value="Visal and Performing Arts">Visual and Performing Arts</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button id="formSubmitButton" type="submit" class="btn btn-success">Save Changes</button>
+
+                                                        <a asp-page="ProjectDetails" asp-route-ProjectID="@ProjectDataReader["ProjectID"]" class="btn btn-secondary">Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    </form>
     }
     ProjectDataReader.Close();
     DBClass.CloseGlobalConnection();

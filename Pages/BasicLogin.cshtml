@@ -121,34 +121,65 @@
         top: -50px;
         left: calc(48% - 50px);
     }
+
+    .center{
+        margin-top: -6em;
+        border-radius: 6%;
+    }
+
+    .btn-primary {
+        background-color: #31184C;
+        width: 100%;
+        height: 50px;
+        border: 1px solid;
+        color: white;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .btn-primary:hover{
+        background-color: #9582aa;
+        border-color: #9582aa;
+    }
+
+
+    img {
+        width: 100vw;
+        height: auto;
+    }
+
 </style>
 
+<img src="images/homepagenew.png" alt="" />
 <div class="center">
-    <img src="~/images/purplehub.png" class="avatar">
+    @*<img src="~/images/purplehub.png" class="avatar">*@
     <br />
-    <br />
-    <h1>Welcome Back.</h1>
+    <h1>Welcome Back</h1>
     <form asp-action="BasicLogin">
 
 
 
         <div class="form-floating mb-3">
             <input asp-for="Username" class="form-control" id="floatingInput" placeholder="Username" type="text" required>
-            <label for="floatingInput">Email</label>
+            <label style="color: #31184C" for="floatingInput">Email</label>
         </div>
 
         <div class="form-floating mb-3">
             <input asp-for="Password" class="form-control" id="floatingInput" placeholder="Password" type="password" required>
-            <label for="floatingInput">Password</label>
+            <label style="color: #31184C" for="floatingInput">Password</label>
+        </div>
+        <div class="text-center">
+            <div style="color: #9582aa; margin-bottom: 1em; cursor: pointer; text-decoration: underline;">
+                Forgot Password?
+            </div>
+            <input class="btn btn-primary" type="submit" value="Login" />
         </div>
         <br />
         <div class="text-center">
-            <div class="pass">Forgot Password?</div>
-            <input class="submitButton" type="submit" value="Login" />
-        </div>
-        <br />
-        <div class="text-center">
-            Not a member yet? <a asp-page="UsersPages/CreateHashedLogin">Sign up</a>
+            Not a member yet? <a style="color: #9582aa;" asp-page="UsersPages/CreateHashedLogin">Sign up</a>
         </div>
 
     </form>
@@ -157,14 +188,14 @@
     @{
         if (ViewData["LoginMessage"] != null)
         {
-                <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
+                                                    <p class="text-danger">@ViewData["LoginMessage"].ToString()</p>
         }
 
         if (Model.alert != null)
         {
-                <script type="text/javascript">
-                    myFunction.call(@HttpContext.Session.GetString("loginAlert");
-                </script>
+                                                    <script type="text/javascript">
+                                                        myFunction.call(@HttpContext.Session.GetString("loginAlert");
+                                                    </script>
         }
     }
 

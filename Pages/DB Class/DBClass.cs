@@ -1404,10 +1404,12 @@ namespace Lab1.Pages.DB_Class
 
         }
 
-
         public static void InsertEvent(Events newEvent, int currentUserID)
         {
-            string sqlQuery = "INSERT INTO Events (EventName, EventDate, OwnerID) VALUES (@EventName, @EventDate, @OwnerID)";
+            string sqlQuery = "INSERT INTO Events (EventName, EventDate, OwnerID, EventTime, EventDescription, EventLink) VALUES (@EventName, @EventDate, @OwnerID, @EventTime, @EventDescription, @EventLink)";
+
+
+
             SqlCommand newReader = new SqlCommand();
             newReader.Connection = new SqlConnection();
             newReader.Connection.ConnectionString = Lab1ConStr;
@@ -1415,6 +1417,9 @@ namespace Lab1.Pages.DB_Class
             newReader.Parameters.AddWithValue("@EventName", newEvent.EventName);
             newReader.Parameters.AddWithValue("@EventDate", newEvent.EventDate);
             newReader.Parameters.AddWithValue("@OwnerID", currentUserID);
+            newReader.Parameters.AddWithValue("@EventTime", newEvent.EventTime);
+            newReader.Parameters.AddWithValue("@EventDescription", newEvent.EventDescription);
+            newReader.Parameters.AddWithValue("@EventLink", newEvent.EventLink);
             newReader.Connection.Open();
             newReader.ExecuteNonQuery();
             newReader.Connection.Close();

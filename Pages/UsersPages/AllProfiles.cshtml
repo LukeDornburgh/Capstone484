@@ -380,7 +380,7 @@
                                                  style="background-color: #efefef;">
 
                                                         @{
-                                                    string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.returnReader["UserID"] + "));";
+                                                    string sqlQuery = "SELECT TOP(4) Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.returnReader["UserID"] + "));";
 
                                                     SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 
@@ -442,7 +442,7 @@
                                                  style="background-color: #efefef;">
 
                                                         @{
-                                                    string sqlQuery = "SELECT Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + user.UserID + "));";
+                                                    string sqlQuery = "SELECT TOP(4) Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + user.UserID + "));";
 
                                                     SqlDataReader QueryResults = DBClass.GeneralReaderQuery(sqlQuery);
 

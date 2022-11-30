@@ -16,9 +16,20 @@ namespace Lab1.Pages.ProjectsPages
 
         public SqlDataReader ExistingInvites { get; set; }
 
+        public string inviteeName { get; set; }
+
         public List<Projects> projectDropDown = new List<Projects>();
         public void OnGet(int UserID)
         {
+            string sqlQuery = "Select * from users where users.userID = " + UserID + ";";
+
+            SqlDataReader invName = DBClass.GeneralReaderQuery(sqlQuery);
+
+            while (invName.Read())
+            {
+                inviteeName += (string)invName["FirstName"] + " " + (string)invName["LastName"];
+            }
+
             HttpContext.Session.SetInt32("userToBeInvited", UserID);
 
             SqlDataReader myProjects = DBClass.InvitesDropdownReader(HttpContext.Session.GetString("username"), UserID);

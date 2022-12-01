@@ -152,23 +152,24 @@ will need all the base project information, the project owner, and the team memb
                 <h4>
                     <b>
                         Team Members:
-                    </b> <u>
+                    </b>
 
                         @{
                             string sqlQuery2 = "SELECT concat(Users.FirstName, ' ', Users.LastName) as FullName from users where NOT Users.UserID = " + ProjectDataReader["UserID"] + " AND Users.UserID in (SELECT TeamMembers.UserID from TeamMembers " +
-                            "where TeamMembers.TeamID in (SELECT Teams.TeamID from Teams where Teams.ProjectID = " + ProjectDataReader["ProjectID"] + "));";
+                                        "where TeamMembers.TeamID in (SELECT Teams.TeamID from Teams where Teams.ProjectID = " + ProjectDataReader["ProjectID"] + "));";
 
                             SqlDataReader teamMembersReader = DBClass.GeneralReaderQuery(sqlQuery2);
-
+                            string full = String.Empty;
                             while (teamMembersReader.Read())
                             {
-                                <span>@teamMembersReader["FullName"] </span>
+                                full += teamMembersReader["FullName"] + ", ";
                             }
+                            string display = full.Remove(full.Length - 2, 2);
                             teamMembersReader.Close();
                             DBClass.CloseGlobalConnection();
                         }
-
-                    </u><br>
+                        @display
+                    <br>
                 </h4>
                 <br>
 

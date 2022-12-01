@@ -6,7 +6,10 @@ using System.Data.SqlClient;
 
 namespace Lab1.Pages.ProjectsPages
 {
-    public class MyProjectsModel : PageModel { 
+    public class MyProjectsModel : PageModel {
+
+    [BindProperty]
+    public Projects NewProject { get; set; }
     public List<Projects> ProjectList { get; set; }
     public MyProjectsModel()
     {
@@ -21,5 +24,14 @@ namespace Lab1.Pages.ProjectsPages
         }
         return Page();
     }
-}
+
+        public IActionResult OnPostCreate()
+        {
+            int myID = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
+
+            DBClass.InsertProject(NewProject, myID);
+
+            return RedirectToPage("MyProjects");
+        }
+    }
 }

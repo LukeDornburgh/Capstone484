@@ -1,5 +1,4 @@
-﻿
-@page "{URLDate:datetime?}"
+﻿@page "{URLDate:datetime?}"
 @model Lab1.Pages.UsersPages.CalendarModel
 @{
     ViewData["Title"] = "Calendar";
@@ -55,17 +54,15 @@
         padding-bottom: 5px;
         border: 5px;
     }
-    .btn-primary{
+
+    .btn-primary {
         background-color: #31184C;
         border-color: #31184C;
-
     }
 
-        .btn-primary:active{
-
-         background-color: #9582aa;
-         border-color: #9582aa;
-    
+        .btn-primary:active {
+            background-color: #9582aa;
+            border-color: #9582aa;
         }
 
     .next {
@@ -81,10 +78,12 @@
     #calendarIcon {
         fill: #d8ec91;
     }
-    h4{
+
+    h4 {
         font-weight: bold;
     }
-    h5{
+
+    h5 {
         font-weight: bold;
     }
 
@@ -93,27 +92,28 @@
         border-color: #9582aa;
     }
 
-  
+
 
     .btn-check:active + .btn-info:focus, .btn-check:checked + .btn-info:focus, .btn-info.active:focus, .btn-info:active:focus, .show > .btn-info.dropdown-toggle:focus {
         box-shadow: none;
     }
-    a{
+
+    a {
         color: #9582aa;
         ;
     }
 
-    a:hover{
-        color: #d8ec91;
-        ;
+        a:hover {
+            color: #d8ec91;
+            ;
+        }
+
+    h1 {
+        color: #31184C;
+        font-weight: bold;
     }
 
-    h1{
-       color: #31184C;
-       font-weight:bold;
-
-    }
-    h3{
+    h3 {
         color: #31184C;
         font-weight: bold;
     }
@@ -144,7 +144,7 @@
             @{
                 if (Model.FirstDayOfMonth > new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
                 {
-                                                                                            <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
+                    <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
                 }
             }
             <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfNextMonth.ToString("yyyy-M-d")">@Model.FirstDayOfNextMonth.ToString("MMMM") &rarr;</a>
@@ -177,9 +177,9 @@
 
     for (int i = 0; i < rowsInCalendar; i++)
     {
-    <div class="row border border-right-0 border-bottom-0">
+        <div class="row border border-right-0 border-bottom-0">
 
-                                                                                    @{
+            @{
                 for (int d = 0; d < 7; d++)
                 {
                     int daysFromFirstDay = (i * 7) + d;
@@ -190,31 +190,31 @@
                         dayDivClasses = "day col-sm p-2 border border-left-0 border-top-0 text-truncate d-none d-sm-inline-block bg-light text-muted";
                     }
 
-                                                                                                                                                                    <div class="@dayDivClasses">
-                                                                                                                                                                        <h5 class="row align-items-center">
-                                                                                                                                                                            <span class="date col-1">@thisDay.Day</span>
-                                                                                                                                                                            <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
-                                                                                                                                                                            <span class="col-1"></span>
-                                                                                                                                                                        </h5>
-                                                                                                                                                                        @{
+                    <div class="@dayDivClasses">
+                        <h5 class="row align-items-center">
+                            <span class="date col-1">@thisDay.Day</span>
+                            <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
+                            <span class="col-1"></span>
+                        </h5>
+                        @{
                             bool eventFound = false;
                             foreach (DataClasses.Events thisEvent in Model.Events)
                             {
                                 if (thisEvent.EventDate == thisDay)
                                 {
                                     eventFound = true;
-                                                                                                                                                                                                                                                            <a class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small " title="@thisEvent.EventName">@thisEvent.EventName</a>
+                                    <a class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small " title="@thisEvent.EventName">@thisEvent.EventName</a>
                                 }
                             }
                             if (!eventFound)
                             {
-                                                                                                                                                                                                                                                        <p class="d-sm-none">No events</p>
+                                <p class="d-sm-none">No events</p>
                             }
-                                                                                                                                                                        }
-                                                                                                                                                                    </div>
+                        }
+                    </div>
                 }
-                                                                                    }
-    </div>
+            }
+        </div>
     }
 
 }

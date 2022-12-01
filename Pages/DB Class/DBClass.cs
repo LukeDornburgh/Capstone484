@@ -469,6 +469,10 @@ namespace Lab1.Pages.DB_Class
             {
                 sqlQuery += "ProfilePicturePath=@ProfilePicturePath,";
             }
+            if (p.ResumePath != null)
+            {
+                sqlQuery += "ResumePath=@ResumePath,";
+            }
             sqlQuery += "Position='" + p.Position + "'" + "WHERE UserID=" + p.UserID;
             
             globalReader.Connection = new SqlConnection();
@@ -477,6 +481,10 @@ namespace Lab1.Pages.DB_Class
             if(p.ProfilePicturePath != null)
             {
                 globalReader.Parameters.AddWithValue("@ProfilePicturePath", p.ProfilePicturePath);
+            }
+            if (p.ResumePath != null)
+            {
+                globalReader.Parameters.AddWithValue("@ResumePath", p.ResumePath);
             }
             globalReader.Connection.Open();
             globalReader.ExecuteNonQuery();

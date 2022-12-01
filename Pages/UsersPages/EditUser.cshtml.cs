@@ -31,8 +31,10 @@ namespace Lab1.Pages.UsersPages
 
         [BindProperty]
         public IFormFile upload { get; set; }
+        public IFormFile upload2 { get; set; }
         private IHostingEnvironment _environment;
         public string ProfilePictureUrl { get; set; }
+        public string ResumeUrl { get; set; }
         public EditUserModel(IHostingEnvironment environment)
         {
             _environment = environment;
@@ -40,6 +42,7 @@ namespace Lab1.Pages.UsersPages
             SkillsDisplay = new List<Skills>();
             TeamsToDisplay = new List<Teams>();
             ProfilePictureUrl = String.Empty;
+            ResumeUrl = String.Empty;
         }
         public void OnGet(string email)
         {
@@ -65,8 +68,13 @@ namespace Lab1.Pages.UsersPages
                 {
                     ProfilePictureUrl = "/uploads/" + singleUser["ProfilePicturePath"].ToString();
                 }
-       
-            }
+
+                if (!singleUser.IsDBNull(singleUser.GetOrdinal("ResumePath")))
+                {
+                    ResumeUrl = singleUser["ResumePath"].ToString();
+                }
+
+        }
             singleUser.Close();
             DBClass.CloseGlobalConnection();
 
@@ -156,6 +164,16 @@ namespace Lab1.Pages.UsersPages
                     upload.CopyTo(fileStream);
                 }
                 UserToUpdate.ProfilePicturePath = upload.FileName;
+            }
+
+            if (upload2 != null)
+            {
+                string ResumeFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads", upload2.FileName);
+                using (FileStream fileStream = new FileStream(ResumeFilePath, FileMode.Create))
+                {
+                    upload2.CopyTo(fileStream);
+                }
+                UserToUpdate.ResumePath = upload2.FileName;
             }
 
             DBClass.UpdateUser(UserToUpdate);

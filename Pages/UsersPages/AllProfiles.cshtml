@@ -120,6 +120,7 @@
         color: grey;
     }
 
+
     label {
         font-family: Helvetica, Sans-Serif;
         font-weight: bold;
@@ -456,8 +457,10 @@
                                                 </div>
                                                 <h5 class="mb-1">@Model.returnReader["FirstName"] @Model.returnReader["LastName"]</h5>
                                                 <p class="mb-2 pb-1" style="color: #2b2a2a;">@Model.returnReader["Position"]</p>
+
                                                 <p class="mb-2 pb-1" style="color: #2b2a2a;">Skills:</p>
                                                 <div class="d-flex justify-content-aroundrounded-3 p-2 mb-2">
+
 
                                                     @{
                                                         string sqlQuery = "SELECT TOP(4) Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + @Model.returnReader["UserID"] + "));";
@@ -530,9 +533,11 @@
                                                     </a>
                                                 </div>
                                                 <h5 class="mb-1">@user.FirstName @user.LastName</h5>
+
                                                 <p class="mb-2 pb-1" style="color: #2b2a2a;">Position: @user.Position</p>
                                                 <p class="mb-2 pb-1" style="color: #2b2a2a;">Skills:</p>
                                                 <div style="justify-content: flex-start; overflow-wrap: anywhere; flex-wrap: wrap;" class="d-flex justify-content-aroundrounded-3 p-2 mb-2">
+
 
                                                     @{
                                                         string sqlQuery = "SELECT TOP(4) Skills.SkillName from Skills where Skills.SkillID in(Select SkillsAssociation.SkillID from SkillsAssociation where SkillsAssociation.UserID in(SELECT users.UserID FROM Users WHERE users.UserID = " + user.UserID + "));";

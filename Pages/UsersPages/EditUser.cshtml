@@ -315,9 +315,9 @@
 @{
     if(Model.UserToUpdate.Email.Equals(HttpContext.Session.GetString("username"))){
     <style>
-                                    #profileIcon{
-                                        fill: #d8ec91;
-                                    }
+                                        #profileIcon{
+                                            fill: #d8ec91;
+                                        }
     </style>
 }
 }
@@ -336,9 +336,9 @@
 
                 while (QueryResults.Read())
                 {
-                                                                                                        <tr>
-                                                                                                            <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
-                                                                                    </tr>
+                                                                                                            <tr>
+                                                                                                                <td id="existing-@QueryResults["SkillID"]" existingID="@QueryResults["SkillID"]" existingSkillName="@QueryResults["SkillName"]">@QueryResults["SkillName"]</td>
+                                                                                        </tr>
             }
             QueryResults.Close();
             DBClass.CloseGlobalConnection();
@@ -366,12 +366,12 @@
             @{
                 foreach (var skill in Model.SkillsDisplay)
                 {
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
-                                                                                                    <label>@skill.SkillName</label>
-                                                                                                </td>
-                                                                                            </tr>
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        <input onclick="onCheckboxClick(@skill.SkillID)" class="form-check-input" name="SelectedSkills" type="checkbox" id="input-@skill.SkillID" value="@skill.SkillID" skillName="@skill.SkillName" />
+                                                                                                        <label>@skill.SkillName</label>
+                                                                                                    </td>
+                                                                                                </tr>
                 }
             }
 
@@ -394,14 +394,14 @@
 
         @{
             if(Model.UserToUpdate.Email.Equals(HttpContext.Session.GetString("username"))){
-                                                                <div class="icon">
-                                                                    <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                                                    </svg>
-                                                                    </a>
-                                                                </div>
+                                                                    <div class="icon">
+                                                                        <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                                        </svg>
+                                                                        </a>
+                                                                    </div>
             }
         }
         <div class="picture">
@@ -409,12 +409,13 @@
             @{
                 if (Model.ProfilePictureUrl != String.Empty)
                 {
-                    <img src="@Model.ProfilePictureUrl" width="500" height="250" />    
+                        <img src="@Model.ProfilePictureUrl" width="500" height="250" />    
                 }
                 else{
-                    <p>Upload an Image</p>
+                        <p>Upload an Image</p>
                 }
-            } 
+            }
+            
             <h2> @Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName</H2>
             <h3> <b>@Model.UserToUpdate.College</b></h3>
             <h3><b> Phone:</b> @Model.UserToUpdate.Phone</h3>
@@ -427,14 +428,14 @@
 
     @{
         if(Model.UserToUpdate.Email.Equals(HttpContext.Session.GetString("username"))){
-                                                <div class="icon">
-                                                  <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop8">
-                                                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                                      </svg>
-                                                  </a>
-                                                  </div>
+                                                    <div class="icon">
+                                                      <a ref="icon" class="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop8">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#31184C" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                          </svg>
+                                                      </a>
+                                                      </div>
     }
   }
   <h5> Skills</h5>
@@ -447,34 +448,34 @@
 
     @{
         if(Model.UserToUpdate.Email.Equals(HttpContext.Session.GetString("username"))){
-                                            <div class="icons">
-                                            <a class="colors" asp-page="/ProjectsPages/MyProjects">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
-                                                <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-                                              </svg>
-                                              <div id="iconlabels">My Projects</div>
-                                            </a>
+                                                <div class="icons">
+                                                <a class="colors" asp-page="/ProjectsPages/MyProjects">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                                                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                                                  </svg>
+                                                  <div id="iconlabels">My Projects</div>
+                                                </a>
 
-                                              <a class="colors">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
-                                                  <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
-                                                  <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                                                </svg>
-                                                <div id="iconlabels">Upload Resume</div>
-                                              </a>       
-                                         </div>
+                                                  <a class="colors" ref="icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">
+                                                    <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
+                                                      <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
+                                                      <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                                    </svg>
+                                                    <div id="iconlabels">Upload Resume</div>
+                                                  </a>       
+                                             </div>
         }
         else{
-                                            <div class="icons">
-                                            @*Could display the users projects as pills?*@
-                                             <a class="colors">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
-                                                  <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
-                                                  <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                                                </svg>
-                                                <div id="iconlabels">@Model.UserToUpdate.FirstName Resume</div>
-                                             </a>       
-                                         </div>
+                                                <div class="icons">
+                                                @*Could display the users projects as pills?*@
+                                                 <a class="colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#31184C" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
+                                                      <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
+                                                      <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                                    </svg>
+                                                    <div id="iconlabels">@Model.UserToUpdate.FirstName Resume</div>
+                                                 </a>       
+                                             </div>
         }
  }
     <div class="bio">
@@ -586,6 +587,7 @@
 </div>
 
 <!-- Resume Upload Modal -->
+
 <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -595,12 +597,23 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <input class="form-control" type="file" id="formFile">
+            @{
+                if (Model.ResumeUrl != String.Empty)
+                {
+                            <span>Current File: @Model.ResumeUrl </span>
+                            <div class="title"><a href="~/uploads/@Model.ResumeUrl" target="_blank"><h5><i><u>Download In a New Tab</u></i></h5></a></div>
+                            <object data="~/uploads/@Model.ResumeUrl" width="100%" height="500px" type="application/pdf" title="@Model.UserToUpdate.FirstName @Model.UserToUpdate.LastName Resume">
+                            </object>
+                }
+            } 
+            <br />
+            <label asp-for="@Model.ResumeUrl">Upload Resume</label>
+            <input type="file" asp-for="upload2" />
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>

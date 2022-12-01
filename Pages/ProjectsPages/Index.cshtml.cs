@@ -84,7 +84,7 @@ namespace Lab1.Pages.ProjectsPages
 
             DBClass.InsertProject(NewProject, myID);
 
-            return RedirectToPage("Index");
+            return RedirectToPage("MyProjects");
         }
 
         public IActionResult OnPostCollege()

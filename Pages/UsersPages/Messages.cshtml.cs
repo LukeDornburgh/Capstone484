@@ -19,6 +19,7 @@ namespace Lab1.Pages.UsersPages
         {
             //this page should serve just as a place that users see their exisitng conversations with other users
 
+            HttpContext.Session.SetInt32("messageNum", 0);
 
             SqlDataReader userReader = DBClass.UserReader(HttpContext.Session.GetString("username"));
             //Loop through the rows of the product reader

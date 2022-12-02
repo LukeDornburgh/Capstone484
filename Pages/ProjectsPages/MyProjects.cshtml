@@ -111,9 +111,8 @@ a{
 }
 
     #projectButtons {
-        display: inline-flex;
-        gap: 5px;
-        float: right;
+        grid-column: 12/13;
+
     }
 
 
@@ -141,6 +140,12 @@ a{
 <div class="joined">
     <h2> Joined Projects</h2>
 </div>
+
+    <div id="projectButtons">
+        <div class="icon">
+            <a ref="icon" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create Project</a>
+        </div>
+    </div>
 
 <form asp-route-handler="create">
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -211,19 +216,19 @@ a{
         while (ownedProject.Read())
         {
 
-            <a href="novelprostheticsuspensionsystem.html">
-                <div class="card mb-3">
-                    <img src="~/images/purplecover.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">@ownedProject["ProjectName"]</h5>
-                        <p class="card-text">@ownedProject["ProjectDescription"]</p>
-                        <p class="card-owner"><small class="text-muted">Project Owner: @ownedProject["ProjectOwner"]</small></p>
-                    </div>
-                    <div class="card-footer">
-                        <a asp-page="ProjectDetails" asp-route-ProjectID="@ownedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
-                    </div>
-                </div>
-            </a>
+                    <a href="novelprostheticsuspensionsystem.html">
+                        <div class="card mb-3">
+                            <img src="~/images/purplecover.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@ownedProject["ProjectName"]</h5>
+                                <p class="card-text">@ownedProject["ProjectDescription"]</p>
+                                <p class="card-owner"><small class="text-muted">Project Owner: @ownedProject["ProjectOwner"]</small></p>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-page="ProjectDetails" asp-route-ProjectID="@ownedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                            </div>
+                        </div>
+                    </a>
         }
 
         ownedProject.Close();
@@ -242,19 +247,19 @@ a{
     while(joinedProject.Read()){
 
 
-            <a href="novelprostheticsuspensionsystem.html">
-                <div class="card mb-3">
-                    <img src="~/images/purplecover.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">@joinedProject["ProjectName"]</h5>
-                        <p class="card-text">@joinedProject["ProjectDescription"]</p>
-                        <p class="card-owner"><small class="text-muted">Project Owner: @joinedProject["ProjectOwner"]</small></p>
-                    </div>
-                    <div class="card-footer">
-                        <a asp-page="ProjectDetails" asp-route-ProjectID="@joinedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
-                    </div>
-                </div>
-            </a>
+                    <a href="novelprostheticsuspensionsystem.html">
+                        <div class="card mb-3">
+                            <img src="~/images/purplecover.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@joinedProject["ProjectName"]</h5>
+                                <p class="card-text">@joinedProject["ProjectDescription"]</p>
+                                <p class="card-owner"><small class="text-muted">Project Owner: @joinedProject["ProjectOwner"]</small></p>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-page="ProjectDetails" asp-route-ProjectID="@joinedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                            </div>
+                        </div>
+                    </a>
     }
 
     joinedProject.Close();
@@ -262,9 +267,4 @@ a{
 
 }
 </div>
-    <div id="projectButtons">
-        <div class="icon">
-            <a ref="icon" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create a Project</a>
-        </div>
-    </div>
 </div>

@@ -798,7 +798,7 @@ namespace Lab1.Pages.DB_Class
             sqlQuery += "'" + u.Phone + "',";
             sqlQuery += "'" + u.Position + "');";
             
-            globalReader.Connection = new SqlConnection();
+                globalReader.Connection = new SqlConnection();
             globalReader.Connection.ConnectionString = Lab1ConStr;
             globalReader.CommandText = sqlQuery;
             globalReader.Connection.Open();

@@ -55,6 +55,17 @@
         border: 5px;
     }
 
+    .btn1:active{
+            background-color: #9582aa!important;
+            border-color: #9582aa!important;
+    }
+
+        .btn1:focus {
+            background-color: #9582aa !important;
+            border: none;
+            outline: none;
+        }
+
     .btn-primary {
         background-color: #31184C;
         border-color: #31184C;
@@ -145,7 +156,7 @@
                 if (Model.FirstDayOfMonth > new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
                 {
 
-                    <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
+                                <a asp-page="Calendar" asp-route-URLDate="@Model.FirstDayOfPrevMonth.ToString("yyyy-M-d")">&larr; @Model.FirstDayOfPrevMonth.ToString("MMMM")</a>
 
                 }
             }
@@ -179,9 +190,9 @@
 
     for (int i = 0; i < rowsInCalendar; i++)
     {
-        <div class="row border border-right-0 border-bottom-0">
+    <div class="row border border-right-0 border-bottom-0">
 
-            @{
+                        @{
                 for (int d = 0; d < 7; d++)
                 {
                     int daysFromFirstDay = (i * 7) + d;
@@ -192,13 +203,13 @@
                         dayDivClasses = "day col-sm p-2 border border-left-0 border-top-0 text-truncate d-none d-sm-inline-block bg-light text-muted";
                     }
 
-                    <div class="@dayDivClasses">
-                        <h5 class="row align-items-center">
-                            <span class="date col-1">@thisDay.Day</span>
-                            <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
-                            <span class="col-1"></span>
-                        </h5>
-                        @{
+                                            <div class="@dayDivClasses">
+                                                <h5 class="row align-items-center">
+                                                    <span class="date col-1">@thisDay.Day</span>
+                                                    <small class="col d-sm-none text-center text-muted">@thisDay.ToString("dddd")</small>
+                                                    <span class="col-1"></span>
+                                                </h5>
+                                                @{
                             bool eventFound = false;
 
                             foreach (DataClasses.Events thisEvent in Model.Events)
@@ -207,8 +218,13 @@
                                 {
                                     eventFound = true;
 
-                                    <a class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small " title="@thisEvent.EventName">@thisEvent.EventName</a>
-
+                                                                        <div class="event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small " title="@thisEvent.EventName">
+                                                                        <p>@thisEvent.EventName</p>
+                                                                        <p>@thisEvent.EventTime</p>
+                                                                        <p>@thisEvent.EventDescription</p>
+                                                                        <a style="color: #fff" href="@thisEvent.EventLink"> Meeting Link </a>
+                                                                        </div>
+                                    
                                 }
                             }
 
@@ -216,13 +232,13 @@
 
                             if (!eventFound)
                             {
-                                <p class="d-sm-none">No events</p>
+                                                                    <p class="d-sm-none">No events</p>
                             }
-                        }
-                    </div>
+                                                }
+                                            </div>
                 }
-            }
-        </div>
+                        }
+    </div>
     }
 
 }

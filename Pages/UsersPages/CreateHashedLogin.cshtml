@@ -126,9 +126,31 @@
         height: auto;
     }
 
+    .centerCreate{
+        border-radius: 6%;
+    }
+
+    .btn-primary {
+        background-color: #31184C;
+        width: 100%;
+        height: 50px;
+        border: 1px solid;
+        color: white;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        outline: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #9582aa;
+            border-color: #9582aa;
+        }
+
 </style>
 <img src="~/images/homepagenew.png" alt="" />
-<div class="centerCreate">
+<div  class="centerCreate">
 
     <h1>Create Account</h1>
 
@@ -178,11 +200,11 @@
         </script>
 
         <label>
-            <input class="checkbox-budget" type="radio" name="budget" id="budget-5" asp-for="NewUser.Position" value="Student" required onclick="ShowEmail(0)" />
+            <input class="checkbox-budget" type="radio" id="budget-5" asp-for="NewUser.Position" value="Student" required onclick="ShowEmail(0)" />
             <label class="for-checkbox-budget" for="budget-5">
                 <span data-hover="Student">Student</span>
             </label>
-            <input class="checkbox-budget" name="budget" id="budget-6" asp-for="NewUser.Position" type="radio" value="Faculty" required onclick="ShowEmail(1)" />
+            <input class="checkbox-budget" id="budget-6" asp-for="NewUser.Position" type="radio" value="Faculty" required onclick="ShowEmail(1)" />
             <label class="for-checkbox-budget" for="budget-6">
                 <span data-hover="Faculty">Faculty</span>
             </label>
@@ -194,7 +216,7 @@
                 <label id="profEmailLabel" style="display: none" for="floatingInput">Professional Email</label>
                 
             </div>
-            <input class="submitButton" type="submit" value="Create Account" />
+            <input class="btn btn-primary" type="submit" value="Create Account" />
         </label>
 
     </form>
@@ -203,7 +225,7 @@
     @{
         if (ViewData["UserCreate"] != null)
         {
-                <p class="text-success">@ViewData["UserCreate"]</p>
+                            <p class="text-success">@ViewData["UserCreate"]</p>
         }
 
     }

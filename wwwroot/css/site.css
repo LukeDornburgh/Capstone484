@@ -274,7 +274,6 @@ body {
     background-color: white;
     border-radius: 5px;
     margin-top: 1rem;
-    border: 1px solid var(--primary);
     margin-bottom: 1rem;
 }
 
@@ -306,6 +305,11 @@ form .txt-field{
     border: none;
     background: none;
     outline: none;
+}
+
+.btn-secondary {
+    background-color: #5a5a5a;
+    border: #5a5a5a;
 }
 
 .txt-field label{
@@ -382,26 +386,24 @@ form .txt-field{
     margin: 0;
     padding: 2rem;
     font-family: Georgia sans-serif;
-    height: 70vh;
-    overflow: hidden;
+    min-height: 80vh;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 700px;
     background-color: white;
-    border-radius: 10px;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    border: 1px solid var(--primary);
-    border-radius: 5px;
-    overflow: auto;
+    margin-top: -6.5em;
 }
     .centerCreate h1 {
         text-align: center;
-        padding: 0 0 20px 0;
+        padding: 0 0 8px 0;
         border-bottom: 1px solid silver;
         font-weight: 700;
+        margin-bottom: 20px;
+        color: #31184C;
     }
 
 .radioSelect {
@@ -573,9 +575,10 @@ form .txt-field{
     right: -10px;
     padding: 4px 4px;
     border-radius: 80%;
-    background: red;
-    color: white;
+    background: #d8ec91;
+    color: #31184c!important;
     width: 20px;
+    
 }
 
 .skillCheck {
@@ -601,11 +604,11 @@ form .txt-field{
 
 
     #tagArea span, #tagArea2 span {
-        background-color: #ddd;
+        background-color: #9582aa;
         height: fit-content;
         width: fit-content;
         border: none;
-        color: black;
+        color: #fff;
         padding: 5px 10px;
         position: relative;
         text-align: start;
@@ -622,7 +625,7 @@ form .txt-field{
 
     #tagArea span i {
         font-size: 20px;
-        color: #adadad;
+        color: #fff;
         top: 80%;
         margin-left: 3px;
         transition: .05s;
@@ -631,6 +634,10 @@ form .txt-field{
         #tagArea span i:hover{
             font-size: 22px;
         }
+
+.breadcrumb-item a {
+    color: #9582aa;
+}
 
 #myInput, #myInput2 {
     background-position: 10px 12px; /* Position the search icon */

@@ -24,8 +24,6 @@
             padding-inline-start: 2%;
             background-color: #eae6ee;
             gap: 20px 20px;
-
-
         }
 
         header {
@@ -74,7 +72,6 @@
             font-weight: bold;
             color: #31184C;
             padding: 5px;
-
         }
 
         h4 {
@@ -124,7 +121,7 @@
         }
 
 
-        .backgroundcolor{
+        .backgroundcolor {
             display: grid;
             background-color: #eae6ee;
             margin: 0 auto;
@@ -184,7 +181,6 @@
             padding-bottom: 10px;
             border-radius: 15px;
             background-color: white;
-            
         }
 
         #projectButtons {
@@ -203,13 +199,13 @@
             border-radius: 7px;
         }
 
-        
-    #tagArea span{
+
+        #tagArea span {
             background-color: #31184C;
-            ;
-        color:white;
-        font-weight:bold
-    }
+            color: white;
+            font-weight: bold
+        }
+
 
     </style>
 </head>
@@ -375,73 +371,73 @@
         {
             //now get each project with that college that you arent a team member of
             SqlDataReader recommendProjects = DBClass.ProjectRecommend(myCollege, HttpContext.Session.GetString("username"));
-                                <div class="backgroundcolor">
-                                    <div class="cards" id="recCards">
-                                        <h5>
-                                            Recommended Projects
-                                            <div id="projectButtons">
-                                                <a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
-                                                <div class="icon">
-                                                    <a ref="icon" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create a Project</a>
-                                                </div>
-                                            </div>
-                                        </h5>
-                                        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="backgroundcolor">
+                <div class="cards" id="recCards">
+                    <h5>
+                        Recommended Projects
+                        <div id="projectButtons">
+                            <a class="btn btn-primary" asp-page="MyProjects">View My Projects</a>
+                            <div class="icon">
+                                <a ref="icon" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create Project</a>
+                            </div>
+                        </div>
+                    </h5>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
 
-                                            @{
-                        if (recommendProjects.HasRows == false)
-                        {
-                                                                            <br />
-                                                                            <br />
+                        @{
+                            if (recommendProjects.HasRows == false)
+                            {
+                                <br />
+                                <br />
+                            }
                         }
-                                            }
 
-                                            @while (recommendProjects.Read())
-                    {
+                        @while (recommendProjects.Read())
+                        {
 
-                                                <div class="card border-light mb-3" style="max-width: 18rem; border-radius: 5%; ">
-                                                    <div class="card-header" style="background-color: #9582aa;"><h5>@recommendProjects["ProjectName"]</h5></div>
-                                                    <div class="card-body">
-                                                        <p class="card-text">@recommendProjects["ProjectDescription"]</p>
-                                                        <p class="card-owner"><small class="text-muted">Owner: @recommendProjects["ProjectOwner"]</small></p>
-                                                    </div>
-                                                    <div class="card-footer">
-                                                        @{
-                                    SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)recommendProjects["ProjectID"], HttpContext.Session.GetString("username"));
-                                    if (!QueryResults1.HasRows)
-                                    {
-                                                                                        <form asp-page="Index" onsubmit="success()">
-                                                                                            <button type="submit" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@recommendProjects["ProjectID"]" asp-route-ProjectOwnerID="@recommendProjects["UserID"]">Request to Join</button>
-                                                                                        </form>
-
-                                    }
-                                    else
-                                    {
-
-                                        QueryResults1.Read();
-                                        if (QueryResults1["Status"].Equals("Approved"))
+                            <div class="card border-light mb-3" style="max-width: 18rem; border-radius: 5%; ">
+                                <div class="card-header" style="background-color: #9582aa;"><h5>@recommendProjects["ProjectName"]</h5></div>
+                                <div class="card-body">
+                                    <p class="card-text">@recommendProjects["ProjectDescription"]</p>
+                                    <p class="card-owner"><small class="text-muted">Owner: @recommendProjects["ProjectOwner"]</small></p>
+                                </div>
+                                <div class="card-footer">
+                                    @{
+                                        SqlDataReader QueryResults1 = DBClass.RequestButtonStatus((int)recommendProjects["ProjectID"], HttpContext.Session.GetString("username"));
+                                        if (!QueryResults1.HasRows)
                                         {
+                                            <form asp-page="Index" onsubmit="success()">
+                                                <button type="submit" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@recommendProjects["ProjectID"]" asp-route-ProjectOwnerID="@recommendProjects["UserID"]">Request to Join</button>
+                                            </form>
 
-                                                                                            <div>You are already a member of this project</div>
-                                        }
-                                        else if (QueryResults1["Status"].Equals("Denied"))
-                                        {
-                                                                                            <div>The Project owner has denied your request</div>
                                         }
                                         else
                                         {
-                                                                                            <div>Request Pending...</div>
+
+                                            QueryResults1.Read();
+                                            if (QueryResults1["Status"].Equals("Approved"))
+                                            {
+
+                                                <div>You are already a member of this project</div>
+                                            }
+                                            else if (QueryResults1["Status"].Equals("Denied"))
+                                            {
+                                                <div>The Project owner has denied your request</div>
+                                            }
+                                            else
+                                            {
+                                                <div>Request Pending...</div>
+                                            }
                                         }
                                     }
-                                                        }
-                                                        <a asp-page="ProjectDetails" asp-route-ProjectID="@recommendProjects["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
-                                                    </div>
-                                                </div>
-                        QueryResults1.Close();
-                    }
-                                        </div>
-                                    </div>
-                                    </div>
+                                    <a asp-page="ProjectDetails" asp-route-ProjectID="@recommendProjects["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                                </div>
+                            </div>
+                            QueryResults1.Close();
+                        }
+                    </div>
+                </div>
+            </div>
 
             DBClass.CloseGlobalConnection();
         }
@@ -524,12 +520,12 @@
                         foreach (var college in Model.CollegeDepartments)
                         {
 
-                                                    <tr>
-                                                        <td>
-                                                            <input onclick='onCheckboxClick("@college")' type="checkbox" value="@college" class="form-check-input" name="SelectedCollege" id="input-@college" collegeSelect="@college" />
-                                                            <label>@college</label>
-                                                        </td>
-                                                    </tr>
+                            <tr>
+                                <td>
+                                    <input onclick='onCheckboxClick("@college")' type="checkbox" value="@college" class="form-check-input" name="SelectedCollege" id="input-@college" collegeSelect="@college" />
+                                    <label>@college</label>
+                                </td>
+                            </tr>
 
                         }
                     }
@@ -539,7 +535,7 @@
                     if (Model.SelectedCollege != null)
                     {
 
-                                                <a asp-page="Index" class="btn btn-primary">Clear Filters</a>
+                        <a asp-page="Index" class="btn btn-primary">Clear Filters</a>
 
                     }
                 }
@@ -561,7 +557,7 @@
                         foreach (var college in Model.justSelected)
                         {
 
-                                                    <span id="@college">@college<i onclick='onTagRemove("@college")' class="fa fa-times-circle"></i></span>
+                            <span id="@college">@college<i onclick='onTagRemove("@college")' class="fa fa-times-circle"></i></span>
 
                         }
                     }
@@ -575,23 +571,23 @@
                         while (Model.returnReader.Read())
                         {
 
-                                                    <div class="col">
-                                                        <div class="card mb-3">
-                                                            <img src="images/purplecover.png" class="card-img-top" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">@Model.returnReader["ProjectName"]</h5>
-                                                                <p class="card-text">@Model.returnReader["ProjectDescription"]</p>
-                                                                <p class="card-owner"><small class="text-muted">Owner: @Model.returnReader["ProjectOwner"]</small></p>
-                                                                <p class="card-owner"><small class="text-muted">@String.Format("{0:M/d/yyyy}",@Model.returnReader["ProjectBeginDate"])</small></p>
-                                                            </div>
-                                                            <div class="card-footer">
-                                                                @{
+                            <div class="col">
+                                <div class="card mb-3">
+                                    <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@Model.returnReader["ProjectName"]</h5>
+                                        <p class="card-text">@Model.returnReader["ProjectDescription"]</p>
+                                        <p class="card-owner"><small class="text-muted">Owner: @Model.returnReader["ProjectOwner"]</small></p>
+                                        <p class="card-owner"><small class="text-muted">@String.Format("{0:M/d/yyyy}",@Model.returnReader["ProjectBeginDate"])</small></p>
+                                    </div>
+                                    <div class="card-footer">
+                                        @{
                                             SqlDataReader QueryResults2 = DBClass.RequestButtonStatus((int)Model.returnReader["ProjectID"], HttpContext.Session.GetString("username"));
                                             if (!QueryResults2.HasRows)
                                             {
-                                                                                                <form asp-page="Index" onsubmit="success()">
-                                                                                                    <button type="submit" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@Model.returnReader["ProjectID"]" asp-route-ProjectOwnerID="@Model.returnReader["UserID"]">Request to Join</button>
-                                                                                                </form>
+                                                <form asp-page="Index" onsubmit="success()">
+                                                    <button type="submit" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@Model.returnReader["ProjectID"]" asp-route-ProjectOwnerID="@Model.returnReader["UserID"]">Request to Join</button>
+                                                </form>
 
                                             }
                                             else
@@ -601,22 +597,22 @@
                                                 if (QueryResults2["Status"].Equals("Approved"))
                                                 {
 
-                                                                                                    <div>You are already a member of this project</div>
+                                                    <div>You are already a member of this project</div>
                                                 }
                                                 else if (QueryResults2["Status"].Equals("Denied"))
                                                 {
-                                                                                                    <div>The Project owner has denied your request</div>
+                                                    <div>The Project owner has denied your request</div>
                                                 }
                                                 else
                                                 {
-                                                                                                    <div>Request Pending...</div>
+                                                    <div>Request Pending...</div>
                                                 }
                                             }
-                                                                }
-                                                                <a asp-page="ProjectDetails" asp-route-ProjectID="@Model.returnReader["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        }
+                                        <a asp-page="ProjectDetails" asp-route-ProjectID="@Model.returnReader["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                                    </div>
+                                </div>
+                            </div>
 
                         }
                         Model.returnReader.Close();
@@ -629,24 +625,24 @@
 
                         while (QueryResults.Read())
                         {
-                                                    <div class="col">
-                                                        <div class="card mb-3">
-                                                            <img src="images/purplecover.png" class="card-img-top" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">@QueryResults["ProjectName"]</h5>
-                                                                <p class="card-text">@QueryResults["ProjectDescription"]</p>
-                                                                <p class="card-owner"><small class="text-muted">Owner: @QueryResults["ProjectOwner"]</small></p>
-                                                                <p class="card-owner"><small class="text-muted">@String.Format("{0:M/d/yyyy}",QueryResults["ProjectBeginDate"])</small></p>
-                                                            </div>
-                                                            <div class="card-footer">
+                            <div class="col">
+                                <div class="card mb-3">
+                                    <img src="images/purplecover.png" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@QueryResults["ProjectName"]</h5>
+                                        <p class="card-text">@QueryResults["ProjectDescription"]</p>
+                                        <p class="card-owner"><small class="text-muted">Owner: @QueryResults["ProjectOwner"]</small></p>
+                                        <p class="card-owner"><small class="text-muted">@String.Format("{0:M/d/yyyy}",QueryResults["ProjectBeginDate"])</small></p>
+                                    </div>
+                                    <div class="card-footer">
 
-                                                                @{
+                                        @{
                                             SqlDataReader QueryResults2 = DBClass.RequestButtonStatus((int)QueryResults["ProjectID"], HttpContext.Session.GetString("username"));
                                             if (!QueryResults2.HasRows)
                                             {
-                                                                                                <form asp-page="Index" onsubmit="success()">
-                                                                                                    <button type="submit" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
-                                                                                                </form>
+                                                <form asp-page="Index" onsubmit="success()">
+                                                    <button type="submit" class="btn btn-primary" id="projReqButton" asp-route-ProjectID="@QueryResults["ProjectID"]" asp-route-ProjectOwnerID="@QueryResults["UserID"]">Request to Join</button>
+                                                </form>
                                             }
                                             else
                                             {
@@ -655,24 +651,24 @@
                                                 if (QueryResults2["Status"].Equals("Approved"))
                                                 {
 
-                                                                                                    <div>You are already a member of this project</div>
+                                                    <div>You are already a member of this project</div>
                                                 }
                                                 else if (QueryResults2["Status"].Equals("Denied"))
                                                 {
-                                                                                                    <div>The Project owner has denied your request</div>
+                                                    <div>The Project owner has denied your request</div>
                                                 }
                                                 else
                                                 {
-                                                                                                    <div>Request Pending...</div>
+                                                    <div>Request Pending...</div>
                                                 }
                                             }
                                             QueryResults2.Close();
                                             DBClass.CloseGlobalConnection();
-                                                                }
-                                                                <a asp-page="ProjectDetails" asp-route-ProjectID="@QueryResults["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        }
+                                        <a asp-page="ProjectDetails" asp-route-ProjectID="@QueryResults["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                                    </div>
+                                </div>
+                            </div>
 
                         }
                         QueryResults.Close();

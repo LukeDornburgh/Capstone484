@@ -1,6 +1,7 @@
 ﻿@page
 @model Lab1.Pages.ProjectsPages.AddProjectModel
 @{
+    ViewData["Title"] = "Add Project";
 }
 
 <form asp-page="AddProject">
@@ -13,18 +14,27 @@
     <br />
     <input class="form-control" type="text" asp-for="NewProject.ProjectMission" placeholder="Enter your mission statement" />
     <br />
-    <input class="form-control" type="text" asp-for="NewProject.ProjectType" placeholder="Project Type" width="100" />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectType" placeholder="Project Type e.g.(Health, Environment, Sustainability)" width="100" />
     <br/>
-    <select name="NewProject.UserID">
-        <option value="">Select Project Owner</option>
-        @{
-            foreach (var owner in Model.ProjectOwners)
-            {
-                <option value=@owner.UserID>@owner.FirstName @owner.LastName</option>
-            }
-        }
-    </select>
+    <input class="form-control" type="text" asp-for="NewProject.GeneralTimeAvailability" placeholder="General Project Work Times" />
     <br />
+    <label>Select a JMU College that this project relates to</label>
+    <select class="form-control" asp-for="NewProject.college">
+        <option value="Arts and Letters">Arts and Letters</option>
+        <option value="Business">Business</option>
+        <option value="Education">Education</option>
+        <option value="Health and Behavioral Studies">Health and Behavioral Studies</option>
+        <option value="Integrated Science and Engineering">Integrated Science and Engineering</option>
+        <option value="Science and Mathematics">Science and Mathematics</option>
+        <option value="Visal and Performing Arts">Visual and Performing Arts</option>
+    </select>
+
+    <br />
+    <input class="form-control" type="text" asp-for="NewProject.DesiredSkills" placeholder="Enter the skills you are looking for e.g.(Adobe, Java, Graphic Design)" />
+    <br />
+    <br />
+    <input class="form-control" type="text" asp-for="NewProject.ProjectDuration" placeholder="How long will this project last? e.g.(6-8 Months)" />
+
     <button type="submit">Add New Project -> </button>
     <button class="btn-outline-secondary" asp-page="AddProject" asp-page-handler="PopulateHandler" formnovalidate>Populate</button>
     <a asp-page="Index">Cancel</a>

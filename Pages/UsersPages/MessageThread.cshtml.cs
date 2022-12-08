@@ -57,6 +57,7 @@ namespace Lab1.Pages.UsersPages
             }
 
             messageReader.Close();
+            DBClass.CloseGlobalConnection();
 
             //we will also want to get the user data of myself and the person I am chatting with to display on the page
 
@@ -74,6 +75,7 @@ namespace Lab1.Pages.UsersPages
             }
 
             otherUser.Close();
+            DBClass.CloseGlobalConnection();
         }
 
         public IActionResult OnPost()

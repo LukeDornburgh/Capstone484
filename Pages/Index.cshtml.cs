@@ -13,6 +13,8 @@ namespace Lab1.Pages
 
         public int badgeNum { get; set; }
 
+        public int messageNum { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -27,6 +29,11 @@ namespace Lab1.Pages
                 int temp = DBClass.GetUserIDSession(HttpContext.Session.GetString("username"));
                 int badgeNum = DBClass.NotificationNumber(temp);
                 HttpContext.Session.SetInt32("badgeNum", badgeNum);
+                int messageNum = DBClass.MessagesNumber(temp);
+                HttpContext.Session.SetInt32("messageNum", messageNum);
+            }
+            else
+            {
             }
 
         }

@@ -33,6 +33,9 @@ namespace Lab1.Pages.TeamsMeetingsPages
                     ProjectID = Int32.Parse(varTeamFKReader["ProjectID"].ToString()),
                 });
             }
+
+            varTeamFKReader.Close();
+            DBClass.CloseGlobalConnection();
         }
         public IActionResult OnPost()
         {
@@ -62,6 +65,9 @@ namespace Lab1.Pages.TeamsMeetingsPages
                         ProjectID = Int32.Parse(varTeamFKReader["ProjectID"].ToString()),
                     });
                 }
+
+                varTeamFKReader.Close();
+                DBClass.CloseGlobalConnection();
 
                 ModelState.Clear();
                 NewTeamMeeting.Date = DateTime.Now;

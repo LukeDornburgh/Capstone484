@@ -24,6 +24,7 @@
         public string College { get; set; }
 
         public string ProfilePicturePath { get; set; }
+        public string ResumePath { get; set; }
 
         public string GeneralAvailability { get; set; }
 

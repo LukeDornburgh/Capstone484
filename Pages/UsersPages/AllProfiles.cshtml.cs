@@ -53,9 +53,12 @@ namespace Lab1.Pages.UsersPages
                     Email = userReader["Email"].ToString(),
                     ProfessionalEmail = userReader["ProfessionalEmail"].ToString(),
                     Phone = userReader["Phone"].ToString(),
-                    Position = userReader["Position"].ToString()
-                });
+                    Position = userReader["Position"].ToString(),
+                    ProfilePicturePath = userReader["ProfilePicturePath"].ToString()
+            });
             }
+            userReader.Close();
+            DBClass.CloseGlobalConnection();
 
             SqlDataReader varSkillReader = DBClass.SkillsTableReader();
             //Loop through the rows of the product reader
@@ -71,7 +74,7 @@ namespace Lab1.Pages.UsersPages
             }
 
             varSkillReader.Close();
-            userReader.Close();
+            DBClass.CloseGlobalConnection();
             return Page();
         }
         public IActionResult OnPost()
@@ -105,6 +108,8 @@ namespace Lab1.Pages.UsersPages
                             SkillName = preSkillReader["SkillName"].ToString()
                         });
                     }
+                    preSkillReader.Close();
+                    DBClass.CloseGlobalConnection();
                 }
             }
 
@@ -116,9 +121,9 @@ namespace Lab1.Pages.UsersPages
                     SkillID = Int32.Parse(varSkillReader["SkillID"].ToString()),
                     SkillName = varSkillReader["SkillName"].ToString(),
                 });
-            }
-
+            }       
             varSkillReader.Close();
+            DBClass.CloseGlobalConnection();
 
             return Page();
             //return RedirectToPage(new { alreadySelected = justSelected });

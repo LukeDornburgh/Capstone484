@@ -13,7 +13,15 @@
 
         public string ProjectMission { get; set; }
 
+        public string GeneralTimeAvailability { get; set; }
+
+        public string college { get; set; }
+
         public string ProjectType { get; set; }
+
+        public string DesiredSkills { get; set; }
+
+        public string ProjectDuration { get; set; }
         
         public int UserID { get; set; }
 

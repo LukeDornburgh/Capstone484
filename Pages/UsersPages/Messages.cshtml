@@ -3,6 +3,7 @@
 @using Lab1.Pages.DB_Class;
 @model Lab1.Pages.UsersPages.MessagesModel
 @{
+    ViewData["Title"] = "Messages";
 }
 
 
@@ -66,6 +67,11 @@
         top: 6%;
         left: 5%;
     }
+
+
+    #messageIcon {
+        fill: #d8ec91;
+    }
 </style>
 
 <script>
@@ -108,8 +114,13 @@
     };
 
 </script>
-
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for users to message..." />
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Messages</li>
+</ol>
+<div style="margin-left: 75px; margin-right: 75px; margin-top: 25px;">
+    <input type="text" name="myInput" id="myInput" onkeyup="myFunction()" placeholder="Search for people to message..." />
+</div>
 <table id="myTable" class="table table-bordered table-striped table-hover table-responsive">
     <tr class="header" style="display: none">
         <th style="width:60%;">Name</th>
@@ -118,9 +129,9 @@
         foreach (var user in Model.UserList)
         {
 
-                <tr style="display: none">
+            <tr style="display: none">
                 <td><a style="color: inherit; text-decoration: underline" asp-page="MessageThread" asp-route-UserID="@user.UserID">@user.FirstName @user.LastName</a></td>
-                </tr>
+            </tr>
 
         }
     }
@@ -135,52 +146,56 @@
 
         while (messageData.Read())
         {
-    <div class="card">
-                    <div class="row no-gutters">
-                        <div class="col-md-2">
-                            <div class="circle">
-                                @{
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <div class="circle">
+                            @{
                                 string first = conversationReader["FirstName"].ToString();
                                 char fi = first[0];
 
                                 string last = conversationReader["LastName"].ToString();
                                 char li = last[0];
-                                }
-                                @fi@li
-                            </div> <!-- NEED TO CHANGE -->
+                            }
+                            @fi@li
                         </div>
-                        <div class="col-md-10">
-                            <div class="card-body">
-                                <h5 class="card-title"><u> @conversationReader["FirstName"] @conversationReader["LastName"] </u></h5>
-                                <p class="card-text">
-                                    @{
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title"><u> @conversationReader["FirstName"] @conversationReader["LastName"] </u></h5>
+                            <p class="card-text">
+                                @{
                                     if (messageData["SenderID"].Equals(conversationReader["UserID"]))
                                     {
-                                                <span>@conversationReader["FirstName"]:</span>
+                                        <span>@conversationReader["FirstName"]:</span>
                                     }
                                     else
                                     {
-                                                <span>You:</span>
+                                        <span>You:</span>
                                     }
 
-                                    }
-                                    <b></b>
-                                    @messageData["MessageBody"]
-                                </p>
-                                <p class="card-time">
-                                    @{
+                                }
+                                <b></b>
+                                @messageData["MessageBody"]
+                            </p>
+                            <p class="card-time">
+                                @{
                                     var SendTime = Convert.ToDateTime(messageData["SendTime"]).ToString("h:mm tt");
                                     Console.WriteLine(SendTime);
 
-                                    }
-                                    @SendTime
-                                </p>
-                                <p class="card-text"><small class="text-muted"><a asp-page="MessageThread" asp-route-UserID="@conversationReader["UserID"]">See More &rarr;</a></small></p>
-                            </div>
+                                }
+                                @SendTime
+                            </p>
+                            <p class="card-text"><small class="text-muted"><a asp-page="MessageThread" asp-route-UserID="@conversationReader["UserID"]">See More &rarr;</a></small></p>
                         </div>
                     </div>
-    </div>
+                </div>
+            </div>
 
         }
+        messageData.Close();
+        DBClass.CloseGlobalConnection();
     }
+    conversationReader.Close();
+    DBClass.CloseGlobalConnection();
 }

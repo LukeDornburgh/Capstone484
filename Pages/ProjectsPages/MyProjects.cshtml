@@ -1,12 +1,270 @@
 ﻿@page
+@using Lab1.Pages.DB_Class;
+@using System.Data.SqlClient;
 @model Lab1.Pages.ProjectsPages.MyProjectsModel
 @{
+    ViewData["Title"] = "My Projects";
 }
 
-<!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
-<a asp-page="Index" class="btn btn-secondary">&larr; Go Back</a>
-<h2 class="h2">My Projects</h2>
+    <style>
 
-<!-- Need to run the myproject query which will get all the projects we own or are a part of, check the owner id of each project to
-    see if it matches the logged in user, if it does, put it in the Owned projects catergory
--->
+h2{
+    font-family: Helvetica, Sans-Serif;
+    font-weight: bold;
+    color:#31184C ;
+}
+
+h3{
+    font-family: Helvetica, Sans-Serif;
+      font-weight: bold;
+      color:#31184C;
+      display: flex;
+      text-align: center;
+      font-size: small;
+}
+
+h4{
+      font-family: Helvetica, Sans-Serif;
+      font-weight: bold;
+      color:white;
+   
+    }
+
+  h5{
+      font-family: Helvetica, Sans-Serif;
+      font-weight: bold;
+      color:#31184C;
+   
+    }
+    h6{
+      font-family: Helvetica, Sans-Serif;
+      color:grey;
+      font-size: small;
+      
+    }
+    p{
+      font-family: Helvetica, Sans-Serif;
+      color:black;
+    }
+
+.search{
+    grid-column: 3/10;
+    grid-row: 1/2;
+}
+.createproject{
+grid-column: 10/11;
+grid-row: 1/2;
+}
+
+    .projects{
+    display: grid;
+    margin:0 auto;
+    max-width: 1500px;
+    grid-template-columns:repeat(12, 1fr);
+    gap: 20px 20px;
+    background-color:#eae6ee;
+    padding: 30px;
+    padding-inline-start: 2%;
+    }
+
+.owned{
+    grid-column: 3/7;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    padding: 7%;
+    align-items: center;
+}
+.joined{
+grid-column: 7/11;
+background-color:white;
+border-radius: 10px;
+text-align: center;
+padding: 7%;
+
+
+}
+
+.cardleft{
+    grid-column: 3/7;
+    background-color:white;
+    border-radius: 10px;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.cardright{
+    grid-column: 7/11;
+    background-color: WHITE;
+    border-radius: 10px;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+
+}
+
+
+a{
+    text-decoration: none;
+    align-items: center;
+}
+
+    #projectButtons {
+        grid-column: 12/13;
+
+    }
+
+
+    
+.btn-primary{
+            background-color:#31184C;
+            border: #31184C;
+            display: flex;
+            float: inline-end;
+        }
+        .btn-primary:hover {
+      background-color:#9582AA;
+    }
+
+</style>
+
+
+
+<div class="projects">
+
+<div class="owned">
+    <h2> Owned Projects</h2>
+</div>
+
+<div class="joined">
+    <h2> Joined Projects</h2>
+</div>
+
+    <div id="projectButtons">
+        <div class="icon">
+            <a ref="icon" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create Project</a>
+        </div>
+    </div>
+
+<form asp-route-handler="create">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-5" id="staticBackdropLabel">Create Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Project Name</label>
+                            <input type="hidden" asp-for="NewProject.ProjectID" />
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.ProjectName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.ProjectBeginDate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Project Duration</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.ProjectDuration">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Project Mission</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.ProjectMission">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Project Description</label>
+                            <textarea type="text" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.ProjectDescription"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Desired Skills</label>
+                            <textarea type="text" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.DesiredSkills"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">General Availability</label>
+                            <textarea type="date" class="form-control" id="exampleFormControlInput1" asp-for="NewProject.GeneralTimeAvailability"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Associated College</label>
+                            <select class="form-control" asp-for="NewProject.college">
+                                <option value="Arts and Letters">Arts and Letters</option>
+                                <option value="Business">Business</option>
+                                <option value="Education">Education</option>
+                                <option value="Health and Behavioral Studies">Health and Behavioral Studies</option>
+                                <option value="Integrated Science and Engineering">Integrated Science and Engineering</option>
+                                <option value="Science and Mathematics">Science and Mathematics</option>
+                                <option value="Visal and Performing Arts">Visual and Performing Arts</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button asp-route-handler="create" id="formSubmitButton" type="submit" class="btn btn-primary">Create!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="cardleft">
+        
+        @{
+        SqlDataReader ownedProject = DBClass.MyOwnedProjects(HttpContext.Session.GetString("username"));
+
+        while (ownedProject.Read())
+        {
+
+                    <a href="novelprostheticsuspensionsystem.html">
+                        <div class="card mb-3">
+                            <img src="~/images/purplecover.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@ownedProject["ProjectName"]</h5>
+                                <p class="card-text">@ownedProject["ProjectDescription"]</p>
+                                <p class="card-owner"><small class="text-muted">Project Owner: @ownedProject["ProjectOwner"]</small></p>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-page="ProjectDetails" asp-route-ProjectID="@ownedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                            </div>
+                        </div>
+                    </a>
+        }
+
+        ownedProject.Close();
+            DBClass.CloseGlobalConnection();
+
+        }
+    </div>
+
+<div class="cardright">
+
+
+@{
+    //this gives us a query with the right data for each project that we own
+    SqlDataReader joinedProject = DBClass.MyProjectsTableReader(HttpContext.Session.GetString("username"));
+
+    while(joinedProject.Read()){
+
+
+                    <a href="novelprostheticsuspensionsystem.html">
+                        <div class="card mb-3">
+                            <img src="~/images/purplecover.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@joinedProject["ProjectName"]</h5>
+                                <p class="card-text">@joinedProject["ProjectDescription"]</p>
+                                <p class="card-owner"><small class="text-muted">Project Owner: @joinedProject["ProjectOwner"]</small></p>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-page="ProjectDetails" asp-route-ProjectID="@joinedProject["ProjectID"]"><small class="text-muted">See Details &rarr; </small></a>
+                            </div>
+                        </div>
+                    </a>
+    }
+
+    joinedProject.Close();
+    DBClass.CloseGlobalConnection();
+
+}
+</div>
+</div>

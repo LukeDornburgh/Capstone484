@@ -35,6 +35,8 @@ namespace Lab1.Pages.TeamsPages
                     UserID = Int32.Parse(varProjectReader["UserID"].ToString()),
                 });
             }
+            varProjectReader.Close();
+            DBClass.CloseGlobalConnection();
         }
         public IActionResult OnPost()
         {
@@ -62,6 +64,8 @@ namespace Lab1.Pages.TeamsPages
                         UserID = Int32.Parse(varProjectReader["UserID"].ToString()),
                     });
                 }
+                varProjectReader.Close();
+                DBClass.CloseGlobalConnection();
 
                 ModelState.Clear();
                 NewTeam.TeamName = "Team 11";

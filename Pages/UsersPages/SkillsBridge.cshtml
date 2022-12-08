@@ -3,6 +3,7 @@
 @using Lab1.Pages.DB_Class;
 @model Lab1.Pages.UsersPages.SkillsBridgeModel
 @{
+    ViewData["Title"] = "Skills";
 }
 
 <h2 class="h2">Users and Their Skills</h2>
@@ -28,6 +29,7 @@
                     <td>@QueryResults["SkillName"]</td>
                 </tr>
             }
+            QueryResults.Close();
         }
 
     </tbody>

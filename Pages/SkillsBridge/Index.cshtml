@@ -3,6 +3,7 @@
 @using Lab1.Pages.DB_Class;
 @model Lab1.Pages.SkillsBridge.IndexModel
 @{
+    ViewData["Title"] = "Skills";
 }
 <!-- Luke Dornburgh and Andres Villalon submission for Lab1 Part 3!-->
 <h2 class="h2">Users and Their Skills</h2>
@@ -28,6 +29,8 @@
                         <td>@QueryResults["SkillName"]</td>
                     </tr>
             }
+            QueryResults.Close();
+            DBClass.CloseGlobalConnection();
     }
 
 </tbody>

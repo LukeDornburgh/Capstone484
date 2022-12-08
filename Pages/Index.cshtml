@@ -2,7 +2,7 @@
 @using System.IO
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
 <!DOCTYPE html>
@@ -33,7 +33,7 @@
 
         .home {
             display: grid;
-            max-width: 1500px;
+            max-width: auto;
             grid-template-columns: repeat(12, .5fr);
             position: relative;
             text-align: center;
@@ -181,8 +181,8 @@
             /*padding-top: 50px;*/
             background-color: #31184C;
             text-align: center;
-           /* padding-bottom: 50px;*/
-            font-size: x-small;
+            /* padding-bottom: 50px;*/
+            font-size: small;
             color: white;
         }
 
@@ -224,7 +224,6 @@
             margin-top: 10px;
             float: left;
             padding-left: 50px;
-
         }
     </style>
 </head>
@@ -242,9 +241,9 @@
                     if (HttpContext.Session.GetString("username") == null)
                     {
                         <div class="buttons2">
-                            <button type="button" class="btn btn-primary btn-lg">Sign Up</button>
+                            <a type="button" class="btn btn-primary btn-lg" asp-area="" asp-page="/BasicLogin">Log in</a>
                             <div> </div>
-                            <button type="button" class="btn btn-primary btn-lg">Sign In</button>
+                            <a type="button" class="btn btn-primary btn-lg" asp-page="UsersPages/CreateHashedLogin">Sign Up</a>
                         </div>
                     }
                 }
@@ -284,7 +283,7 @@
                     <div class="carousel-item">
                         <img src="images/slide3.jpg" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Harvesting Energy From Human Movementl</h5>
+                            <h5>Harvesting Energy From Human Movement</h5>
                             Some representative placeholder content for the third slide.
                         </div>
                     </div>
@@ -305,8 +304,9 @@
         <h4> What is Madison Connect Hub?</h4>
 
         <p>
-            The Madison Connect Hub is a way to find group members to collaborate withon projects.
-
+            Conceived in September of 2014, Madison Connect Hub aim is to help students, faculty, and staff to collaborate, communicate, and create projects that benefit others. These projects can range from robotics to art and anything in between. 
+            Madison Connect Hub wants its students to push their imagination outside of the classroom to make the best project they can. It creates transparency into the project ideas and makes it easier for teams to form with the right expertise to move big ideas forward.
+            The basic components of the HUB design--people connected through projects--enables JMU and partners to form effective, cross-disciplinary collaborations that propel new ideas and innovations for social good. To experience, Madison Connect Hub.
         </p>
     </div>
 
@@ -318,43 +318,5 @@
 
 </body>
 </html>
-
-
-
-
-@*<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    @{
-        if (HttpContext.Session.GetString("username") != null)
-        {
-            <p class="centered">User @HttpContext.Session.GetString("username") is logged in!</p>
-        }
-        if (HttpContext.Session.GetString("username") == null){
-            <button class="simpleButton">
-                <a class="simpleButton" asp-page ="UsersPages/CreateHashedLogin">Make an Account</a>
-            </button >
-            <br />
-        }
-    }
-    <br />
-    <!-- <img src="/images/JMUAir.jpg" class="centered" width="800" height="450" /> -->
-
-    @{
-        //this method returns a string of the current abosolute path of the current working directory
-        //and does not end in a backslash
-        string imagesDir = Directory.GetCurrentDirectory();
-        imagesDir += @"\wwwroot\images\";
-            <p>@imagesDir</p>
-
-        DirectoryInfo imagesFolder = new DirectoryInfo(imagesDir);
-
-        var fileListing = imagesFolder.GetFiles();
-
-        foreach (var file in fileListing){
-                <p>@file.Name</p>
-                <img src="~/images/@file.Name" width="150" height="100">
-        }
-    }
-</div>*@
 
 
